@@ -1,4 +1,4 @@
-import 'package:digiternak_app/provider/auth/auth_provider.dart';
+import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/ui/home/home_screen.dart';
 import 'package:digiternak_app/ui/profile/profile_screen.dart';
 import 'package:digiternak_app/widget/qr_widget.dart';
@@ -13,7 +13,7 @@ class BaseScreen extends StatefulWidget {
   final ResultState state;
   final bool isHasAppBar;
   const BaseScreen({
-    Key? key,
+    super.key,
     required this.title,
     this.isHasBackButton = false,
     required this.body,
@@ -21,13 +21,18 @@ class BaseScreen extends StatefulWidget {
     this.isRoot = false,
     this.state = ResultState.noData,
     this.isHasAppBar = true,
-  }) : super(key: key);
+  });
 
   @override
   State<BaseScreen> createState() => _BaseScreenState();
 }
 
 class _BaseScreenState extends State<BaseScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   String barcode = "";
   @override
   Widget build(BuildContext context) {
@@ -61,11 +66,12 @@ class _BaseScreenState extends State<BaseScreen> {
         height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.all(16),
         decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            ),
-            color: Colors.white),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+          color: Color.fromRGBO(240, 242, 245, 1),
+        ),
         child: (() {
           switch (widget.state) {
             case ResultState.hasData:
@@ -85,24 +91,24 @@ class _BaseScreenState extends State<BaseScreen> {
         })(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, QRCodeWidget.routeName,
-              arguments: QRtype.livestocks);
-        },
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        child: widget.isRoot
-            ? const Icon(
+      floatingActionButton: widget.isRoot
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, QRCodeWidget.routeName,
+                    arguments: QRtype.livestocks);
+              },
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              child: const Icon(
                 Icons.qr_code_scanner_sharp,
                 size: 60,
                 color: Colors.blue,
-              )
-            : null,
-      ),
+              ),
+            )
+          : null,
       bottomNavigationBar: widget.isRoot
           ? BottomNavigationBar(
-              backgroundColor: Colors.white,
+              backgroundColor: const Color.fromRGBO(240, 242, 245, 1),
               currentIndex: widget.indexBar,
               iconSize: 20,
               selectedItemColor: Colors.blue,

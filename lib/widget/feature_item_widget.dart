@@ -12,17 +12,27 @@ class FeatureItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(
-            data.image,
-            width: 60,
-            height: 60,
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: Colors.white,
+            ),
+            child: Center(
+              child: Image.asset(
+                data.image,
+                width: 32,
+                height: 32,
+              ),
+            ),
           ),
           const SizedBox(
             height: 4,
           ),
           Text(
             data.featureName,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 10, color: Colors.black),
           )
         ],
       ),

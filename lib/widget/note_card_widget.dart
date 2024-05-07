@@ -1,96 +1,72 @@
+import 'package:digiternak_app/common/constant.dart';
+import 'package:digiternak_app/data/model/catatan/response/data/catatan_data.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/notes/detail/livestock_detail_notes_screen.dart';
 import 'package:flutter/material.dart';
 
-class NoteCardWidget extends StatelessWidget {
-  final NoteCard data;
-  const NoteCardWidget({Key? key, required this.data}) : super(key: key);
+class NoteCardWidget extends StatefulWidget {
+  final CatatanData data;
+  const NoteCardWidget({super.key, required this.data});
+
+  @override
+  State<NoteCardWidget> createState() => _NoteCardWidgetState();
+}
+
+class _NoteCardWidgetState extends State<NoteCardWidget> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, LivestockDetailNotes.routeName,
+            arguments: widget.data.id);
+      },
       child: Container(
-        width: 180,
+        padding: const EdgeInsets.all(4),
+        margin: const EdgeInsets.all(4),
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 1,
-              blurRadius: 1,
-              offset: const Offset(1, 1),
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              child: widget.data.images!.isEmpty
+                  ? Image.asset(
+                      "assets/ic_sapi.png",
+                      height: 100,
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      "$BASE_IMAGE_URL${widget.data.images![0]}",
+                      height: 100,
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.cover,
+                    ),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              widget.data.livestockCage,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+            Text(
+              widget.data.livestockVID,
+              style: const TextStyle(
+                  fontWeight: FontWeight.normal, color: Colors.grey),
             ),
           ],
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: Colors.white,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 200,
-                height: 120,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.grey.withOpacity(0.5),
-                  image: DecorationImage(
-                    image: AssetImage(data.image),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4),
-                child: Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        data.date,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                      ),
-                      const SizedBox(height: 4), // Spacer
-                      Text(
-                        data.description,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        maxLines: 2,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
   }
-}
-
-class NoteCard {
-  final String image;
-  final String title;
-  final String description;
-  final String date;
-
-  NoteCard(
-      {required this.image,
-      required this.title,
-      required this.description,
-      required this.date});
 }

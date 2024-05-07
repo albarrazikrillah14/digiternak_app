@@ -1,4 +1,4 @@
-import 'package:digiternak_app/provider/auth/auth_provider.dart';
+import 'package:digiternak_app/common/result.dart';
 import 'package:flutter/material.dart';
 
 class LivestockNotesProvider extends ChangeNotifier {

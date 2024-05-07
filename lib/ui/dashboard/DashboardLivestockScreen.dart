@@ -1,11 +1,30 @@
+import 'package:digiternak_app/common/result.dart';
+import 'package:digiternak_app/provider/home/home_provider.dart';
 import 'package:digiternak_app/ui/dashboard/KandangDetailScreen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class DashboardLivestockScreen extends StatelessWidget {
+class DashboardLivestockScreen extends StatefulWidget {
   static const routeName = "/dashboard_livestock_screen";
 
-  const DashboardLivestockScreen({Key? key}) : super(key: key);
+  const DashboardLivestockScreen({super.key});
+
+  @override
+  State<DashboardLivestockScreen> createState() =>
+      _DashboardLivestockScreenState();
+}
+
+class _DashboardLivestockScreenState extends State<DashboardLivestockScreen> {
+  late HomeProvider provider;
+
+  @override
+  void initState() {
+    super.initState();
+
+    provider = context.read<HomeProvider>();
+    provider.getKandang(type: 'dashboard');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +34,7 @@ class DashboardLivestockScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Kandangku',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
@@ -23,25 +42,48 @@ class DashboardLivestockScreen extends StatelessWidget {
             height: 16,
           ),
           Expanded(
-            child: Builder(
-              builder: (context) => ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, KandangDetailScreen.routeName,
-                          arguments: "lkjkldjfkdlf");
-                    },
-                    child: KandangLiveStockScreen(
-                      data: KandangData(
-                        id: "eke",
-                        name: "Kandang ke ${index}",
-                        jumlahSapi: 30,
-                        lokasi: 'Dramaga',
-                      ),
-                    ),
-                  );
+            child: ChangeNotifierProvider.value(
+              value: provider,
+              child: Consumer<HomeProvider>(
+                builder: (context, provider, child) {
+                  switch (provider.stateDashboard) {
+                    case ResultState.loading:
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.blue,
+                        ),
+                      );
+                    case ResultState.hasData:
+                      return Builder(
+                        builder: (context) => ListView.builder(
+                          itemCount: provider.kandang.data.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, KandangDetailScreen.routeName,
+                                    arguments:
+                                        "${provider.kandang.data[index].id}");
+                              },
+                              child: KandangLiveStockScreen(
+                                data: KandangData(
+                                  id: "${provider.kandang.data[index].id}",
+                                  name: provider.kandang.data[index].name,
+                                  jumlahSapi: provider.kandang.data[index]
+                                          .livestocks?.length ??
+                                      0,
+                                  lokasi: provider.kandang.data[index].location,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    default:
+                      return const Center(
+                        child: Text('Data tidak ditemukan'),
+                      );
+                  }
                 },
               ),
             ),
@@ -54,8 +96,7 @@ class DashboardLivestockScreen extends StatelessWidget {
 
 class KandangLiveStockScreen extends StatelessWidget {
   final KandangData data;
-  const KandangLiveStockScreen({Key? key, required this.data})
-      : super(key: key);
+  const KandangLiveStockScreen({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +146,7 @@ class KandangLiveStockScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Text('Jumlah Sapi'),
+                            const Text('Jumlah Ternak'),
                             Text(
                               "${data.jumlahSapi}",
                               style: const TextStyle(

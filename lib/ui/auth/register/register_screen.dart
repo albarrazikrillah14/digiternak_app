@@ -1,4 +1,5 @@
-import 'package:digiternak_app/data/model/auth/register/register_request.dart';
+import 'package:digiternak_app/common/result.dart';
+import 'package:digiternak_app/data/model/auth/register/request/register_request.dart';
 import 'package:digiternak_app/data/remote/auth/auth_repository.dart';
 import 'package:digiternak_app/provider/auth/auth_provider.dart';
 import 'package:digiternak_app/ui/auth/login/login_screen.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = '/register_screen';
-  const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -41,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Consumer<AuthProvider>(
         builder: (context, provider, _) {
           return BaseScreen(
-            title: "REGISTER",
+            title: "Daftar",
             isHasBackButton: true,
             state: ResultState.hasData,
             body: SingleChildScrollView(
@@ -55,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 64,
                     ),
                     Image.asset(
-                      "assets/ic_register.png",
+                      "assets/digi_ternak_logo.png",
                       height: 130,
                       width: 155,
                     ),
@@ -63,7 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 32,
                     ),
                     const Text(
-                      "Register Now",
+                      "Daftar Sekarang",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                     ),
@@ -71,11 +72,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     TextFormField(
                       controller: usernameController,
                       decoration: const InputDecoration(
-                        labelText: 'Username',
+                        labelText: 'Nama Pengguna',
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Masukkan nama pengguna';
+                        final length = value?.length ?? 0;
+                        if (value == null ||
+                            value.isEmpty ||
+                            length < 6 ||
+                            length > 255) {
+                          return 'Masukkan nama pengguna dengan panjang 6-255 karakter';
                         }
                         return null;
                       },
@@ -105,14 +110,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: passwordController,
                       obscureText: true,
                       decoration: const InputDecoration(
-                        labelText: 'Password',
+                        labelText: 'Kata Sandi',
                       ),
                       validator: (value) {
+                        final regex =
+                            RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$");
                         if (value == null || value.isEmpty) {
                           return 'Masukkan password';
                         }
                         if (value.length < 8) {
                           return 'Password harus memiliki minimal 8 karakter';
+                        }
+                        if (!regex.hasMatch(value)) {
+                          return 'Password harus mengandung setidaknya satu huruf kecil, satu huruf besar, dan satu angka';
                         }
                         return null;
                       },
@@ -122,7 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: confirmPasswordController,
                       obscureText: true,
                       decoration: const InputDecoration(
-                        labelText: 'Confirmation Password',
+                        labelText: 'Konfirmasi Kata Sandi',
                       ),
                       validator: (value) {
                         if (value != passwordController.text ||
@@ -135,7 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 16),
                     provider.state == ResultState.loading
                         ? const CircularProgressIndicator(
-                            color: Colors.black,
+                            color: Colors.blue,
                           )
                         : PrimaryButton(
                             onPressed: () async {
@@ -144,16 +154,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ScaffoldMessenger.of(context);
 
                                 final request = RegisterRequest(
-                                    name: usernameController.text,
+                                    username: usernameController.text,
                                     email: emailController.text,
-                                    password: passwordController.text);
+                                    password: passwordController.text,
+                                    passwordReapet:
+                                        confirmPasswordController.text,
+                                    roleId: 1);
 
                                 final result = await provider.register(request);
 
                                 if (!result.error) {
                                   scaffolMessenger.showSnackBar(
                                       SnackBar(content: Text(result.message)));
-                                  // ignore: use_build_context_synchronously
                                   Navigator.pushReplacementNamed(
                                       context, LoginScreen.routeName);
                                 } else {
@@ -171,13 +183,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text('Already have an account?'),
+                        const Text('Sudah punya akun?'),
                         TextButton(
                           onPressed: () {
                             Navigator.pushNamed(context, LoginScreen.routeName);
                           },
                           child: const Text(
-                            'Sign In',
+                            'Masuk',
                             style: TextStyle(color: secondaryColor),
                           ),
                         )

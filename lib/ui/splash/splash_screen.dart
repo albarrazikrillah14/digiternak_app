@@ -10,7 +10,7 @@ class SplashScreen extends StatefulWidget {
   static const routeName = '/SplashScreen';
 
   final AuthProvider authProvider;
-  const SplashScreen({Key? key, required this.authProvider}) : super(key: key);
+  const SplashScreen({super.key, required this.authProvider});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 16,
             ),
             const Text(
-              'Healthy cow quality cow',
+              'Catat Ternakmu',
               style: TextStyle(
                 fontSize: 18,
               ),
@@ -77,14 +77,14 @@ class _SplashScreenState extends State<SplashScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Already have an account? "),
+                const Text("Sudah punya akun? "),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushReplacementNamed(
                         context, LoginScreen.routeName);
                   },
                   child: const Text(
-                    "Sign In",
+                    "Masuk",
                     style: TextStyle(color: secondaryColor),
                   ),
                 )

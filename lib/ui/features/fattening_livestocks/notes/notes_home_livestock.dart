@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class NotesHomeLiveStock extends StatefulWidget {
   static const routeName = '/notes_home_livestock';
 
-  const NotesHomeLiveStock({Key? key}) : super(key: key);
+  const NotesHomeLiveStock({super.key});
 
   @override
   State<NotesHomeLiveStock> createState() => _NotesHomeLiveStockState();
@@ -38,7 +38,7 @@ class _NotesHomeLiveStockState extends State<NotesHomeLiveStock> {
                 TextFormField(
                   controller: queryController,
                   decoration: InputDecoration(
-                    hintText: "Masukkan Kode Sapi",
+                    hintText: "Masukkan Kode Ternak",
                     suffixIcon: IconButton(
                       onPressed: () {
                         Navigator.pushNamed(context, QRCodeWidget.routeName,

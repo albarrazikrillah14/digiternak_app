@@ -1,5 +1,6 @@
+import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/common/styles/styles.dart';
-import 'package:digiternak_app/data/model/auth/login/login_request.dart';
+import 'package:digiternak_app/data/model/auth/login/request/login_request.dart';
 import 'package:digiternak_app/data/remote/auth/auth_repository.dart';
 import 'package:digiternak_app/provider/auth/auth_provider.dart';
 import 'package:digiternak_app/ui/auth/register/register_screen.dart';
@@ -8,10 +9,11 @@ import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login_screen';
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -36,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Consumer<AuthProvider>(
         builder: (context, provider, _) {
           return BaseScreen(
-            title: "LOGIN",
+            title: "Masuk Sekarang",
             state: ResultState.hasData,
             body: SingleChildScrollView(
               child: Form(
@@ -46,30 +48,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 64),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/ic_login1.png",
-                          height: 185,
-                          width: 105,
-                        ),
-                        const SizedBox(width: 16),
-                        Column(
-                          children: [
-                            const SizedBox(height: 32),
-                            Image.asset(
-                              "assets/ic_login2.png",
-                              height: 185,
-                              width: 105,
-                            )
-                          ],
-                        )
-                      ],
+                    Image.asset(
+                      "assets/digi_ternak_logo.png",
+                      height: 185,
+                      width: 105,
                     ),
                     const SizedBox(height: 32),
                     const Text(
-                      "Login Now",
+                      "Masuk Sekarang",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                     ),
@@ -77,18 +63,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: usernameController,
                       decoration: const InputDecoration(
-                        labelText: 'Email',
+                        labelText: 'Nama Pengguna',
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Masukkan alamat email';
+                          return 'Masukkan Nama Pengguna';
                         }
-                        final emailRegExp =
-                            RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                        if (!emailRegExp.hasMatch(value)) {
-                          return 'Alamat email tidak valid';
-                        }
-                        return null;
                       },
                     ),
                     const SizedBox(height: 16),
@@ -96,14 +76,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: passwordController,
                       obscureText: true,
                       decoration: const InputDecoration(
-                        labelText: 'Password',
+                        labelText: 'Kata Sandi',
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Masukkan password';
+                          return 'Masukkan Kata Sandi';
                         }
-                        if (value.length < 8) {
-                          return 'Password harus memiliki minimal 8 karakter';
+                        if (value.length < 6) {
+                          return 'Kata Sandi harus memiliki minimal 6 karakter';
                         }
                         return null;
                       },
@@ -111,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 32),
                     provider.state == ResultState.loading
                         ? const CircularProgressIndicator(
-                            color: Colors.black,
+                            color: Colors.blue,
                           )
                         : PrimaryButton(
                             onPressed: () async {
@@ -119,14 +99,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 final scaffoldMessenger =
                                     ScaffoldMessenger.of(context);
                                 final request = LoginRequest(
-                                  email: usernameController.text,
+                                  username: usernameController.text,
                                   password: passwordController.text,
                                 );
 
                                 final result = await provider.login(request);
                                 if (!result.error) {
-                                  provider.saveToken(result.loginResult.token);
-                                  // ignore: use_build_context_synchronously
+                                  provider.saveToken(result.data!.token);
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setInt('userId', result.data!.id);
                                   Navigator.pushReplacementNamed(
                                       context, HomeScreen.routeName);
                                 } else {
@@ -142,14 +124,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text('Do not have an account?'),
+                        const Text('Belum punya akun?'),
                         TextButton(
                           onPressed: () {
                             Navigator.pushNamed(
                                 context, RegisterScreen.routeName);
                           },
                           child: const Text(
-                            'Register',
+                            'Daftar',
                             style: TextStyle(color: secondaryColor),
                           ),
                         )

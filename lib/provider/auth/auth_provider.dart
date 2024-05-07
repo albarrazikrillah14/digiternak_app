@@ -1,13 +1,12 @@
-import 'package:digiternak_app/data/model/auth/login/login_request.dart';
-import 'package:digiternak_app/data/model/auth/login/login_response.dart';
-import 'package:digiternak_app/data/model/auth/register/register_request.dart';
-import 'package:digiternak_app/data/model/auth/register/register_response.dart';
+import 'package:digiternak_app/common/result.dart';
+import 'package:digiternak_app/data/model/auth/login/request/login_request.dart';
+import 'package:digiternak_app/data/model/auth/login/response/login_response.dart';
+import 'package:digiternak_app/data/model/auth/register/request/register_request.dart';
+import 'package:digiternak_app/data/model/auth/register/response/register_response.dart';
 import 'package:digiternak_app/data/remote/auth/auth_repository.dart';
-import 'package:digiternak_app/service/auth_service.dart';
+import 'package:digiternak_app/data/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-enum ResultState { loading, noData, hasData, error }
 
 class AuthProvider extends ChangeNotifier {
   final AuthRepository authRepository;
@@ -54,7 +53,6 @@ class AuthProvider extends ChangeNotifier {
       _state = ResultState.error;
     }
     _message = result.message;
-
     notifyListeners();
     return result;
   }

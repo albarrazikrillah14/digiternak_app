@@ -1,8 +1,10 @@
-import 'package:digiternak_app/provider/auth/auth_provider.dart';
+import 'package:digiternak_app/common/result.dart';
+import 'package:digiternak_app/provider/home/home_provider.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/notes/add/livestock_add_notes_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/search/detail/livestock_detail.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/detail/livestock_detail.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 enum QRtype {
@@ -20,9 +22,19 @@ class QRCodeWidget extends StatefulWidget {
 }
 
 class _QRCodeWidgetState extends State<QRCodeWidget> {
+  late HomeProvider provider;
+
   final GlobalKey qrKey = GlobalKey(debugLabel: "QR");
   QRViewController? controller;
   String result = "";
+
+  @override
+  void initState() {
+    result = "";
+    provider = context.read<HomeProvider>();
+    provider.setSearchState();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -36,18 +48,9 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
       setState(() {
         if (result.isEmpty) {
           setState(() {
-            result = scanData.code!;
+            result = scanData.code ?? "";
+            provider.getLivestockByVID(result);
           });
-          switch (widget.type) {
-            case QRtype.livestocks:
-              Navigator.pushNamed(context, LivestockDetail.routeName,
-                  arguments: result);
-              break;
-            case QRtype.notes:
-              Navigator.pushNamed(context, LivestockAddNotesScreen.routeName,
-                  arguments: result);
-              break;
-          }
         }
       });
     });
@@ -63,9 +66,48 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
         children: [
           Expanded(
             flex: 5,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+            child: ChangeNotifierProvider.value(
+              value: provider,
+              child: Consumer<HomeProvider>(
+                builder: (context, provider, child) {
+                  switch (provider.stateSearch) {
+                    case ResultState.noData:
+                      return QRView(
+                        key: qrKey,
+                        onQRViewCreated: _onQRViewCreated,
+                      );
+                    case ResultState.loading:
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.blue,
+                        ),
+                      );
+                    case ResultState.hasData:
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        switch (widget.type) {
+                          case QRtype.livestocks:
+                            Navigator.pushReplacementNamed(
+                                context, LivestockDetail.routeName,
+                                arguments: provider.livestock!.data![0]);
+
+                            break;
+                          case QRtype.notes:
+                            Navigator.pushNamed(
+                                context, LivestockAddNotesScreen.routeName,
+                                arguments: result);
+                            break;
+                        }
+                      });
+
+                      return const SizedBox();
+
+                    default:
+                      return const Center(
+                        child: Text('Sapi tidak ditemukan'),
+                      );
+                  }
+                },
+              ),
             ),
           ),
         ],

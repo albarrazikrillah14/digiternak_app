@@ -1,0 +1,18 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'register_request.g.dart';
+part 'register_request.freezed.dart';
+
+@freezed
+class RegisterRequest with _$RegisterRequest {
+  factory RegisterRequest({
+    required String username,
+    required String email,
+    required String password,
+    @JsonKey(name: 'password_repeat') required String passwordReapet,
+    @JsonKey(name: 'role_id') required int roleId,
+  }) = _RegisterRequest;
+
+  factory RegisterRequest.fromJson(Map<String, dynamic> json) =>
+      _$RegisterRequestFromJson(json);
+}
