@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/provider/upload/upload_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/home/home_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
@@ -33,6 +34,10 @@ class _UploadScreenState extends State<UploadScreen> {
 
     provider = context.read<UploadProvider>();
     provider.setUploadState();
+
+    if (provider.uploadState == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -129,6 +134,16 @@ class _UploadScreenState extends State<UploadScreen> {
                             },
                             title: "Unggah")
                       ],
+                    ),
+                  );
+                case ResultState.unauthorized:
+                  return Center(
+                    child: PrimaryButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, LoginScreen.routeName);
+                      },
+                      title: "Masuk Kembali",
                     ),
                   );
               }

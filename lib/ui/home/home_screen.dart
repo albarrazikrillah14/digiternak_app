@@ -2,6 +2,7 @@ import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/provider/home/home_provider.dart';
 import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
 import 'package:digiternak_app/provider/notes/notes_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/cage/list/list_cage_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/fattening_home_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/list/list_livestock_screen.dart';
@@ -9,6 +10,7 @@ import 'package:digiternak_app/ui/features/fattening_livestocks/notes/list/notes
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/feature_item_widget.dart';
 import 'package:digiternak_app/widget/note_card_widget.dart';
+import 'package:digiternak_app/widget/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     provider = context.read<HomeProvider>();
     provider.getKandang();
+    provider.getAllCatatan();
   }
 
   @override
@@ -37,6 +40,18 @@ class _HomeScreenState extends State<HomeScreen> {
       value: provider,
       child: Consumer<HomeProvider>(
         builder: (context, provider, _) {
+          if (provider.state == ResultState.unauthorized ||
+              provider.stateDashboard == ResultState.unauthorized) {
+            return Center(
+              child: PrimaryButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
+                      context, LoginScreen.routeName);
+                },
+                title: "Masuk Kembali",
+              ),
+            );
+          }
           return BaseScreen(
             title: "Home",
             indexBar: 0,
@@ -110,6 +125,10 @@ class _LastNoteWidgetState extends State<LastNoteWidget> {
 
     provider = context.read<NotesProvider>();
     provider.getNotesByUserId();
+
+    if (provider.state == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -264,6 +283,10 @@ class _HomeDashboardWidgetState extends State<HomeDashboardWidget> {
     livestockProvider = context.read<LivestockProvider>();
     livestockProvider.getAllLivestock();
     provider.getKandang();
+
+    if (provider.state == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override

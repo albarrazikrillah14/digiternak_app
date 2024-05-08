@@ -20,18 +20,22 @@ CatatanData _$CatatanDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CatatanData {
-  int get id => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
+  int? get code => throw _privateConstructorUsedError;
+  int? get status => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'livestock_vid')
-  String get livestockVID => throw _privateConstructorUsedError;
+  String? get livestockVID => throw _privateConstructorUsedError;
   @JsonKey(name: 'livestock_cage')
-  String get livestockCage => throw _privateConstructorUsedError;
+  String? get livestockCage => throw _privateConstructorUsedError;
   @JsonKey(name: 'date_recorded')
-  String get dateRecorded => throw _privateConstructorUsedError;
-  String get location => throw _privateConstructorUsedError;
+  String? get dateRecorded => throw _privateConstructorUsedError;
+  String? get location => throw _privateConstructorUsedError;
   @JsonKey(name: 'livestock_feed')
-  String get livestockFeed => throw _privateConstructorUsedError;
-  int get costs => throw _privateConstructorUsedError;
-  String get details => throw _privateConstructorUsedError;
+  String? get livestockFeed => throw _privateConstructorUsedError;
+  int? get costs => throw _privateConstructorUsedError;
+  String? get details => throw _privateConstructorUsedError;
   @JsonKey(name: 'note_images')
   List<String>? get images => throw _privateConstructorUsedError;
 
@@ -48,14 +52,18 @@ abstract class $CatatanDataCopyWith<$Res> {
       _$CatatanDataCopyWithImpl<$Res, CatatanData>;
   @useResult
   $Res call(
-      {int id,
-      @JsonKey(name: 'livestock_vid') String livestockVID,
-      @JsonKey(name: 'livestock_cage') String livestockCage,
-      @JsonKey(name: 'date_recorded') String dateRecorded,
-      String location,
-      @JsonKey(name: 'livestock_feed') String livestockFeed,
-      int costs,
-      String details,
+      {String? name,
+      String? message,
+      int? code,
+      int? status,
+      int? id,
+      @JsonKey(name: 'livestock_vid') String? livestockVID,
+      @JsonKey(name: 'livestock_cage') String? livestockCage,
+      @JsonKey(name: 'date_recorded') String? dateRecorded,
+      String? location,
+      @JsonKey(name: 'livestock_feed') String? livestockFeed,
+      int? costs,
+      String? details,
       @JsonKey(name: 'note_images') List<String>? images});
 }
 
@@ -72,49 +80,69 @@ class _$CatatanDataCopyWithImpl<$Res, $Val extends CatatanData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? livestockVID = null,
-    Object? livestockCage = null,
-    Object? dateRecorded = null,
-    Object? location = null,
-    Object? livestockFeed = null,
-    Object? costs = null,
-    Object? details = null,
+    Object? name = freezed,
+    Object? message = freezed,
+    Object? code = freezed,
+    Object? status = freezed,
+    Object? id = freezed,
+    Object? livestockVID = freezed,
+    Object? livestockCage = freezed,
+    Object? dateRecorded = freezed,
+    Object? location = freezed,
+    Object? livestockFeed = freezed,
+    Object? costs = freezed,
+    Object? details = freezed,
     Object? images = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      livestockVID: null == livestockVID
+              as int?,
+      livestockVID: freezed == livestockVID
           ? _value.livestockVID
           : livestockVID // ignore: cast_nullable_to_non_nullable
-              as String,
-      livestockCage: null == livestockCage
+              as String?,
+      livestockCage: freezed == livestockCage
           ? _value.livestockCage
           : livestockCage // ignore: cast_nullable_to_non_nullable
-              as String,
-      dateRecorded: null == dateRecorded
+              as String?,
+      dateRecorded: freezed == dateRecorded
           ? _value.dateRecorded
           : dateRecorded // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: null == location
+              as String?,
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
-      livestockFeed: null == livestockFeed
+              as String?,
+      livestockFeed: freezed == livestockFeed
           ? _value.livestockFeed
           : livestockFeed // ignore: cast_nullable_to_non_nullable
-              as String,
-      costs: null == costs
+              as String?,
+      costs: freezed == costs
           ? _value.costs
           : costs // ignore: cast_nullable_to_non_nullable
-              as int,
-      details: null == details
+              as int?,
+      details: freezed == details
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
@@ -132,14 +160,18 @@ abstract class _$$CatatanDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
-      @JsonKey(name: 'livestock_vid') String livestockVID,
-      @JsonKey(name: 'livestock_cage') String livestockCage,
-      @JsonKey(name: 'date_recorded') String dateRecorded,
-      String location,
-      @JsonKey(name: 'livestock_feed') String livestockFeed,
-      int costs,
-      String details,
+      {String? name,
+      String? message,
+      int? code,
+      int? status,
+      int? id,
+      @JsonKey(name: 'livestock_vid') String? livestockVID,
+      @JsonKey(name: 'livestock_cage') String? livestockCage,
+      @JsonKey(name: 'date_recorded') String? dateRecorded,
+      String? location,
+      @JsonKey(name: 'livestock_feed') String? livestockFeed,
+      int? costs,
+      String? details,
       @JsonKey(name: 'note_images') List<String>? images});
 }
 
@@ -154,49 +186,69 @@ class __$$CatatanDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? livestockVID = null,
-    Object? livestockCage = null,
-    Object? dateRecorded = null,
-    Object? location = null,
-    Object? livestockFeed = null,
-    Object? costs = null,
-    Object? details = null,
+    Object? name = freezed,
+    Object? message = freezed,
+    Object? code = freezed,
+    Object? status = freezed,
+    Object? id = freezed,
+    Object? livestockVID = freezed,
+    Object? livestockCage = freezed,
+    Object? dateRecorded = freezed,
+    Object? location = freezed,
+    Object? livestockFeed = freezed,
+    Object? costs = freezed,
+    Object? details = freezed,
     Object? images = freezed,
   }) {
     return _then(_$CatatanDataImpl(
-      id: null == id
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      livestockVID: null == livestockVID
+              as int?,
+      livestockVID: freezed == livestockVID
           ? _value.livestockVID
           : livestockVID // ignore: cast_nullable_to_non_nullable
-              as String,
-      livestockCage: null == livestockCage
+              as String?,
+      livestockCage: freezed == livestockCage
           ? _value.livestockCage
           : livestockCage // ignore: cast_nullable_to_non_nullable
-              as String,
-      dateRecorded: null == dateRecorded
+              as String?,
+      dateRecorded: freezed == dateRecorded
           ? _value.dateRecorded
           : dateRecorded // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: null == location
+              as String?,
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
-      livestockFeed: null == livestockFeed
+              as String?,
+      livestockFeed: freezed == livestockFeed
           ? _value.livestockFeed
           : livestockFeed // ignore: cast_nullable_to_non_nullable
-              as String,
-      costs: null == costs
+              as String?,
+      costs: freezed == costs
           ? _value.costs
           : costs // ignore: cast_nullable_to_non_nullable
-              as int,
-      details: null == details
+              as int?,
+      details: freezed == details
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
@@ -209,7 +261,11 @@ class __$$CatatanDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CatatanDataImpl implements _CatatanData {
   _$CatatanDataImpl(
-      {required this.id,
+      {required this.name,
+      required this.message,
+      required this.code,
+      required this.status,
+      required this.id,
       @JsonKey(name: 'livestock_vid') required this.livestockVID,
       @JsonKey(name: 'livestock_cage') required this.livestockCage,
       @JsonKey(name: 'date_recorded') required this.dateRecorded,
@@ -224,25 +280,33 @@ class _$CatatanDataImpl implements _CatatanData {
       _$$CatatanDataImplFromJson(json);
 
   @override
-  final int id;
+  final String? name;
+  @override
+  final String? message;
+  @override
+  final int? code;
+  @override
+  final int? status;
+  @override
+  final int? id;
   @override
   @JsonKey(name: 'livestock_vid')
-  final String livestockVID;
+  final String? livestockVID;
   @override
   @JsonKey(name: 'livestock_cage')
-  final String livestockCage;
+  final String? livestockCage;
   @override
   @JsonKey(name: 'date_recorded')
-  final String dateRecorded;
+  final String? dateRecorded;
   @override
-  final String location;
+  final String? location;
   @override
   @JsonKey(name: 'livestock_feed')
-  final String livestockFeed;
+  final String? livestockFeed;
   @override
-  final int costs;
+  final int? costs;
   @override
-  final String details;
+  final String? details;
   final List<String>? _images;
   @override
   @JsonKey(name: 'note_images')
@@ -256,7 +320,7 @@ class _$CatatanDataImpl implements _CatatanData {
 
   @override
   String toString() {
-    return 'CatatanData(id: $id, livestockVID: $livestockVID, livestockCage: $livestockCage, dateRecorded: $dateRecorded, location: $location, livestockFeed: $livestockFeed, costs: $costs, details: $details, images: $images)';
+    return 'CatatanData(name: $name, message: $message, code: $code, status: $status, id: $id, livestockVID: $livestockVID, livestockCage: $livestockCage, dateRecorded: $dateRecorded, location: $location, livestockFeed: $livestockFeed, costs: $costs, details: $details, images: $images)';
   }
 
   @override
@@ -264,6 +328,10 @@ class _$CatatanDataImpl implements _CatatanData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CatatanDataImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.livestockVID, livestockVID) ||
                 other.livestockVID == livestockVID) &&
@@ -284,6 +352,10 @@ class _$CatatanDataImpl implements _CatatanData {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      name,
+      message,
+      code,
+      status,
       id,
       livestockVID,
       livestockCage,
@@ -310,14 +382,18 @@ class _$CatatanDataImpl implements _CatatanData {
 
 abstract class _CatatanData implements CatatanData {
   factory _CatatanData(
-          {required final int id,
-          @JsonKey(name: 'livestock_vid') required final String livestockVID,
-          @JsonKey(name: 'livestock_cage') required final String livestockCage,
-          @JsonKey(name: 'date_recorded') required final String dateRecorded,
-          required final String location,
-          @JsonKey(name: 'livestock_feed') required final String livestockFeed,
-          required final int costs,
-          required final String details,
+          {required final String? name,
+          required final String? message,
+          required final int? code,
+          required final int? status,
+          required final int? id,
+          @JsonKey(name: 'livestock_vid') required final String? livestockVID,
+          @JsonKey(name: 'livestock_cage') required final String? livestockCage,
+          @JsonKey(name: 'date_recorded') required final String? dateRecorded,
+          required final String? location,
+          @JsonKey(name: 'livestock_feed') required final String? livestockFeed,
+          required final int? costs,
+          required final String? details,
           @JsonKey(name: 'note_images') final List<String>? images}) =
       _$CatatanDataImpl;
 
@@ -325,25 +401,33 @@ abstract class _CatatanData implements CatatanData {
       _$CatatanDataImpl.fromJson;
 
   @override
-  int get id;
+  String? get name;
+  @override
+  String? get message;
+  @override
+  int? get code;
+  @override
+  int? get status;
+  @override
+  int? get id;
   @override
   @JsonKey(name: 'livestock_vid')
-  String get livestockVID;
+  String? get livestockVID;
   @override
   @JsonKey(name: 'livestock_cage')
-  String get livestockCage;
+  String? get livestockCage;
   @override
   @JsonKey(name: 'date_recorded')
-  String get dateRecorded;
+  String? get dateRecorded;
   @override
-  String get location;
+  String? get location;
   @override
   @JsonKey(name: 'livestock_feed')
-  String get livestockFeed;
+  String? get livestockFeed;
   @override
-  int get costs;
+  int? get costs;
   @override
-  String get details;
+  String? get details;
   @override
   @JsonKey(name: 'note_images')
   List<String>? get images;

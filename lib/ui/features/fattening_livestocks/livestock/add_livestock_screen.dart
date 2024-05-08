@@ -2,6 +2,7 @@ import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/common/utils/mapper/mapper.dart';
 import 'package:digiternak_app/data/model/livestock/request/livestock_request.dart';
 import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/upload/upload_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
@@ -43,6 +44,10 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
 
     provider = context.read<LivestockProvider>();
     provider.getKandang();
+
+    if (provider.kandangState == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -65,6 +70,17 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
         child: Consumer<LivestockProvider>(
           builder: (context, provider, child) {
             switch (provider.kandangState) {
+              case ResultState.unauthorized:
+                return Center(
+                  child: PrimaryButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, LoginScreen.routeName);
+                    },
+                    title: "Masuk Kembali",
+                  ),
+                );
+
               case ResultState.loading:
                 return const Center(
                   child: CircularProgressIndicator(
@@ -73,11 +89,11 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                 );
               case ResultState.hasData:
                 final List<int> typeOfLivestockList = [1, 2];
-                List<int> cageIdList = provider.kandang.data.map((value) {
+                List<int?> cageIdList = provider.kandang.data.map((value) {
                   return value.id;
                 }).toList();
 
-                selectedCageId = cageIdList[0];
+                selectedCageId = cageIdList[0]!;
 
                 final cage = provider.kandang;
                 List<int> breedOfLivestockIdList = [1, 2];
@@ -162,8 +178,10 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                               return DropdownMenuItem(
                                 value: e,
                                 child: Text(cage.data
-                                    .firstWhere((element) => element.id == e)
-                                    .name),
+                                        .firstWhere(
+                                            (element) => element.id == e)
+                                        .name ??
+                                    ""),
                               );
                             }).toList(),
                             onChanged: (value) {
@@ -385,8 +403,8 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
 
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                        content:
-                                            Text(provider.livestock.message)));
+                                        content: Text(
+                                            provider.livestock.message ?? "")));
                                 if (provider.livestock.error == false) {
                                   Navigator.pushNamed(
                                       context, UploadScreen.routeName,
@@ -427,17 +445,15 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
               border: Border.all(color: Colors.grey, width: 1)),
           child: Padding(
             padding: const EdgeInsets.all(8),
-            child: Flexible(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  dropdown
-                ],
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                dropdown
+              ],
             ),
           ),
         )

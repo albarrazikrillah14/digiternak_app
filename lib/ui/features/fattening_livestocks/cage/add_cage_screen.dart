@@ -1,5 +1,7 @@
+import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/data/model/kandang/request/kandang_request.dart';
 import 'package:digiternak_app/provider/feature/fattening/cage_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,9 @@ class _AddCageScreenState extends State<AddCageScreen> {
 
     provider = context.read<CageProvider>();
     provider.getAllCage();
+    if (provider.state == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -114,12 +119,12 @@ class _AddCageScreenState extends State<AddCageScreen> {
 
                           if (!result.error) {
                             scaffoldMessenger.showSnackBar(
-                              SnackBar(content: Text(result.message)),
+                              SnackBar(content: Text(result.message ?? "")),
                             );
                             Navigator.pop(context);
                           } else {
                             scaffoldMessenger.showSnackBar(
-                              SnackBar(content: Text(result.message)),
+                              SnackBar(content: Text(result.message ?? "")),
                             );
                           }
                         }

@@ -44,7 +44,6 @@ class ApiService {
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final result = KandangResponse.fromJsonList(jsonDecode(response.body));
-
       return result;
     } else {
       throw Exception('Failed to load kandang');
@@ -61,6 +60,9 @@ class ApiService {
 
     final result = KandangResult.fromJson(json.decode(response.body));
 
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
     return result;
   }
 
@@ -76,6 +78,11 @@ class ApiService {
     );
 
     final result = CreateKandangResponse.fromJson(jsonDecode(response.body));
+
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
+
     return result;
   }
 
@@ -91,7 +98,11 @@ class ApiService {
       },
       body: jsonEncode(request),
     );
-    return CatatanResponse.fromJson(json.decode(response.body));
+    final result = CatatanResponse.fromJson(json.decode(response.body));
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
+    return result;
   }
 
   Future<AllCatatanResponse> getAllCatatanData() async {
@@ -116,6 +127,9 @@ class ApiService {
       },
     );
     final result = CatatanData.fromJson(json.decode(response.body));
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
     return result;
   }
 
@@ -147,7 +161,11 @@ class ApiService {
       body: jsonEncode(request),
     );
 
-    return CatatanResponse.fromJson(json.decode(response.body));
+    final result = CatatanResponse.fromJson(json.decode(response.body));
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
+    return result;
   }
 
   Future<BaseModel> deleteCatatanById(int noteId) async {
@@ -160,6 +178,9 @@ class ApiService {
       },
     );
     final result = BaseModel.fromJson(json.decode(response.body));
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
     return result;
   }
 
@@ -174,6 +195,9 @@ class ApiService {
       },
     );
     final result = LivestockResponse.fromJson(json.decode(response.body));
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
     return result;
   }
 
@@ -188,6 +212,9 @@ class ApiService {
       },
     );
     final result = AllLivestockResponse.fromJson(json.decode(response.body));
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
     return result;
   }
 
@@ -202,6 +229,9 @@ class ApiService {
         body: jsonEncode(request));
 
     final result = CreateLivestockResponse.fromJson(json.decode(response.body));
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
     return result;
   }
 
@@ -216,6 +246,9 @@ class ApiService {
 
     final result = BaseModel.fromJson(json.decode(response.body));
 
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
     return result;
   }
 
@@ -234,6 +267,9 @@ class ApiService {
 
     final result = BaseModel.fromJson(json.decode(response.body));
 
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
     return result;
   }
 
@@ -274,6 +310,10 @@ class ApiService {
 
     final result =
         LivestockUploadImageResponse.fromJson(json.decode(responseData));
+
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
 
     return result;
   }

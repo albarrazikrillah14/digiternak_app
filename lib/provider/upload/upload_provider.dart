@@ -49,6 +49,7 @@ class UploadProvider extends ChangeNotifier {
       uploadResponse = null;
       isUploading = true;
       notifyListeners();
+
       uploadResponse = await service.uploadDocument(bytes, type, id, fileName);
       if (uploadResponse?.error == true) {
         _uploadState = ResultState.error;
@@ -58,6 +59,10 @@ class UploadProvider extends ChangeNotifier {
       message = uploadResponse?.message ?? "success";
       isUploading = false;
       notifyListeners();
+
+      if (uploadResponse?.status == 401) {
+        _uploadState = ResultState.unauthorized;
+      }
     } catch (e) {
       isUploading = false;
       message = e.toString();

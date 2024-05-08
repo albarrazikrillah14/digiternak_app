@@ -6,14 +6,18 @@ part 'catatan_data.freezed.dart';
 @freezed
 class CatatanData with _$CatatanData {
   factory CatatanData({
-    required int id,
-    @JsonKey(name: 'livestock_vid') required String livestockVID,
-    @JsonKey(name: 'livestock_cage') required String livestockCage,
-    @JsonKey(name: 'date_recorded') required String dateRecorded,
-    required String location,
-    @JsonKey(name: 'livestock_feed') required String livestockFeed,
-    required int costs,
-    required String details,
+    required String? name,
+    required String? message,
+    required int? code,
+    required int? status,
+    required int? id,
+    @JsonKey(name: 'livestock_vid') required String? livestockVID,
+    @JsonKey(name: 'livestock_cage') required String? livestockCage,
+    @JsonKey(name: 'date_recorded') required String? dateRecorded,
+    required String? location,
+    @JsonKey(name: 'livestock_feed') required String? livestockFeed,
+    required int? costs,
+    required String? details,
     @JsonKey(name: 'note_images') List<String>? images,
   }) = _CatatanData;
 

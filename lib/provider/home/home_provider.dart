@@ -90,10 +90,14 @@ class HomeProvider extends ChangeNotifier {
 
     if (result.error) {
       _stateSearch = ResultState.error;
-      _message = result.message;
+      _message = result.message ?? "";
     } else {
       _livestock = result;
       _stateSearch = ResultState.hasData;
+    }
+
+    if (result.status == 401) {
+      _stateSearch = ResultState.unauthorized;
     }
     notifyListeners();
   }

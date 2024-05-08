@@ -1,7 +1,9 @@
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/provider/home/home_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/dashboard/KandangDetailScreen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +26,10 @@ class _DashboardLivestockScreenState extends State<DashboardLivestockScreen> {
 
     provider = context.read<HomeProvider>();
     provider.getKandang(type: 'dashboard');
+
+    if (provider.stateDashboard == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -68,15 +74,27 @@ class _DashboardLivestockScreenState extends State<DashboardLivestockScreen> {
                               child: KandangLiveStockScreen(
                                 data: KandangData(
                                   id: "${provider.kandang.data[index].id}",
-                                  name: provider.kandang.data[index].name,
+                                  name: provider.kandang.data[index].name ?? "",
                                   jumlahSapi: provider.kandang.data[index]
                                           .livestocks?.length ??
                                       0,
-                                  lokasi: provider.kandang.data[index].location,
+                                  lokasi:
+                                      provider.kandang.data[index].location ??
+                                          "",
                                 ),
                               ),
                             );
                           },
+                        ),
+                      );
+                    case ResultState.unauthorized:
+                      return Center(
+                        child: PrimaryButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, LoginScreen.routeName);
+                          },
+                          title: "Masuk Kembali",
                         ),
                       );
                     default:

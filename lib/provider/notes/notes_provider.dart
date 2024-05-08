@@ -21,7 +21,7 @@ class NotesProvider extends ChangeNotifier {
   ResultState _createState = ResultState.noData;
   late AllLivestockResponse _livestocks;
   late AllCatatanResponse _notes;
-  late CatatanData _note;
+  late CatatanData? _note;
 
   ResultState get stateNote => _stateNote;
   ResultState get state => _state;
@@ -32,7 +32,7 @@ class NotesProvider extends ChangeNotifier {
   String get message => _message;
   AllLivestockResponse get livestocks => _livestocks;
   AllCatatanResponse get notes => _notes;
-  CatatanData get note => _note;
+  CatatanData? get note => _note;
 
   Future<void> createNote(CatatanRequest request, int livestockId) async {
     _createState = ResultState.loading;
@@ -47,6 +47,10 @@ class NotesProvider extends ChangeNotifier {
     } else {
       _createState = ResultState.error;
       _message = "Catatan gagal ditambahkan";
+    }
+
+    if (result.status == 401) {
+      _createState = ResultState.unauthorized;
     }
 
     notifyListeners();
@@ -70,6 +74,10 @@ class NotesProvider extends ChangeNotifier {
       _stateNote = ResultState.hasData;
     }
 
+    if (result.status == 401) {
+      _stateNote = ResultState.unauthorized;
+    }
+
     notifyListeners();
   }
 
@@ -87,6 +95,9 @@ class NotesProvider extends ChangeNotifier {
       _message = "Catatan gagal ditambahkan";
     }
 
+    if (result.status == 401) {
+      _updateState = ResultState.unauthorized;
+    }
     notifyListeners();
     await getNoteById(noteId);
   }
@@ -109,6 +120,11 @@ class NotesProvider extends ChangeNotifier {
       _stateNote = ResultState.error;
       _message = "Gagal Menghapus Catatan";
     }
+
+    if (result.status == 401) {
+      _stateNote = ResultState.unauthorized;
+    }
+
     notifyListeners();
     await getNotesByUserId();
   }
@@ -132,6 +148,10 @@ class NotesProvider extends ChangeNotifier {
       _livestocks = result;
     }
 
+    if (result.status == 401) {
+      _livestockState = ResultState.unauthorized;
+    }
+
     notifyListeners();
   }
 
@@ -148,6 +168,7 @@ class NotesProvider extends ChangeNotifier {
       _notes = result;
       _state = ResultState.hasData;
     }
+
     notifyListeners();
   }
 

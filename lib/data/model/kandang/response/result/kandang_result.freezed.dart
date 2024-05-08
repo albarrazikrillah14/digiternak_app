@@ -20,10 +20,13 @@ KandangResult _$KandangResultFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$KandangResult {
-  int get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get location => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
+  int? get code => throw _privateConstructorUsedError;
+  int? get status => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
+  String? get location => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   List<int>? get livestocks => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,10 +42,13 @@ abstract class $KandangResultCopyWith<$Res> {
       _$KandangResultCopyWithImpl<$Res, KandangResult>;
   @useResult
   $Res call(
-      {int id,
-      String name,
-      String location,
-      String description,
+      {String? name,
+      String? message,
+      int? code,
+      int? status,
+      int? id,
+      String? location,
+      String? description,
       List<int>? livestocks});
 }
 
@@ -59,29 +65,44 @@ class _$KandangResultCopyWithImpl<$Res, $Val extends KandangResult>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? location = null,
-    Object? description = null,
+    Object? name = freezed,
+    Object? message = freezed,
+    Object? code = freezed,
+    Object? status = freezed,
+    Object? id = freezed,
+    Object? location = freezed,
+    Object? description = freezed,
     Object? livestocks = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: null == location
+              as String?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       livestocks: freezed == livestocks
           ? _value.livestocks
           : livestocks // ignore: cast_nullable_to_non_nullable
@@ -99,10 +120,13 @@ abstract class _$$KandangResultImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
-      String name,
-      String location,
-      String description,
+      {String? name,
+      String? message,
+      int? code,
+      int? status,
+      int? id,
+      String? location,
+      String? description,
       List<int>? livestocks});
 }
 
@@ -117,29 +141,44 @@ class __$$KandangResultImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? location = null,
-    Object? description = null,
+    Object? name = freezed,
+    Object? message = freezed,
+    Object? code = freezed,
+    Object? status = freezed,
+    Object? id = freezed,
+    Object? location = freezed,
+    Object? description = freezed,
     Object? livestocks = freezed,
   }) {
     return _then(_$KandangResultImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: null == location
+              as String?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       livestocks: freezed == livestocks
           ? _value._livestocks
           : livestocks // ignore: cast_nullable_to_non_nullable
@@ -152,8 +191,11 @@ class __$$KandangResultImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$KandangResultImpl implements _KandangResult {
   _$KandangResultImpl(
-      {required this.id,
-      required this.name,
+      {required this.name,
+      required this.message,
+      required this.code,
+      required this.status,
+      required this.id,
       required this.location,
       required this.description,
       required final List<int>? livestocks})
@@ -163,13 +205,19 @@ class _$KandangResultImpl implements _KandangResult {
       _$$KandangResultImplFromJson(json);
 
   @override
-  final int id;
+  final String? name;
   @override
-  final String name;
+  final String? message;
   @override
-  final String location;
+  final int? code;
   @override
-  final String description;
+  final int? status;
+  @override
+  final int? id;
+  @override
+  final String? location;
+  @override
+  final String? description;
   final List<int>? _livestocks;
   @override
   List<int>? get livestocks {
@@ -182,7 +230,7 @@ class _$KandangResultImpl implements _KandangResult {
 
   @override
   String toString() {
-    return 'KandangResult(id: $id, name: $name, location: $location, description: $description, livestocks: $livestocks)';
+    return 'KandangResult(name: $name, message: $message, code: $code, status: $status, id: $id, location: $location, description: $description, livestocks: $livestocks)';
   }
 
   @override
@@ -190,8 +238,11 @@ class _$KandangResultImpl implements _KandangResult {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$KandangResultImpl &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.description, description) ||
@@ -202,8 +253,8 @@ class _$KandangResultImpl implements _KandangResult {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, location, description,
-      const DeepCollectionEquality().hash(_livestocks));
+  int get hashCode => Object.hash(runtimeType, name, message, code, status, id,
+      location, description, const DeepCollectionEquality().hash(_livestocks));
 
   @JsonKey(ignore: true)
   @override
@@ -221,23 +272,32 @@ class _$KandangResultImpl implements _KandangResult {
 
 abstract class _KandangResult implements KandangResult {
   factory _KandangResult(
-      {required final int id,
-      required final String name,
-      required final String location,
-      required final String description,
+      {required final String? name,
+      required final String? message,
+      required final int? code,
+      required final int? status,
+      required final int? id,
+      required final String? location,
+      required final String? description,
       required final List<int>? livestocks}) = _$KandangResultImpl;
 
   factory _KandangResult.fromJson(Map<String, dynamic> json) =
       _$KandangResultImpl.fromJson;
 
   @override
-  int get id;
+  String? get name;
   @override
-  String get name;
+  String? get message;
   @override
-  String get location;
+  int? get code;
   @override
-  String get description;
+  int? get status;
+  @override
+  int? get id;
+  @override
+  String? get location;
+  @override
+  String? get description;
   @override
   List<int>? get livestocks;
   @override

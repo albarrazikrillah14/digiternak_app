@@ -7,7 +7,10 @@ part 'livestock_upload_image_response.g.dart';
 @freezed
 class LivestockUploadImageResponse with _$LivestockUploadImageResponse {
   factory LivestockUploadImageResponse({
-    required String message,
+    required String? name,
+    required int? code,
+    required int? status,
+    required String? message,
     required bool error,
     required UploadData data,
   }) = _LivestockUploadImageResponse;

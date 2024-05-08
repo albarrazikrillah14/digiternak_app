@@ -25,7 +25,11 @@ class ProfileService {
           'Authorization': 'Bearer $token'
         },
         body: jsonEncode(request));
-    return EditProfileResponse.fromJson(jsonDecode(response.body));
+    final result = EditProfileResponse.fromJson(jsonDecode(response.body));
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
+    return result;
   }
 
   Future<ProfileResponse> getUserProfile() async {
@@ -37,7 +41,11 @@ class ProfileService {
         'Authorization': 'Bearer $token'
       },
     );
+
     final result = ProfileResponse.fromJson(jsonDecode(response.body));
+    if (result.status == 401) {
+      await authRepository.logout();
+    }
     return result;
   }
 }

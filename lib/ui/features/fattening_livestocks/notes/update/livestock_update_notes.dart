@@ -2,6 +2,7 @@ import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/data/model/catatan/request/catatan_request.dart';
 import 'package:digiternak_app/data/model/catatan/response/data/catatan_data.dart';
 import 'package:digiternak_app/provider/notes/notes_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,10 @@ class _LivestockUpdateNotesState extends State<LivestockUpdateNotes> {
     super.initState();
 
     provider = context.read<NotesProvider>();
+
+    if (provider.updateState == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -47,6 +52,16 @@ class _LivestockUpdateNotesState extends State<LivestockUpdateNotes> {
           child: Consumer<NotesProvider>(
             builder: (context, provider, child) {
               switch (provider.updateState) {
+                case ResultState.unauthorized:
+                  return Center(
+                    child: PrimaryButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, LoginScreen.routeName);
+                      },
+                      title: "Masuk Kembali",
+                    ),
+                  );
                 case ResultState.loading:
                   return const Center(
                     child: CircularProgressIndicator(
@@ -65,10 +80,11 @@ class _LivestockUpdateNotesState extends State<LivestockUpdateNotes> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         _TextInfoField(
-                            title: "Ternak", value: widget.data.livestockVID),
+                            title: "Ternak",
+                            value: widget.data.livestockVID ?? ""),
                         _TextInfoField(
                             title: "Nama Kandang",
-                            value: widget.data.livestockCage),
+                            value: widget.data.livestockCage ?? ""),
                         _TextFormField(
                           form: TextFormField(
                             controller: feedController,
@@ -104,7 +120,7 @@ class _LivestockUpdateNotesState extends State<LivestockUpdateNotes> {
                                     details: detailController.text);
 
                                 await provider.editNoteById(
-                                    request, widget.data.id);
+                                    request, widget.data.id ?? 0);
 
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text(provider.message)));

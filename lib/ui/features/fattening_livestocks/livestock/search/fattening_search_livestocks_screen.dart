@@ -2,6 +2,7 @@ import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/data/model/livestock/response/data/livestock_data.dart';
 import 'package:digiternak_app/provider/home/home_provider.dart';
 import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/add_livestock_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/detail/livestock_detail.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
@@ -35,6 +36,10 @@ class _FatteningSearchLiveStocksScreenState
     livestockProvider = context.read<LivestockProvider>();
     livestockProvider.getAllLivestock();
     provider.setSearchState();
+
+    if (provider.stateSearch == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -63,6 +68,16 @@ class _FatteningSearchLiveStocksScreenState
           child: Consumer<HomeProvider>(
             builder: (context, provider, child) {
               switch (provider.stateSearch) {
+                case ResultState.unauthorized:
+                  return Center(
+                    child: PrimaryButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, LoginScreen.routeName);
+                      },
+                      title: "Masuk Kembali",
+                    ),
+                  );
                 case ResultState.loading:
                   return const Center(
                     child: CircularProgressIndicator(

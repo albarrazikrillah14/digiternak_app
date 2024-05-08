@@ -7,9 +7,12 @@ part 'catatan_response.freezed.dart';
 @freezed
 class CatatanResponse with _$CatatanResponse {
   factory CatatanResponse({
-    required String message,
-    required bool error,
-    required CatatanData data,
+    required String? name,
+    required String? message,
+    required int? code,
+    required int? status,
+    required bool? error,
+    required CatatanData? data,
   }) = _CatatanResponse;
 
   factory CatatanResponse.fromJson(Map<String, dynamic> json) =>

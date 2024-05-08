@@ -8,14 +8,18 @@ part of 'catatan_data.dart';
 
 _$CatatanDataImpl _$$CatatanDataImplFromJson(Map<String, dynamic> json) =>
     _$CatatanDataImpl(
-      id: (json['id'] as num).toInt(),
-      livestockVID: json['livestock_vid'] as String,
-      livestockCage: json['livestock_cage'] as String,
-      dateRecorded: json['date_recorded'] as String,
-      location: json['location'] as String,
-      livestockFeed: json['livestock_feed'] as String,
-      costs: (json['costs'] as num).toInt(),
-      details: json['details'] as String,
+      name: json['name'] as String?,
+      message: json['message'] as String?,
+      code: (json['code'] as num?)?.toInt(),
+      status: (json['status'] as num?)?.toInt(),
+      id: (json['id'] as num?)?.toInt(),
+      livestockVID: json['livestock_vid'] as String?,
+      livestockCage: json['livestock_cage'] as String?,
+      dateRecorded: json['date_recorded'] as String?,
+      location: json['location'] as String?,
+      livestockFeed: json['livestock_feed'] as String?,
+      costs: (json['costs'] as num?)?.toInt(),
+      details: json['details'] as String?,
       images: (json['note_images'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -23,6 +27,10 @@ _$CatatanDataImpl _$$CatatanDataImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$CatatanDataImplToJson(_$CatatanDataImpl instance) =>
     <String, dynamic>{
+      'name': instance.name,
+      'message': instance.message,
+      'code': instance.code,
+      'status': instance.status,
       'id': instance.id,
       'livestock_vid': instance.livestockVID,
       'livestock_cage': instance.livestockCage,

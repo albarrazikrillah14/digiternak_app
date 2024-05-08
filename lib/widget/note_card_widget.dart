@@ -55,12 +55,12 @@ class _NoteCardWidgetState extends State<NoteCardWidget> {
             ),
             const SizedBox(height: 8),
             Text(
-              widget.data.livestockCage,
+              widget.data.livestockCage ?? "",
               style: const TextStyle(
                   fontWeight: FontWeight.bold, color: Colors.black),
             ),
             Text(
-              widget.data.livestockVID,
+              widget.data.livestockVID ?? "",
               style: const TextStyle(
                   fontWeight: FontWeight.normal, color: Colors.grey),
             ),

@@ -21,7 +21,10 @@ LivestockUploadImageResponse _$LivestockUploadImageResponseFromJson(
 
 /// @nodoc
 mixin _$LivestockUploadImageResponse {
-  String get message => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  int? get code => throw _privateConstructorUsedError;
+  int? get status => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   UploadData get data => throw _privateConstructorUsedError;
 
@@ -39,7 +42,13 @@ abstract class $LivestockUploadImageResponseCopyWith<$Res> {
       _$LivestockUploadImageResponseCopyWithImpl<$Res,
           LivestockUploadImageResponse>;
   @useResult
-  $Res call({String message, bool error, UploadData data});
+  $Res call(
+      {String? name,
+      int? code,
+      int? status,
+      String? message,
+      bool error,
+      UploadData data});
 
   $UploadDataCopyWith<$Res> get data;
 }
@@ -58,15 +67,30 @@ class _$LivestockUploadImageResponseCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = null,
+    Object? name = freezed,
+    Object? code = freezed,
+    Object? status = freezed,
+    Object? message = freezed,
     Object? error = null,
     Object? data = null,
   }) {
     return _then(_value.copyWith(
-      message: null == message
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -96,7 +120,13 @@ abstract class _$$LivestockUploadImageResponseImplCopyWith<$Res>
       __$$LivestockUploadImageResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String message, bool error, UploadData data});
+  $Res call(
+      {String? name,
+      int? code,
+      int? status,
+      String? message,
+      bool error,
+      UploadData data});
 
   @override
   $UploadDataCopyWith<$Res> get data;
@@ -115,15 +145,30 @@ class __$$LivestockUploadImageResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = null,
+    Object? name = freezed,
+    Object? code = freezed,
+    Object? status = freezed,
+    Object? message = freezed,
     Object? error = null,
     Object? data = null,
   }) {
     return _then(_$LivestockUploadImageResponseImpl(
-      message: null == message
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -141,14 +186,25 @@ class __$$LivestockUploadImageResponseImplCopyWithImpl<$Res>
 class _$LivestockUploadImageResponseImpl
     implements _LivestockUploadImageResponse {
   _$LivestockUploadImageResponseImpl(
-      {required this.message, required this.error, required this.data});
+      {required this.name,
+      required this.code,
+      required this.status,
+      required this.message,
+      required this.error,
+      required this.data});
 
   factory _$LivestockUploadImageResponseImpl.fromJson(
           Map<String, dynamic> json) =>
       _$$LivestockUploadImageResponseImplFromJson(json);
 
   @override
-  final String message;
+  final String? name;
+  @override
+  final int? code;
+  @override
+  final int? status;
+  @override
+  final String? message;
   @override
   final bool error;
   @override
@@ -156,7 +212,7 @@ class _$LivestockUploadImageResponseImpl
 
   @override
   String toString() {
-    return 'LivestockUploadImageResponse(message: $message, error: $error, data: $data)';
+    return 'LivestockUploadImageResponse(name: $name, code: $code, status: $status, message: $message, error: $error, data: $data)';
   }
 
   @override
@@ -164,6 +220,9 @@ class _$LivestockUploadImageResponseImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LivestockUploadImageResponseImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.data, data) || other.data == data));
@@ -171,7 +230,8 @@ class _$LivestockUploadImageResponseImpl
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, message, error, data);
+  int get hashCode =>
+      Object.hash(runtimeType, name, code, status, message, error, data);
 
   @JsonKey(ignore: true)
   @override
@@ -192,7 +252,10 @@ class _$LivestockUploadImageResponseImpl
 abstract class _LivestockUploadImageResponse
     implements LivestockUploadImageResponse {
   factory _LivestockUploadImageResponse(
-      {required final String message,
+      {required final String? name,
+      required final int? code,
+      required final int? status,
+      required final String? message,
       required final bool error,
       required final UploadData data}) = _$LivestockUploadImageResponseImpl;
 
@@ -200,7 +263,13 @@ abstract class _LivestockUploadImageResponse
       _$LivestockUploadImageResponseImpl.fromJson;
 
   @override
-  String get message;
+  String? get name;
+  @override
+  int? get code;
+  @override
+  int? get status;
+  @override
+  String? get message;
   @override
   bool get error;
   @override

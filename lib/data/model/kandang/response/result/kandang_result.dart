@@ -5,10 +5,13 @@ part 'kandang_result.freezed.dart';
 @freezed
 class KandangResult with _$KandangResult {
   factory KandangResult({
-    required int id,
-    required String name,
-    required String location,
-    required String description,
+    required String? name,
+    required String? message,
+    required int? code,
+    required int? status,
+    required int? id,
+    required String? location,
+    required String? description,
     required List<int>? livestocks,
   }) = _KandangResult;
 

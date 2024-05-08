@@ -28,6 +28,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     authProvider = context.read<AuthProvider>();
 
     provider.getProfile();
+
+    if (provider.state == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -40,6 +44,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         indexBar: 1,
         body: Consumer<ProfileProvider>(
           builder: (context, provider, child) {
+            if (provider.state == ResultState.unauthorized) {
+              return Center(
+                child: PrimaryButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                        context, LoginScreen.routeName);
+                  },
+                  title: "Masuk Kembali",
+                ),
+              );
+            }
             return provider.state == ResultState.loading
                 ? const Center(
                     child: CircularProgressIndicator(
@@ -89,12 +104,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               _buildInfoRow(
                                   title: "Username",
-                                  value: provider.data.username),
+                                  value: provider.data.username ?? ""),
                               _buildInfoRow(
-                                  title: "Email", value: provider.data.email),
+                                  title: "Email",
+                                  value: provider.data.email ?? ""),
                               _buildInfoRow(
                                   title: "Status",
-                                  value: provider.data.role.name,
+                                  value: provider.data.role?.name ?? "",
                                   isLastData: true),
                             ],
                           ),

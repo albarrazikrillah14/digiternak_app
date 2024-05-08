@@ -7,9 +7,12 @@ part 'edit_profile_response.freezed.dart';
 @freezed
 class EditProfileResponse with _$EditProfileResponse {
   factory EditProfileResponse({
-    required String message,
-    required bool error,
-    required ProfileResponse data,
+    required String? name,
+    required String? message,
+    required int? code,
+    required int? status,
+    required bool? error,
+    required ProfileResponse? data,
   }) = _EditProfileResponse;
 
   factory EditProfileResponse.fromJson(Map<String, dynamic> json) =>

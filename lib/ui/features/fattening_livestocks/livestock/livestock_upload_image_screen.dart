@@ -1,5 +1,6 @@
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/upload/upload_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
@@ -25,6 +26,9 @@ class _LivestockUploadImageScreenState
   void initState() {
     super.initState();
     provider = context.read<LivestockProvider>();
+    if (provider.uploadState == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -36,6 +40,16 @@ class _LivestockUploadImageScreenState
         child: Consumer<LivestockProvider>(
           builder: (context, provider, _) {
             switch (provider.uploadState) {
+              case ResultState.unauthorized:
+                return Center(
+                  child: PrimaryButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, LoginScreen.routeName);
+                    },
+                    title: "Masuk Kembali",
+                  ),
+                );
               case ResultState.loading:
                 return const Center(
                   child: CircularProgressIndicator(

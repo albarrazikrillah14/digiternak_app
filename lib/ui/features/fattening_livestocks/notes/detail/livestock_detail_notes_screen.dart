@@ -2,6 +2,7 @@ import 'package:digiternak_app/common/constant.dart';
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/data/model/catatan/response/data/catatan_data.dart';
 import 'package:digiternak_app/provider/notes/notes_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/detail_image/detail_image_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/notes/update/livestock_update_notes.dart';
 import 'package:digiternak_app/ui/home/home_screen.dart';
@@ -27,6 +28,9 @@ class _LivestockDetailNotesState extends State<LivestockDetailNotes> {
 
     provider = context.read<NotesProvider>();
     provider.getNoteById(widget.id);
+    if (provider.stateNote == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -39,6 +43,16 @@ class _LivestockDetailNotesState extends State<LivestockDetailNotes> {
         child: Consumer<NotesProvider>(
           builder: (context, provider, child) {
             switch (provider.stateNote) {
+              case ResultState.unauthorized:
+                return Center(
+                  child: PrimaryButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, LoginScreen.routeName);
+                    },
+                    title: "Masuk Kembali",
+                  ),
+                );
               case ResultState.loading:
                 return const Center(
                   child: CircularProgressIndicator(
@@ -51,7 +65,7 @@ class _LivestockDetailNotesState extends State<LivestockDetailNotes> {
                   child: Text('Data Tidak ditemukan'),
                 );
               case ResultState.hasData:
-                final CatatanData data = provider.note;
+                final CatatanData? data = provider.note;
                 return SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -61,12 +75,12 @@ class _LivestockDetailNotesState extends State<LivestockDetailNotes> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            data.dateRecorded,
+                            data?.dateRecorded ?? "",
                             style: const TextStyle(
                                 fontSize: 10, color: Colors.grey),
                           ),
                           Text(
-                            data.location,
+                            data?.location ?? "",
                             style: const TextStyle(
                                 fontSize: 10, color: Colors.grey),
                           ),
@@ -79,14 +93,14 @@ class _LivestockDetailNotesState extends State<LivestockDetailNotes> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            data.livestockVID,
+                            data?.livestockVID ?? "",
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12),
                           ),
                           Text(
-                            data.livestockCage,
+                            data?.livestockCage ?? "",
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -97,19 +111,19 @@ class _LivestockDetailNotesState extends State<LivestockDetailNotes> {
                       const SizedBox(
                         height: 16,
                       ),
-                      Text("Makanan: ${data.livestockFeed}"),
+                      Text("Makanan: ${data?.livestockFeed ?? ""}"),
                       Text(
-                        data.details,
+                        data?.details ?? "",
                         textAlign: TextAlign.justify,
                       ),
                       const SizedBox(
                         height: 4,
                       ),
-                      Text("Biaya Rp.${data.costs}"),
+                      Text("Biaya Rp.${data?.costs ?? ""}"),
                       const SizedBox(
                         height: 16,
                       ),
-                      (data.images?.isEmpty ?? true)
+                      (data?.images?.isEmpty ?? true)
                           ? Container()
                           : Column(
                               children: [
@@ -121,7 +135,7 @@ class _LivestockDetailNotesState extends State<LivestockDetailNotes> {
                                   onTap: () {
                                     Navigator.pushNamed(
                                         context, DetailImageScreen.routeName,
-                                        arguments: data.images!);
+                                        arguments: data?.images!);
                                   },
                                   child: SizedBox(
                                     height: 120,
@@ -131,7 +145,7 @@ class _LivestockDetailNotesState extends State<LivestockDetailNotes> {
                                         return Padding(
                                           padding: const EdgeInsets.all(4),
                                           child: Image.network(
-                                            "$BASE_IMAGE_URL${data.images![index]}",
+                                            "$BASE_IMAGE_URL${data?.images![index]}",
                                             height: 120,
                                             width: MediaQuery.of(context)
                                                     .size
@@ -141,7 +155,7 @@ class _LivestockDetailNotesState extends State<LivestockDetailNotes> {
                                           ),
                                         );
                                       },
-                                      itemCount: data.images?.length ?? 0,
+                                      itemCount: data?.images?.length ?? 0,
                                     ),
                                   ),
                                 ),
@@ -166,7 +180,7 @@ class _LivestockDetailNotesState extends State<LivestockDetailNotes> {
                       ),
                       PrimaryButton(
                         onPressed: () async {
-                          await provider.deleteNoteById(data.id);
+                          await provider.deleteNoteById(data?.id ?? 0);
 
                           Navigator.popAndPushNamed(
                               context, HomeScreen.routeName);

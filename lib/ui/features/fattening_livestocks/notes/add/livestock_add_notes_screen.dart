@@ -1,6 +1,7 @@
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/data/model/catatan/request/catatan_request.dart';
 import 'package:digiternak_app/provider/notes/notes_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/add_livestock_screen.dart';
 import 'package:digiternak_app/ui/upload/upload_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
@@ -38,6 +39,10 @@ class _LivestockAddNotesScreenState extends State<LivestockAddNotesScreen> {
 
     provider = context.read<NotesProvider>();
     provider.getLivestocks();
+
+    if (provider.livestockState == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -50,6 +55,16 @@ class _LivestockAddNotesScreenState extends State<LivestockAddNotesScreen> {
         child: Consumer<NotesProvider>(
           builder: (context, provider, child) {
             switch (provider.livestockState) {
+              case ResultState.unauthorized:
+                return Center(
+                  child: PrimaryButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, LoginScreen.routeName);
+                    },
+                    title: "Masuk Kembali",
+                  ),
+                );
               case ResultState.loading:
                 return const Center(
                   child: CircularProgressIndicator(
@@ -180,7 +195,7 @@ class _LivestockAddNotesScreenState extends State<LivestockAddNotesScreen> {
                                     UploadScreen.routeName,
                                     arguments: {
                                       'type': UploadType.NOTES,
-                                      'id': "${provider.note.id}",
+                                      'id': "${provider.note?.id ?? 0}",
                                     },
                                   );
                                 }
@@ -210,17 +225,15 @@ class _LivestockAddNotesScreenState extends State<LivestockAddNotesScreen> {
               border: Border.all(color: Colors.grey, width: 1)),
           child: Padding(
             padding: const EdgeInsets.all(8),
-            child: Flexible(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  dropdown
-                ],
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                dropdown
+              ],
             ),
           ),
         )

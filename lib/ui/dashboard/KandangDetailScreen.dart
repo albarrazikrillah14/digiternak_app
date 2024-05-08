@@ -1,5 +1,6 @@
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/provider/feature/fattening/cage_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,10 @@ class _KandangDetailScreenState extends State<KandangDetailScreen> {
 
     provider = context.read<CageProvider>();
     provider.getCageById(int.parse(widget.id));
+
+    if (provider.stateCage == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -36,6 +41,16 @@ class _KandangDetailScreenState extends State<KandangDetailScreen> {
           child: Consumer<CageProvider>(
             builder: (context, provider, child) {
               switch (provider.stateCage) {
+                case ResultState.unauthorized:
+                  return Center(
+                    child: PrimaryButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, LoginScreen.routeName);
+                      },
+                      title: "Masuk Kembali",
+                    ),
+                  );
                 case ResultState.loading:
                   return const Center(
                     child: CircularProgressIndicator(

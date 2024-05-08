@@ -42,9 +42,12 @@ class CageProvider extends ChangeNotifier {
     } else {
       _state = ResultState.error;
     }
-    _message = result.message;
+    _message = result.message ?? "";
     notifyListeners();
 
+    if (result.status == 401) {
+      _state = ResultState.unauthorized;
+    }
     return result;
   }
 
@@ -60,6 +63,7 @@ class CageProvider extends ChangeNotifier {
       _cages = result;
       _stateCages = ResultState.hasData;
     }
+
     notifyListeners();
   }
 
@@ -69,7 +73,7 @@ class CageProvider extends ChangeNotifier {
 
     final result = await repository.getCageById(id);
 
-    if (result.name.isNotEmpty) {
+    if (result.name?.isNotEmpty ?? true) {
       _cage = result;
       _stateCage = ResultState.hasData;
     } else {
@@ -77,6 +81,9 @@ class CageProvider extends ChangeNotifier {
       _stateCage = ResultState.error;
     }
 
+    if (result.status == 401) {
+      _stateCage = ResultState.unauthorized;
+    }
     notifyListeners();
   }
 

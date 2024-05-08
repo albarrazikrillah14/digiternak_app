@@ -3,6 +3,7 @@ import 'package:digiternak_app/common/utils/mapper/mapper.dart';
 import 'package:digiternak_app/data/model/livestock/request/livestock_request.dart';
 import 'package:digiternak_app/data/model/livestock/response/data/livestock_data.dart';
 import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/home/home_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
@@ -46,6 +47,10 @@ class _UpdateLivestockScreenState extends State<UpdateLivestockScreen> {
 
     provider = context.read<LivestockProvider>();
     provider.getKandang();
+
+    if (provider.kandangState == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -68,6 +73,16 @@ class _UpdateLivestockScreenState extends State<UpdateLivestockScreen> {
         child: Consumer<LivestockProvider>(
           builder: (context, provider, child) {
             switch (provider.kandangState) {
+              case ResultState.unauthorized:
+                return Center(
+                  child: PrimaryButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, LoginScreen.routeName);
+                    },
+                    title: "Masuk Kembali",
+                  ),
+                );
               case ResultState.loading:
                 return const Center(
                   child: CircularProgressIndicator(
@@ -76,7 +91,7 @@ class _UpdateLivestockScreenState extends State<UpdateLivestockScreen> {
                 );
               case ResultState.hasData:
                 final List<int> typeOfLivestockList = [1, 2];
-                List<int> cageIdList = provider.kandang.data.map((value) {
+                List<int?> cageIdList = provider.kandang.data.map((value) {
                   return value.id;
                 }).toList();
 
@@ -163,8 +178,10 @@ class _UpdateLivestockScreenState extends State<UpdateLivestockScreen> {
                               return DropdownMenuItem(
                                   value: e,
                                   child: Text(cage.data
-                                      .firstWhere((element) => element.id == e)
-                                      .name));
+                                          .firstWhere(
+                                              (element) => element.id == e)
+                                          .name ??
+                                      ""));
                             }).toList(),
                             onChanged: (value) {
                               setState(() {

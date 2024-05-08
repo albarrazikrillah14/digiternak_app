@@ -7,7 +7,10 @@ part 'create_livestock_response.freezed.dart';
 @freezed
 class CreateLivestockResponse with _$CreateLivestockResponse {
   factory CreateLivestockResponse({
-    required String message,
+    required String? name,
+    required int? code,
+    required int? status,
+    required String? message,
     required bool error,
     required LivestockData data,
   }) = _CreateLivestockResponse;

@@ -21,7 +21,10 @@ CreateLivestockResponse _$CreateLivestockResponseFromJson(
 
 /// @nodoc
 mixin _$CreateLivestockResponse {
-  String get message => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  int? get code => throw _privateConstructorUsedError;
+  int? get status => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
   LivestockData get data => throw _privateConstructorUsedError;
 
@@ -37,7 +40,13 @@ abstract class $CreateLivestockResponseCopyWith<$Res> {
           $Res Function(CreateLivestockResponse) then) =
       _$CreateLivestockResponseCopyWithImpl<$Res, CreateLivestockResponse>;
   @useResult
-  $Res call({String message, bool error, LivestockData data});
+  $Res call(
+      {String? name,
+      int? code,
+      int? status,
+      String? message,
+      bool error,
+      LivestockData data});
 
   $LivestockDataCopyWith<$Res> get data;
 }
@@ -56,15 +65,30 @@ class _$CreateLivestockResponseCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = null,
+    Object? name = freezed,
+    Object? code = freezed,
+    Object? status = freezed,
+    Object? message = freezed,
     Object? error = null,
     Object? data = null,
   }) {
     return _then(_value.copyWith(
-      message: null == message
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -94,7 +118,13 @@ abstract class _$$CreateLivestockResponseImplCopyWith<$Res>
       __$$CreateLivestockResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String message, bool error, LivestockData data});
+  $Res call(
+      {String? name,
+      int? code,
+      int? status,
+      String? message,
+      bool error,
+      LivestockData data});
 
   @override
   $LivestockDataCopyWith<$Res> get data;
@@ -113,15 +143,30 @@ class __$$CreateLivestockResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = null,
+    Object? name = freezed,
+    Object? code = freezed,
+    Object? status = freezed,
+    Object? message = freezed,
     Object? error = null,
     Object? data = null,
   }) {
     return _then(_$CreateLivestockResponseImpl(
-      message: null == message
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -138,13 +183,24 @@ class __$$CreateLivestockResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateLivestockResponseImpl implements _CreateLivestockResponse {
   _$CreateLivestockResponseImpl(
-      {required this.message, required this.error, required this.data});
+      {required this.name,
+      required this.code,
+      required this.status,
+      required this.message,
+      required this.error,
+      required this.data});
 
   factory _$CreateLivestockResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateLivestockResponseImplFromJson(json);
 
   @override
-  final String message;
+  final String? name;
+  @override
+  final int? code;
+  @override
+  final int? status;
+  @override
+  final String? message;
   @override
   final bool error;
   @override
@@ -152,7 +208,7 @@ class _$CreateLivestockResponseImpl implements _CreateLivestockResponse {
 
   @override
   String toString() {
-    return 'CreateLivestockResponse(message: $message, error: $error, data: $data)';
+    return 'CreateLivestockResponse(name: $name, code: $code, status: $status, message: $message, error: $error, data: $data)';
   }
 
   @override
@@ -160,6 +216,9 @@ class _$CreateLivestockResponseImpl implements _CreateLivestockResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateLivestockResponseImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.data, data) || other.data == data));
@@ -167,7 +226,8 @@ class _$CreateLivestockResponseImpl implements _CreateLivestockResponse {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, message, error, data);
+  int get hashCode =>
+      Object.hash(runtimeType, name, code, status, message, error, data);
 
   @JsonKey(ignore: true)
   @override
@@ -186,7 +246,10 @@ class _$CreateLivestockResponseImpl implements _CreateLivestockResponse {
 
 abstract class _CreateLivestockResponse implements CreateLivestockResponse {
   factory _CreateLivestockResponse(
-      {required final String message,
+      {required final String? name,
+      required final int? code,
+      required final int? status,
+      required final String? message,
       required final bool error,
       required final LivestockData data}) = _$CreateLivestockResponseImpl;
 
@@ -194,7 +257,13 @@ abstract class _CreateLivestockResponse implements CreateLivestockResponse {
       _$CreateLivestockResponseImpl.fromJson;
 
   @override
-  String get message;
+  String? get name;
+  @override
+  int? get code;
+  @override
+  int? get status;
+  @override
+  String? get message;
   @override
   bool get error;
   @override

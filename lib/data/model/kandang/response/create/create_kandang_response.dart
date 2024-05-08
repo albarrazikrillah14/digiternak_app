@@ -6,7 +6,10 @@ part 'create_kandang_response.g.dart';
 @freezed
 class CreateKandangResponse with _$CreateKandangResponse {
   factory CreateKandangResponse({
-    required String message,
+    required String? name,
+    required String? message,
+    required int? code,
+    required int? status,
     required bool error,
   }) = _CreateKandangResponse;
 

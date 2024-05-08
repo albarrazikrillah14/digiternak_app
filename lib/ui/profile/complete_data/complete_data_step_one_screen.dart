@@ -1,6 +1,8 @@
+import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/common/utils/mapper/mapper.dart';
 import 'package:digiternak_app/data/model/profile/request/profile_request.dart';
 import 'package:digiternak_app/provider/profile/profile_provider.dart';
+import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/home/home_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
@@ -33,6 +35,9 @@ class _CompleteDataStepOneScreenState extends State<CompleteDataStepOneScreen> {
   void initState() {
     super.initState();
     provider = context.read<ProfileProvider>();
+    if (provider.state == ResultState.unauthorized) {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -49,6 +54,17 @@ class _CompleteDataStepOneScreenState extends State<CompleteDataStepOneScreen> {
       value: provider,
       child: Consumer<ProfileProvider>(
         builder: (context, provider, child) {
+          if (provider.state == ResultState.unauthorized) {
+            return Center(
+              child: PrimaryButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
+                      context, LoginScreen.routeName);
+                },
+                title: "Masuk Kembali",
+              ),
+            );
+          }
           return BaseScreen(
             title: "Lengkapi Data",
             isHasBackButton: true,
@@ -209,8 +225,8 @@ class _CompleteDataStepOneScreenState extends State<CompleteDataStepOneScreen> {
                               final result =
                                   await provider.editProfile(request);
 
-                              scaffoldMessanger.showSnackBar(
-                                  SnackBar(content: Text(result.message)));
+                              scaffoldMessanger.showSnackBar(SnackBar(
+                                  content: Text(result.message ?? "")));
                               if (result.error == false) {
                                 Navigator.popAndPushNamed(
                                     context, HomeScreen.routeName);

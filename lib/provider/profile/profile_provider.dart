@@ -30,7 +30,7 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
     final result = await profileRepository.getProfile();
 
-    if (result.username.isEmpty) {
+    if (result.username?.isEmpty ?? true) {
       _state = ResultState.noData;
       _error = true;
       _message = 'Data not found';
@@ -39,6 +39,10 @@ class ProfileProvider extends ChangeNotifier {
       _state = ResultState.hasData;
       _data = result;
       _error = false;
+      notifyListeners();
+    }
+    if (result.status == 401) {
+      _state = ResultState.unauthorized;
       notifyListeners();
     }
   }
@@ -55,9 +59,14 @@ class ProfileProvider extends ChangeNotifier {
     } else {
       _state = ResultState.error;
       _error = true;
-      _message = result.message;
+      _message = result.message ?? "";
       notifyListeners();
     }
+
+    if (result.status == 401) {
+      _state = ResultState.unauthorized;
+    }
+    notifyListeners();
 
     return result;
   }

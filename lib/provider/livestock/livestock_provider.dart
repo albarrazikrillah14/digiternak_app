@@ -82,7 +82,7 @@ class LivestockProvider extends ChangeNotifier {
 
     final result = await repository.getAllLivestock();
     if (result.error == true) {
-      _message = result.message;
+      _message = result.message ?? "";
       _stateAllLivestock = ResultState.error;
     } else {
       _stateAllLivestock = ResultState.hasData;
@@ -110,6 +110,10 @@ class LivestockProvider extends ChangeNotifier {
       _message = "Berhasil Menghapus Ternak";
     }
 
+    if (result.status == 401) {
+      _deletState = ResultState.unauthorized;
+    }
+
     notifyListeners();
   }
 
@@ -121,11 +125,14 @@ class LivestockProvider extends ChangeNotifier {
     final result = await repository.editLivestockById(request, livestockId);
 
     if (result.error) {
-      _message = result.message;
+      _message = result.message ?? "";
       _updateState = ResultState.error;
     } else {
-      _message = result.message;
+      _message = result.message ?? "";
       _updateState = ResultState.hasData;
+    }
+    if (result.status == 401) {
+      _updateState = ResultState.unauthorized;
     }
     notifyListeners();
   }
