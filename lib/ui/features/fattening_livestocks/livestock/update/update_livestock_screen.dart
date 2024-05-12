@@ -6,6 +6,8 @@ import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
 import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/home/home_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/error_widget.dart';
+import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -47,10 +49,6 @@ class _UpdateLivestockScreenState extends State<UpdateLivestockScreen> {
 
     provider = context.read<LivestockProvider>();
     provider.getKandang();
-
-    if (provider.kandangState == ResultState.unauthorized) {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    }
   }
 
   @override
@@ -74,26 +72,17 @@ class _UpdateLivestockScreenState extends State<UpdateLivestockScreen> {
           builder: (context, provider, child) {
             switch (provider.kandangState) {
               case ResultState.unauthorized:
-                return Center(
-                  child: PrimaryButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, LoginScreen.routeName);
-                    },
-                    title: "Masuk Kembali",
-                  ),
-                );
+                return errorWidget(
+                    context: context, type: ErrorType.unauthorization);
               case ResultState.loading:
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.blue,
-                  ),
-                );
+                return loadingScreen();
               case ResultState.hasData:
                 final List<int> typeOfLivestockList = [1, 2];
-                List<int?> cageIdList = provider.kandang.data.map((value) {
+                List<int?> cageIdList = provider.kandang.data!.map((value) {
                   return value.id;
                 }).toList();
+
+                selectedCageId = provider.kandang.data?[0].id ?? 0;
 
                 final cage = provider.kandang;
                 List<int> breedOfLivestockIdList = [1, 2];
@@ -177,7 +166,7 @@ class _UpdateLivestockScreenState extends State<UpdateLivestockScreen> {
                             items: cageIdList.map((e) {
                               return DropdownMenuItem(
                                   value: e,
-                                  child: Text(cage.data
+                                  child: Text(cage.data!
                                           .firstWhere(
                                               (element) => element.id == e)
                                           .name ??

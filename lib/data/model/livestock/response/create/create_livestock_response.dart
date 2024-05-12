@@ -12,7 +12,8 @@ class CreateLivestockResponse with _$CreateLivestockResponse {
     required int? status,
     required String? message,
     required bool error,
-    required LivestockData data,
+    required LivestockData? data,
+    required List<String>? details,
   }) = _CreateLivestockResponse;
 
   factory CreateLivestockResponse.fromJson(Map<String, dynamic> json) =>

@@ -13,7 +13,7 @@ _$LivestockResponseImpl _$$LivestockResponseImplFromJson(
       message: json['message'] as String?,
       code: (json['code'] as num?)?.toInt(),
       status: (json['status'] as num?)?.toInt(),
-      error: json['error'] as bool,
+      error: json['error'] as bool?,
       data: (json['data'] as List<dynamic>?)
           ?.map((e) => LivestockData.fromJson(e as Map<String, dynamic>))
           .toList(),

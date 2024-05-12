@@ -10,7 +10,8 @@ class BaseModel with _$BaseModel {
     required String? message,
     required int? code,
     required int? status,
-    required bool error,
+    required bool? error,
+    required List<String>? details,
   }) = _BaseModel;
 
   factory BaseModel.fromJson(Map<String, dynamic> json) =>

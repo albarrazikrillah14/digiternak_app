@@ -13,8 +13,12 @@ _$LivestockUploadImageResponseImpl _$$LivestockUploadImageResponseImplFromJson(
       code: (json['code'] as num?)?.toInt(),
       status: (json['status'] as num?)?.toInt(),
       message: json['message'] as String?,
-      error: json['error'] as bool,
-      data: UploadData.fromJson(json['data'] as Map<String, dynamic>),
+      error: json['error'] as bool?,
+      data: json['data'] == null
+          ? null
+          : UploadData.fromJson(json['data'] as Map<String, dynamic>),
+      details:
+          (json['details'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$LivestockUploadImageResponseImplToJson(
@@ -26,4 +30,5 @@ Map<String, dynamic> _$$LivestockUploadImageResponseImplToJson(
       'message': instance.message,
       'error': instance.error,
       'data': instance.data,
+      'details': instance.details,
     };

@@ -24,21 +24,8 @@ mixin _$ProfileResponse {
   String? get message => throw _privateConstructorUsedError;
   int? get code => throw _privateConstructorUsedError;
   int? get status => throw _privateConstructorUsedError;
-  int? get id => throw _privateConstructorUsedError;
-  String? get username => throw _privateConstructorUsedError;
-  String? get email => throw _privateConstructorUsedError;
-  @JsonKey(name: 'gender_id')
-  int? get gender => throw _privateConstructorUsedError;
-  String? get nik => throw _privateConstructorUsedError;
-  @JsonKey(name: 'full_name')
-  String? get fullName => throw _privateConstructorUsedError;
-  String? get birthdate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'phone_number')
-  String? get phoneNumber => throw _privateConstructorUsedError;
-  String? get address => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_completed')
-  bool? get isCompleted => throw _privateConstructorUsedError;
-  RegisterRole? get role => throw _privateConstructorUsedError;
+  bool? get error => throw _privateConstructorUsedError;
+  ProfileData? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -57,19 +44,10 @@ abstract class $ProfileResponseCopyWith<$Res> {
       String? message,
       int? code,
       int? status,
-      int? id,
-      String? username,
-      String? email,
-      @JsonKey(name: 'gender_id') int? gender,
-      String? nik,
-      @JsonKey(name: 'full_name') String? fullName,
-      String? birthdate,
-      @JsonKey(name: 'phone_number') String? phoneNumber,
-      String? address,
-      @JsonKey(name: 'is_completed') bool? isCompleted,
-      RegisterRole? role});
+      bool? error,
+      ProfileData? data});
 
-  $RegisterRoleCopyWith<$Res>? get role;
+  $ProfileDataCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -89,17 +67,8 @@ class _$ProfileResponseCopyWithImpl<$Res, $Val extends ProfileResponse>
     Object? message = freezed,
     Object? code = freezed,
     Object? status = freezed,
-    Object? id = freezed,
-    Object? username = freezed,
-    Object? email = freezed,
-    Object? gender = freezed,
-    Object? nik = freezed,
-    Object? fullName = freezed,
-    Object? birthdate = freezed,
-    Object? phoneNumber = freezed,
-    Object? address = freezed,
-    Object? isCompleted = freezed,
-    Object? role = freezed,
+    Object? error = freezed,
+    Object? data = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
@@ -118,62 +87,26 @@ class _$ProfileResponseCopyWithImpl<$Res, $Val extends ProfileResponse>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as int?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      username: freezed == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gender: freezed == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as int?,
-      nik: freezed == nik
-          ? _value.nik
-          : nik // ignore: cast_nullable_to_non_nullable
-              as String?,
-      fullName: freezed == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      birthdate: freezed == birthdate
-          ? _value.birthdate
-          : birthdate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phoneNumber: freezed == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isCompleted: freezed == isCompleted
-          ? _value.isCompleted
-          : isCompleted // ignore: cast_nullable_to_non_nullable
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
               as bool?,
-      role: freezed == role
-          ? _value.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as RegisterRole?,
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as ProfileData?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $RegisterRoleCopyWith<$Res>? get role {
-    if (_value.role == null) {
+  $ProfileDataCopyWith<$Res>? get data {
+    if (_value.data == null) {
       return null;
     }
 
-    return $RegisterRoleCopyWith<$Res>(_value.role!, (value) {
-      return _then(_value.copyWith(role: value) as $Val);
+    return $ProfileDataCopyWith<$Res>(_value.data!, (value) {
+      return _then(_value.copyWith(data: value) as $Val);
     });
   }
 }
@@ -191,20 +124,11 @@ abstract class _$$ProfileResponseImplCopyWith<$Res>
       String? message,
       int? code,
       int? status,
-      int? id,
-      String? username,
-      String? email,
-      @JsonKey(name: 'gender_id') int? gender,
-      String? nik,
-      @JsonKey(name: 'full_name') String? fullName,
-      String? birthdate,
-      @JsonKey(name: 'phone_number') String? phoneNumber,
-      String? address,
-      @JsonKey(name: 'is_completed') bool? isCompleted,
-      RegisterRole? role});
+      bool? error,
+      ProfileData? data});
 
   @override
-  $RegisterRoleCopyWith<$Res>? get role;
+  $ProfileDataCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -222,17 +146,8 @@ class __$$ProfileResponseImplCopyWithImpl<$Res>
     Object? message = freezed,
     Object? code = freezed,
     Object? status = freezed,
-    Object? id = freezed,
-    Object? username = freezed,
-    Object? email = freezed,
-    Object? gender = freezed,
-    Object? nik = freezed,
-    Object? fullName = freezed,
-    Object? birthdate = freezed,
-    Object? phoneNumber = freezed,
-    Object? address = freezed,
-    Object? isCompleted = freezed,
-    Object? role = freezed,
+    Object? error = freezed,
+    Object? data = freezed,
   }) {
     return _then(_$ProfileResponseImpl(
       name: freezed == name
@@ -251,50 +166,14 @@ class __$$ProfileResponseImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as int?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      username: freezed == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gender: freezed == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as int?,
-      nik: freezed == nik
-          ? _value.nik
-          : nik // ignore: cast_nullable_to_non_nullable
-              as String?,
-      fullName: freezed == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      birthdate: freezed == birthdate
-          ? _value.birthdate
-          : birthdate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phoneNumber: freezed == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isCompleted: freezed == isCompleted
-          ? _value.isCompleted
-          : isCompleted // ignore: cast_nullable_to_non_nullable
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
               as bool?,
-      role: freezed == role
-          ? _value.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as RegisterRole?,
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as ProfileData?,
     ));
   }
 }
@@ -307,17 +186,8 @@ class _$ProfileResponseImpl implements _ProfileResponse {
       required this.message,
       required this.code,
       required this.status,
-      required this.id,
-      required this.username,
-      required this.email,
-      @JsonKey(name: 'gender_id') required this.gender,
-      required this.nik,
-      @JsonKey(name: 'full_name') required this.fullName,
-      required this.birthdate,
-      @JsonKey(name: 'phone_number') required this.phoneNumber,
-      required this.address,
-      @JsonKey(name: 'is_completed') required this.isCompleted,
-      required this.role});
+      required this.error,
+      required this.data});
 
   factory _$ProfileResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProfileResponseImplFromJson(json);
@@ -331,35 +201,13 @@ class _$ProfileResponseImpl implements _ProfileResponse {
   @override
   final int? status;
   @override
-  final int? id;
+  final bool? error;
   @override
-  final String? username;
-  @override
-  final String? email;
-  @override
-  @JsonKey(name: 'gender_id')
-  final int? gender;
-  @override
-  final String? nik;
-  @override
-  @JsonKey(name: 'full_name')
-  final String? fullName;
-  @override
-  final String? birthdate;
-  @override
-  @JsonKey(name: 'phone_number')
-  final String? phoneNumber;
-  @override
-  final String? address;
-  @override
-  @JsonKey(name: 'is_completed')
-  final bool? isCompleted;
-  @override
-  final RegisterRole? role;
+  final ProfileData? data;
 
   @override
   String toString() {
-    return 'ProfileResponse(name: $name, message: $message, code: $code, status: $status, id: $id, username: $username, email: $email, gender: $gender, nik: $nik, fullName: $fullName, birthdate: $birthdate, phoneNumber: $phoneNumber, address: $address, isCompleted: $isCompleted, role: $role)';
+    return 'ProfileResponse(name: $name, message: $message, code: $code, status: $status, error: $error, data: $data)';
   }
 
   @override
@@ -371,43 +219,14 @@ class _$ProfileResponseImpl implements _ProfileResponse {
             (identical(other.message, message) || other.message == message) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.username, username) ||
-                other.username == username) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.gender, gender) || other.gender == gender) &&
-            (identical(other.nik, nik) || other.nik == nik) &&
-            (identical(other.fullName, fullName) ||
-                other.fullName == fullName) &&
-            (identical(other.birthdate, birthdate) ||
-                other.birthdate == birthdate) &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                other.phoneNumber == phoneNumber) &&
-            (identical(other.address, address) || other.address == address) &&
-            (identical(other.isCompleted, isCompleted) ||
-                other.isCompleted == isCompleted) &&
-            (identical(other.role, role) || other.role == role));
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.data, data) || other.data == data));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      name,
-      message,
-      code,
-      status,
-      id,
-      username,
-      email,
-      gender,
-      nik,
-      fullName,
-      birthdate,
-      phoneNumber,
-      address,
-      isCompleted,
-      role);
+  int get hashCode =>
+      Object.hash(runtimeType, name, message, code, status, error, data);
 
   @JsonKey(ignore: true)
   @override
@@ -430,17 +249,8 @@ abstract class _ProfileResponse implements ProfileResponse {
       required final String? message,
       required final int? code,
       required final int? status,
-      required final int? id,
-      required final String? username,
-      required final String? email,
-      @JsonKey(name: 'gender_id') required final int? gender,
-      required final String? nik,
-      @JsonKey(name: 'full_name') required final String? fullName,
-      required final String? birthdate,
-      @JsonKey(name: 'phone_number') required final String? phoneNumber,
-      required final String? address,
-      @JsonKey(name: 'is_completed') required final bool? isCompleted,
-      required final RegisterRole? role}) = _$ProfileResponseImpl;
+      required final bool? error,
+      required final ProfileData? data}) = _$ProfileResponseImpl;
 
   factory _ProfileResponse.fromJson(Map<String, dynamic> json) =
       _$ProfileResponseImpl.fromJson;
@@ -454,31 +264,9 @@ abstract class _ProfileResponse implements ProfileResponse {
   @override
   int? get status;
   @override
-  int? get id;
+  bool? get error;
   @override
-  String? get username;
-  @override
-  String? get email;
-  @override
-  @JsonKey(name: 'gender_id')
-  int? get gender;
-  @override
-  String? get nik;
-  @override
-  @JsonKey(name: 'full_name')
-  String? get fullName;
-  @override
-  String? get birthdate;
-  @override
-  @JsonKey(name: 'phone_number')
-  String? get phoneNumber;
-  @override
-  String? get address;
-  @override
-  @JsonKey(name: 'is_completed')
-  bool? get isCompleted;
-  @override
-  RegisterRole? get role;
+  ProfileData? get data;
   @override
   @JsonKey(ignore: true)
   _$$ProfileResponseImplCopyWith<_$ProfileResponseImpl> get copyWith =>

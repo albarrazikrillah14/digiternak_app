@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/provider/upload/upload_provider.dart';
-import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/home/home_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/error_widget.dart';
+import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
+import 'package:digiternak_app/widget/snackbar_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,8 +20,7 @@ class UploadScreen extends StatefulWidget {
   final UploadType type;
   final String id;
 
-  const UploadScreen({Key? key, required this.type, required this.id})
-      : super(key: key);
+  const UploadScreen({super.key, required this.type, required this.id});
 
   @override
   State<UploadScreen> createState() => _UploadScreenState();
@@ -34,10 +35,6 @@ class _UploadScreenState extends State<UploadScreen> {
 
     provider = context.read<UploadProvider>();
     provider.setUploadState();
-
-    if (provider.uploadState == ResultState.unauthorized) {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    }
   }
 
   @override
@@ -49,12 +46,11 @@ class _UploadScreenState extends State<UploadScreen> {
           child: Consumer<UploadProvider>(
             builder: (context, provider, child) {
               switch (provider.uploadState) {
+                case ResultState.unauthorized:
+                  return errorWidget(
+                      context: context, type: ErrorType.unauthorization);
                 case ResultState.loading:
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.blue,
-                    ),
-                  );
+                  return loadingScreen();
                 case ResultState.hasData:
                   return Center(
                     child: Column(
@@ -69,17 +65,20 @@ class _UploadScreenState extends State<UploadScreen> {
                         ),
                         PrimaryButton(
                             onPressed: () {
-                              Navigator.popAndPushNamed(
-                                  context, HomeScreen.routeName);
+                              Navigator.pushNamedAndRemoveUntil(context,
+                                  HomeScreen.routeName, (route) => false);
                             },
                             title: "Selesai")
                       ],
                     ),
                   );
                 case ResultState.error:
-                  return const Center(
-                    child: Text("Terjadi kesalahan"),
-                  );
+                  return errorWidget(
+                      context: context,
+                      message: provider.message,
+                      onPress: () {
+                        provider.setUploadState();
+                      });
                 case ResultState.noData:
                   return SingleChildScrollView(
                     child: Column(
@@ -131,19 +130,11 @@ class _UploadScreenState extends State<UploadScreen> {
                         PrimaryButton(
                             onPressed: () async {
                               await _onUpload(widget.type, widget.id);
+                              snackBar(
+                                  context: context, message: provider.message);
                             },
                             title: "Unggah")
                       ],
-                    ),
-                  );
-                case ResultState.unauthorized:
-                  return Center(
-                    child: PrimaryButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, LoginScreen.routeName);
-                      },
-                      title: "Masuk Kembali",
                     ),
                   );
               }

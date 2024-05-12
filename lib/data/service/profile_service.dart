@@ -26,9 +26,7 @@ class ProfileService {
         },
         body: jsonEncode(request));
     final result = EditProfileResponse.fromJson(jsonDecode(response.body));
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
+
     return result;
   }
 
@@ -43,9 +41,6 @@ class ProfileService {
     );
 
     final result = ProfileResponse.fromJson(jsonDecode(response.body));
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
     return result;
   }
 }

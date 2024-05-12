@@ -11,7 +11,7 @@ class LivestockResponse with _$LivestockResponse {
     required String? message,
     required int? code,
     required int? status,
-    required bool error,
+    required bool? error,
     required List<LivestockData>? data,
   }) = _LivestockResponse;
 

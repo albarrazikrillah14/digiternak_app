@@ -1,4 +1,5 @@
 import 'package:digiternak_app/data/model/auth/register/response/data/role/register_role.dart';
+import 'package:digiternak_app/data/model/profile/data/profile_data.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'profile_response.g.dart';
@@ -11,17 +12,8 @@ class ProfileResponse with _$ProfileResponse {
     required String? message,
     required int? code,
     required int? status,
-    required int? id,
-    required String? username,
-    required String? email,
-    @JsonKey(name: 'gender_id') required int? gender,
-    required String? nik,
-    @JsonKey(name: 'full_name') required String? fullName,
-    required String? birthdate,
-    @JsonKey(name: 'phone_number') required String? phoneNumber,
-    required String? address,
-    @JsonKey(name: 'is_completed') required bool? isCompleted,
-    required RegisterRole? role,
+    required bool? error,
+    required ProfileData? data,
   }) = _ProfileResponse;
 
   factory ProfileResponse.fromJson(Map<String, dynamic> json) =>

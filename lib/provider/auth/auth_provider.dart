@@ -63,15 +63,20 @@ class AuthProvider extends ChangeNotifier {
 
     final result = await authService.register(request);
 
-    _error = result.error;
+    _error = result.error ?? false;
     if (!_error) {
       _state = ResultState.hasData;
     } else {
       _state = ResultState.error;
+      _message = result.details ?? "";
     }
 
-    _message = result.message;
     notifyListeners();
     return result;
+  }
+
+  void setState() {
+    _state = ResultState.noData;
+    notifyListeners();
   }
 }

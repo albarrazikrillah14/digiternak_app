@@ -7,7 +7,7 @@ class FeatureItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 72,
+      height: 80,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -21,8 +21,8 @@ class FeatureItemWidget extends StatelessWidget {
             child: Center(
               child: Image.asset(
                 data.image,
-                width: 32,
-                height: 32,
+                width: 48,
+                height: 48,
               ),
             ),
           ),
@@ -32,7 +32,7 @@ class FeatureItemWidget extends StatelessWidget {
           Text(
             data.featureName,
             style: const TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 10, color: Colors.black),
+                fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black),
           )
         ],
       ),

@@ -13,19 +13,10 @@ _$ProfileResponseImpl _$$ProfileResponseImplFromJson(
       message: json['message'] as String?,
       code: (json['code'] as num?)?.toInt(),
       status: (json['status'] as num?)?.toInt(),
-      id: (json['id'] as num?)?.toInt(),
-      username: json['username'] as String?,
-      email: json['email'] as String?,
-      gender: (json['gender_id'] as num?)?.toInt(),
-      nik: json['nik'] as String?,
-      fullName: json['full_name'] as String?,
-      birthdate: json['birthdate'] as String?,
-      phoneNumber: json['phone_number'] as String?,
-      address: json['address'] as String?,
-      isCompleted: json['is_completed'] as bool?,
-      role: json['role'] == null
+      error: json['error'] as bool?,
+      data: json['data'] == null
           ? null
-          : RegisterRole.fromJson(json['role'] as Map<String, dynamic>),
+          : ProfileData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ProfileResponseImplToJson(
@@ -35,15 +26,6 @@ Map<String, dynamic> _$$ProfileResponseImplToJson(
       'message': instance.message,
       'code': instance.code,
       'status': instance.status,
-      'id': instance.id,
-      'username': instance.username,
-      'email': instance.email,
-      'gender_id': instance.gender,
-      'nik': instance.nik,
-      'full_name': instance.fullName,
-      'birthdate': instance.birthdate,
-      'phone_number': instance.phoneNumber,
-      'address': instance.address,
-      'is_completed': instance.isCompleted,
-      'role': instance.role,
+      'error': instance.error,
+      'data': instance.data,
     };

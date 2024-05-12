@@ -25,8 +25,9 @@ mixin _$LivestockUploadImageResponse {
   int? get code => throw _privateConstructorUsedError;
   int? get status => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
-  bool get error => throw _privateConstructorUsedError;
-  UploadData get data => throw _privateConstructorUsedError;
+  bool? get error => throw _privateConstructorUsedError;
+  UploadData? get data => throw _privateConstructorUsedError;
+  List<String>? get details => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,10 +48,11 @@ abstract class $LivestockUploadImageResponseCopyWith<$Res> {
       int? code,
       int? status,
       String? message,
-      bool error,
-      UploadData data});
+      bool? error,
+      UploadData? data,
+      List<String>? details});
 
-  $UploadDataCopyWith<$Res> get data;
+  $UploadDataCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -71,8 +73,9 @@ class _$LivestockUploadImageResponseCopyWithImpl<$Res,
     Object? code = freezed,
     Object? status = freezed,
     Object? message = freezed,
-    Object? error = null,
-    Object? data = null,
+    Object? error = freezed,
+    Object? data = freezed,
+    Object? details = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
@@ -91,21 +94,29 @@ class _$LivestockUploadImageResponseCopyWithImpl<$Res,
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      error: null == error
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      data: null == data
+              as bool?,
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as UploadData,
+              as UploadData?,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UploadDataCopyWith<$Res> get data {
-    return $UploadDataCopyWith<$Res>(_value.data, (value) {
+  $UploadDataCopyWith<$Res>? get data {
+    if (_value.data == null) {
+      return null;
+    }
+
+    return $UploadDataCopyWith<$Res>(_value.data!, (value) {
       return _then(_value.copyWith(data: value) as $Val);
     });
   }
@@ -125,11 +136,12 @@ abstract class _$$LivestockUploadImageResponseImplCopyWith<$Res>
       int? code,
       int? status,
       String? message,
-      bool error,
-      UploadData data});
+      bool? error,
+      UploadData? data,
+      List<String>? details});
 
   @override
-  $UploadDataCopyWith<$Res> get data;
+  $UploadDataCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -149,8 +161,9 @@ class __$$LivestockUploadImageResponseImplCopyWithImpl<$Res>
     Object? code = freezed,
     Object? status = freezed,
     Object? message = freezed,
-    Object? error = null,
-    Object? data = null,
+    Object? error = freezed,
+    Object? data = freezed,
+    Object? details = freezed,
   }) {
     return _then(_$LivestockUploadImageResponseImpl(
       name: freezed == name
@@ -169,14 +182,18 @@ class __$$LivestockUploadImageResponseImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      error: null == error
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      data: null == data
+              as bool?,
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as UploadData,
+              as UploadData?,
+      details: freezed == details
+          ? _value._details
+          : details // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -191,7 +208,9 @@ class _$LivestockUploadImageResponseImpl
       required this.status,
       required this.message,
       required this.error,
-      required this.data});
+      required this.data,
+      required final List<String>? details})
+      : _details = details;
 
   factory _$LivestockUploadImageResponseImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -206,13 +225,22 @@ class _$LivestockUploadImageResponseImpl
   @override
   final String? message;
   @override
-  final bool error;
+  final bool? error;
   @override
-  final UploadData data;
+  final UploadData? data;
+  final List<String>? _details;
+  @override
+  List<String>? get details {
+    final value = _details;
+    if (value == null) return null;
+    if (_details is EqualUnmodifiableListView) return _details;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'LivestockUploadImageResponse(name: $name, code: $code, status: $status, message: $message, error: $error, data: $data)';
+    return 'LivestockUploadImageResponse(name: $name, code: $code, status: $status, message: $message, error: $error, data: $data, details: $details)';
   }
 
   @override
@@ -225,13 +253,14 @@ class _$LivestockUploadImageResponseImpl
             (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.error, error) || other.error == error) &&
-            (identical(other.data, data) || other.data == data));
+            (identical(other.data, data) || other.data == data) &&
+            const DeepCollectionEquality().equals(other._details, _details));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, code, status, message, error, data);
+  int get hashCode => Object.hash(runtimeType, name, code, status, message,
+      error, data, const DeepCollectionEquality().hash(_details));
 
   @JsonKey(ignore: true)
   @override
@@ -252,12 +281,14 @@ class _$LivestockUploadImageResponseImpl
 abstract class _LivestockUploadImageResponse
     implements LivestockUploadImageResponse {
   factory _LivestockUploadImageResponse(
-      {required final String? name,
-      required final int? code,
-      required final int? status,
-      required final String? message,
-      required final bool error,
-      required final UploadData data}) = _$LivestockUploadImageResponseImpl;
+          {required final String? name,
+          required final int? code,
+          required final int? status,
+          required final String? message,
+          required final bool? error,
+          required final UploadData? data,
+          required final List<String>? details}) =
+      _$LivestockUploadImageResponseImpl;
 
   factory _LivestockUploadImageResponse.fromJson(Map<String, dynamic> json) =
       _$LivestockUploadImageResponseImpl.fromJson;
@@ -271,9 +302,11 @@ abstract class _LivestockUploadImageResponse
   @override
   String? get message;
   @override
-  bool get error;
+  bool? get error;
   @override
-  UploadData get data;
+  UploadData? get data;
+  @override
+  List<String>? get details;
   @override
   @JsonKey(ignore: true)
   _$$LivestockUploadImageResponseImplCopyWith<

@@ -7,9 +7,13 @@ part 'register_response.freezed.dart';
 @freezed
 class RegisterResponse with _$RegisterResponse {
   factory RegisterResponse({
-    required String message,
-    required bool error,
-    required RegisterData data,
+    required String? name,
+    required int? code,
+    required int? status,
+    required String? message,
+    required bool? error,
+    required RegisterData? data,
+    required String? details,
   }) = _RegisterResponse;
 
   factory RegisterResponse.fromJson(Map<String, dynamic> json) =>

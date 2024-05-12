@@ -1,16 +1,17 @@
 import 'package:digiternak_app/common/result.dart';
-import 'package:digiternak_app/provider/home/home_provider.dart';
-import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
+import 'package:digiternak_app/data/model/cage/response/cages_response.dart';
+import 'package:digiternak_app/data/model/notes/response/notes_response.dart';
+import 'package:digiternak_app/provider/cage/cage_provider.dart';
 import 'package:digiternak_app/provider/notes/notes_provider.dart';
-import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/cage/list/list_cage_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/fattening_home_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/list/list_livestock_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/list/notes_livestock_list.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/notes/list/list_notes_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/error_widget.dart';
 import 'package:digiternak_app/widget/feature_item_widget.dart';
+import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:digiternak_app/widget/note_card_widget.dart';
-import 'package:digiternak_app/widget/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,92 +25,110 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late HomeProvider provider;
+  late CageProvider cageProvider;
+  late NotesProvider notesProvider;
 
   @override
   void initState() {
     super.initState();
-    provider = context.read<HomeProvider>();
-    provider.getKandang();
-    provider.getAllCatatan();
+    cageProvider = context.read<CageProvider>();
+    cageProvider.getAllCage();
+
+    notesProvider = context.read<NotesProvider>();
+    notesProvider.getNotesByUserId();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: provider,
-      child: Consumer<HomeProvider>(
-        builder: (context, provider, _) {
-          if (provider.state == ResultState.unauthorized ||
-              provider.stateDashboard == ResultState.unauthorized) {
-            return Center(
-              child: PrimaryButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(
-                      context, LoginScreen.routeName);
-                },
-                title: "Masuk Kembali",
-              ),
-            );
-          }
-          return BaseScreen(
-            title: "Home",
-            indexBar: 0,
-            isRoot: true,
-            state: ResultState.hasData,
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.asset(
-                              'assets/sapi${index + 1}.jpeg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                      },
-                      itemCount: 3,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  const HomeDashboardWidget(),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  HomeFeatureWidget(
-                    data: [
-                      FeatureItem(
-                          image: "assets/ic_feature.png",
-                          featureName: "Peggemukan"),
+    return BaseScreen(
+      title: "Home",
+      indexBar: 0,
+      isRoot: true,
+      body: ChangeNotifierProvider.value(
+        value: cageProvider,
+        child: Consumer<CageProvider>(
+          builder: (context, provider, child) {
+            switch (provider.stateCages) {
+              case ResultState.unauthorized:
+                return errorWidget(
+                    context: context, type: ErrorType.unauthorization);
+              case ResultState.loading:
+                return loadingScreen();
+              default:
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.asset(
+                                  'assets/sapi${index + 1}.jpeg',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          },
+                          itemCount: 3,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      (provider.cages == null)
+                          ? Container()
+                          : HomeDashboardWidget(data: provider.cages!),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      HomeFeatureWidget(
+                        data: [
+                          FeatureItem(
+                              image: "assets/ic_feature.png",
+                              featureName: "Peggemukan"),
+                        ],
+                      ),
+                      ChangeNotifierProvider.value(
+                        value: notesProvider,
+                        child: Consumer<NotesProvider>(
+                          builder: (context, provider, child) {
+                            switch (provider.state) {
+                              case ResultState.loading:
+                                return loadingScreen();
+                              case ResultState.hasData:
+                                return LastNoteWidget(
+                                  data: provider.notes,
+                                );
+                              default:
+                                return Container();
+                            }
+                          },
+                        ),
+                      )
                     ],
                   ),
-                  const LastNoteWidget(),
-                ],
-              ),
-            ),
-          );
-        },
+                );
+            }
+          },
+        ),
       ),
     );
   }
 }
 
 class LastNoteWidget extends StatefulWidget {
+  final NotesResponse data;
   const LastNoteWidget({
     super.key,
+    required this.data,
   });
 
   @override
@@ -117,100 +136,67 @@ class LastNoteWidget extends StatefulWidget {
 }
 
 class _LastNoteWidgetState extends State<LastNoteWidget> {
-  late NotesProvider provider;
-
-  @override
-  void initState() {
-    super.initState();
-
-    provider = context.read<NotesProvider>();
-    provider.getNotesByUserId();
-
-    if (provider.state == ResultState.unauthorized) {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: provider,
-      child: Consumer<NotesProvider>(
-        builder: (context, provider, child) {
-          switch (provider.state) {
-            case ResultState.loading:
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.blue,
-                ),
-              );
-            case ResultState.hasData:
-              return SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 230,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    if (widget.data.error == true) {
+      return Container();
+    }
+    if (widget.data.data?.isEmpty ?? true) {
+      return Container();
+    }
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: 230,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Catatan",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, ListNotesScreen.routeName,
+                      arguments: widget.data.data);
+                },
+                child: Row(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Catatan",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              if (provider.state == ResultState.noData) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Belum Ada Catatan")));
-                              } else {
-                                Navigator.pushNamed(
-                                    context, NotesLiveStockList.routeName,
-                                    arguments: provider.notes.data);
-                              }
-                            },
-                            child: const Row(
-                              children: [
-                                Text(
-                                  "Lihat Semuanya",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 10),
-                                ),
-                                Icon(
-                                  Icons.arrow_right,
-                                  color: Colors.black,
-                                ),
-                              ],
-                            )),
-                      ],
+                    const Text(
+                      "Lihat Semuanya",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10),
                     ),
-                    const SizedBox(
+                    Image.asset(
+                      "assets/ic_arrow_right.png",
+                      width: 16,
                       height: 16,
                     ),
-                    Expanded(
-                        child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final data = provider.notes.data[index];
-                        return NoteCardWidget(data: data);
-                      },
-                      itemCount: provider.notes.data.length > 3
-                          ? 3
-                          : provider.notes.data.length,
-                    )),
                   ],
                 ),
-              );
-
-            default:
-              return Container();
-          }
-        },
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Expanded(
+              child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final data = widget
+                  .data.data![(widget.data.data?.length ?? 0) - index - 1];
+              return NoteCardWidget(data: data);
+            },
+            itemCount:
+                widget.data.data!.length > 3 ? 3 : widget.data.data!.length,
+          )),
+        ],
       ),
     );
   }
@@ -235,7 +221,7 @@ class _HomeFeatureWidgetState extends State<HomeFeatureWidget> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
         ),
         SizedBox(
-          height: 100,
+          height: 110,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.data.length,
@@ -265,99 +251,50 @@ class _HomeFeatureWidgetState extends State<HomeFeatureWidget> {
 }
 
 class HomeDashboardWidget extends StatefulWidget {
-  const HomeDashboardWidget({super.key});
+  final CagesResponse data;
+  const HomeDashboardWidget({super.key, required this.data});
 
   @override
   State<HomeDashboardWidget> createState() => _HomeDashboardWidgetState();
 }
 
 class _HomeDashboardWidgetState extends State<HomeDashboardWidget> {
-  late HomeProvider provider;
-  late LivestockProvider livestockProvider;
-
   @override
   void initState() {
     super.initState();
-
-    provider = context.read<HomeProvider>();
-    livestockProvider = context.read<LivestockProvider>();
-    livestockProvider.getAllLivestock();
-    provider.getKandang();
-
-    if (provider.state == ResultState.unauthorized) {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: provider,
-      child: Consumer<HomeProvider>(
-        builder: (context, state, _) {
-          switch (state.state) {
-            case ResultState.loading:
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.blue,
-                ),
-              );
-
-            case ResultState.hasData:
-              return ChangeNotifierProvider.value(
-                value: livestockProvider,
-                child: Consumer<LivestockProvider>(
-                  builder: (context, provider, child) {
-                    switch (provider.stateAllLivestock) {
-                      case ResultState.loading:
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.blue,
-                          ),
-                        );
-                      case ResultState.hasData:
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, ListCageScreen.routeName,
-                                    arguments: state.kandang.data);
-                              },
-                              child: _DashboardCard(
-                                  title: "Kandang",
-                                  value: "${state.kandang.data.length} Kandang",
-                                  image: "assets/ic_kandang.png"),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, ListLivestockScreen.routeName,
-                                    arguments: provider.allLivestock.data);
-                              },
-                              child: _DashboardCard(
-                                  title: "Ternak",
-                                  value:
-                                      "${state.kandang.data.fold(0, (value, element) => value + (element.livestocks?.length ?? 0))} Ternak",
-                                  image: "assets/ic_cow.png"),
-                            )
-                          ],
-                        );
-                      default:
-                        return Container(
-                          child: Text(provider.message),
-                        );
-                    }
-                  },
-                ),
-              );
-
-            default:
-              return Container();
-          }
-        },
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              ListCageScreen.routeName,
+            );
+          },
+          child: _DashboardCard(
+              title: "Kandang",
+              value: "${widget.data.data?.length ?? 0} Kandang",
+              image: "assets/ic_kandang.png"),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              ListLivestockScreen.routeName,
+            );
+          },
+          child: _DashboardCard(
+              title: "Ternak",
+              value:
+                  "${widget.data.data!.fold(0, (value, element) => value + (element.livestocks?.length ?? 0))} Ternak",
+              image: "assets/ic_cow.png"),
+        )
+      ],
     );
   }
 

@@ -1,4 +1,3 @@
-import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/ui/home/home_screen.dart';
 import 'package:digiternak_app/ui/profile/profile_screen.dart';
 import 'package:digiternak_app/widget/qr_widget.dart';
@@ -10,7 +9,6 @@ class BaseScreen extends StatefulWidget {
   final bool isHasBackButton;
   final int indexBar;
   final bool isRoot;
-  final ResultState state;
   final bool isHasAppBar;
   const BaseScreen({
     super.key,
@@ -19,7 +17,6 @@ class BaseScreen extends StatefulWidget {
     required this.body,
     this.indexBar = 0,
     this.isRoot = false,
-    this.state = ResultState.noData,
     this.isHasAppBar = true,
   });
 
@@ -72,23 +69,7 @@ class _BaseScreenState extends State<BaseScreen> {
           ),
           color: Color.fromRGBO(240, 242, 245, 1),
         ),
-        child: (() {
-          switch (widget.state) {
-            case ResultState.hasData:
-              return widget.body;
-            case ResultState.noData:
-              return widget.body;
-            case ResultState.error:
-              return const Center(child: Text('Terjadi Kesahalan'));
-            case ResultState.loading:
-              return const Center(
-                  child: CircularProgressIndicator(
-                color: Colors.black,
-              ));
-            default:
-              return Container();
-          }
-        })(),
+        child: widget.body,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: widget.isRoot
@@ -121,21 +102,23 @@ class _BaseScreenState extends State<BaseScreen> {
               onTap: (index) {
                 switch (index) {
                   case 0:
-                    Navigator.pushReplacement(
+                    Navigator.pushAndRemoveUntil(
                       context,
                       PageRouteBuilder(
                         pageBuilder: (_, __, ___) => const HomeScreen(),
                         transitionDuration: const Duration(seconds: 0),
                       ),
+                      (route) => false,
                     );
                     break;
                   case 1:
-                    Navigator.pushReplacement(
+                    Navigator.pushAndRemoveUntil(
                       context,
                       PageRouteBuilder(
                         pageBuilder: (_, __, ___) => const ProfileScreen(),
                         transitionDuration: const Duration(seconds: 0),
                       ),
+                      (route) => false,
                     );
                     break;
                   default:

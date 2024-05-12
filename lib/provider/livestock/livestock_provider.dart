@@ -1,9 +1,9 @@
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/data/model/base_model.dart';
-import 'package:digiternak_app/data/model/kandang/response/kandang_response.dart';
+import 'package:digiternak_app/data/model/cage/response/cages_response.dart';
 import 'package:digiternak_app/data/model/livestock/request/livestock_request.dart';
-import 'package:digiternak_app/data/model/livestock/response/all_livestock/all_livestock_response.dart';
 import 'package:digiternak_app/data/model/livestock/response/create/create_livestock_response.dart';
+import 'package:digiternak_app/data/model/livestock/response/livestock_response.dart';
 import 'package:digiternak_app/data/remote/livestock/livestock_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,9 +14,9 @@ class LivestockProvider extends ChangeNotifier {
   late ResultState _updateState = ResultState.noData;
   late ResultState _uploadState = ResultState.noData;
   late ResultState _deletState = ResultState.noData;
-  late AllLivestockResponse _allLivestock;
+  late LivestockResponse _allLivestock;
   late ResultState _stateAllLivestock = ResultState.noData;
-  late KandangResponse _kandang;
+  late CagesResponse _kandang;
   late CreateLivestockResponse _livestock;
   late ResultState _createState = ResultState.noData;
   late ResultState _kandangState = ResultState.noData;
@@ -27,9 +27,9 @@ class LivestockProvider extends ChangeNotifier {
   ResultState get uploadState => _uploadState;
   ResultState get deleteState => _deletState;
   BaseModel get updateResult => _updateResult;
-  AllLivestockResponse get allLivestock => _allLivestock;
+  LivestockResponse get allLivestock => _allLivestock;
   ResultState get stateAllLivestock => _stateAllLivestock;
-  KandangResponse get kandang => _kandang;
+  CagesResponse get kandang => _kandang;
   ResultState get createState => _createState;
   ResultState get kandangState => _kandangState;
   CreateLivestockResponse get livestock => _livestock;
@@ -54,6 +54,10 @@ class LivestockProvider extends ChangeNotifier {
       _createState = ResultState.hasData;
       _livestock = result;
     }
+
+    if (result.status == 401) {
+      _createState = ResultState.unauthorized;
+    }
     notifyListeners();
   }
 
@@ -62,11 +66,15 @@ class LivestockProvider extends ChangeNotifier {
     notifyListeners();
 
     final result = await repository.getKandang();
-    if (result.data.isEmpty) {
+    if (result.data?.isEmpty ?? true) {
       _kandangState = ResultState.noData;
     } else {
       _kandang = result;
       _kandangState = ResultState.hasData;
+    }
+
+    if (result.status == 401) {
+      _kandangState = ResultState.unauthorized;
     }
     notifyListeners();
   }
@@ -92,6 +100,11 @@ class LivestockProvider extends ChangeNotifier {
 
     if (result.data!.isEmpty) {
       _stateAllLivestock = ResultState.noData;
+      notifyListeners();
+    }
+
+    if (result.status == 401) {
+      _stateAllLivestock = ResultState.unauthorized;
       notifyListeners();
     }
   }
@@ -124,7 +137,7 @@ class LivestockProvider extends ChangeNotifier {
 
     final result = await repository.editLivestockById(request, livestockId);
 
-    if (result.error) {
+    if (result.error ?? true) {
       _message = result.message ?? "";
       _updateState = ResultState.error;
     } else {

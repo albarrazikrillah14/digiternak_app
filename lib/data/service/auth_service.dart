@@ -22,11 +22,7 @@ class AuthService {
       },
       body: jsonEncode(request),
     );
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      return RegisterResponse.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Fail to register');
-    }
+    return RegisterResponse.fromJson(json.decode(response.body));
   }
 
   Future<LoginResponse> login(LoginRequest request) async {

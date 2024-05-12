@@ -1,10 +1,10 @@
 import 'package:digiternak_app/common/constant.dart';
-import 'package:digiternak_app/data/model/catatan/response/data/catatan_data.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/detail/livestock_detail_notes_screen.dart';
+import 'package:digiternak_app/data/model/notes/response/data/note_data.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/notes/detail/detail_note_screen.dart';
 import 'package:flutter/material.dart';
 
 class NoteCardWidget extends StatefulWidget {
-  final CatatanData data;
+  final NoteData data;
   const NoteCardWidget({super.key, required this.data});
 
   @override
@@ -21,14 +21,14 @@ class _NoteCardWidgetState extends State<NoteCardWidget> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, LivestockDetailNotes.routeName,
+        Navigator.pushNamed(context, DetailNoteScreen.routeName,
             arguments: widget.data.id);
       },
       child: Container(
         padding: const EdgeInsets.all(4),
         margin: const EdgeInsets.all(4),
         constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           color: Colors.white,
@@ -55,15 +55,23 @@ class _NoteCardWidgetState extends State<NoteCardWidget> {
             ),
             const SizedBox(height: 8),
             Text(
-              widget.data.livestockCage ?? "",
+              "Nama Ternak: ${widget.data.livestockName ?? ""}",
               style: const TextStyle(
                   fontWeight: FontWeight.bold, color: Colors.black),
             ),
             Text(
-              widget.data.livestockVID ?? "",
+              "Kode Ternak: ${widget.data.livestockVID ?? ""}",
               style: const TextStyle(
                   fontWeight: FontWeight.normal, color: Colors.grey),
             ),
+            const SizedBox(
+              height: 4,
+            ),
+            Text(
+              widget.data.details ?? "",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            )
           ],
         ),
       ),

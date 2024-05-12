@@ -26,7 +26,8 @@ mixin _$CreateLivestockResponse {
   int? get status => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   bool get error => throw _privateConstructorUsedError;
-  LivestockData get data => throw _privateConstructorUsedError;
+  LivestockData? get data => throw _privateConstructorUsedError;
+  List<String>? get details => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,9 +47,10 @@ abstract class $CreateLivestockResponseCopyWith<$Res> {
       int? status,
       String? message,
       bool error,
-      LivestockData data});
+      LivestockData? data,
+      List<String>? details});
 
-  $LivestockDataCopyWith<$Res> get data;
+  $LivestockDataCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -70,7 +72,8 @@ class _$CreateLivestockResponseCopyWithImpl<$Res,
     Object? status = freezed,
     Object? message = freezed,
     Object? error = null,
-    Object? data = null,
+    Object? data = freezed,
+    Object? details = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
@@ -93,17 +96,25 @@ class _$CreateLivestockResponseCopyWithImpl<$Res,
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as bool,
-      data: null == data
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as LivestockData,
+              as LivestockData?,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $LivestockDataCopyWith<$Res> get data {
-    return $LivestockDataCopyWith<$Res>(_value.data, (value) {
+  $LivestockDataCopyWith<$Res>? get data {
+    if (_value.data == null) {
+      return null;
+    }
+
+    return $LivestockDataCopyWith<$Res>(_value.data!, (value) {
       return _then(_value.copyWith(data: value) as $Val);
     });
   }
@@ -124,10 +135,11 @@ abstract class _$$CreateLivestockResponseImplCopyWith<$Res>
       int? status,
       String? message,
       bool error,
-      LivestockData data});
+      LivestockData? data,
+      List<String>? details});
 
   @override
-  $LivestockDataCopyWith<$Res> get data;
+  $LivestockDataCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -148,7 +160,8 @@ class __$$CreateLivestockResponseImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? message = freezed,
     Object? error = null,
-    Object? data = null,
+    Object? data = freezed,
+    Object? details = freezed,
   }) {
     return _then(_$CreateLivestockResponseImpl(
       name: freezed == name
@@ -171,10 +184,14 @@ class __$$CreateLivestockResponseImplCopyWithImpl<$Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as bool,
-      data: null == data
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as LivestockData,
+              as LivestockData?,
+      details: freezed == details
+          ? _value._details
+          : details // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -188,7 +205,9 @@ class _$CreateLivestockResponseImpl implements _CreateLivestockResponse {
       required this.status,
       required this.message,
       required this.error,
-      required this.data});
+      required this.data,
+      required final List<String>? details})
+      : _details = details;
 
   factory _$CreateLivestockResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateLivestockResponseImplFromJson(json);
@@ -204,11 +223,20 @@ class _$CreateLivestockResponseImpl implements _CreateLivestockResponse {
   @override
   final bool error;
   @override
-  final LivestockData data;
+  final LivestockData? data;
+  final List<String>? _details;
+  @override
+  List<String>? get details {
+    final value = _details;
+    if (value == null) return null;
+    if (_details is EqualUnmodifiableListView) return _details;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'CreateLivestockResponse(name: $name, code: $code, status: $status, message: $message, error: $error, data: $data)';
+    return 'CreateLivestockResponse(name: $name, code: $code, status: $status, message: $message, error: $error, data: $data, details: $details)';
   }
 
   @override
@@ -221,13 +249,14 @@ class _$CreateLivestockResponseImpl implements _CreateLivestockResponse {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.error, error) || other.error == error) &&
-            (identical(other.data, data) || other.data == data));
+            (identical(other.data, data) || other.data == data) &&
+            const DeepCollectionEquality().equals(other._details, _details));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, code, status, message, error, data);
+  int get hashCode => Object.hash(runtimeType, name, code, status, message,
+      error, data, const DeepCollectionEquality().hash(_details));
 
   @JsonKey(ignore: true)
   @override
@@ -251,7 +280,8 @@ abstract class _CreateLivestockResponse implements CreateLivestockResponse {
       required final int? status,
       required final String? message,
       required final bool error,
-      required final LivestockData data}) = _$CreateLivestockResponseImpl;
+      required final LivestockData? data,
+      required final List<String>? details}) = _$CreateLivestockResponseImpl;
 
   factory _CreateLivestockResponse.fromJson(Map<String, dynamic> json) =
       _$CreateLivestockResponseImpl.fromJson;
@@ -267,7 +297,9 @@ abstract class _CreateLivestockResponse implements CreateLivestockResponse {
   @override
   bool get error;
   @override
-  LivestockData get data;
+  LivestockData? get data;
+  @override
+  List<String>? get details;
   @override
   @JsonKey(ignore: true)
   _$$CreateLivestockResponseImplCopyWith<_$CreateLivestockResponseImpl>

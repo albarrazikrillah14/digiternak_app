@@ -1,6 +1,6 @@
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/provider/home/home_provider.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/add/livestock_add_notes_screen.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/notes/add/add_note_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/detail/livestock_detail.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +59,6 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      state: ResultState.hasData,
       title: "Scann",
       isHasBackButton: true,
       body: Column(
@@ -93,7 +92,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
                             break;
                           case QRtype.notes:
                             Navigator.pushNamed(
-                                context, LivestockAddNotesScreen.routeName,
+                                context, AddNoteScreen.routeName,
                                 arguments: result);
                             break;
                         }

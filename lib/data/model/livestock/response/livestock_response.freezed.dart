@@ -24,7 +24,7 @@ mixin _$LivestockResponse {
   String? get message => throw _privateConstructorUsedError;
   int? get code => throw _privateConstructorUsedError;
   int? get status => throw _privateConstructorUsedError;
-  bool get error => throw _privateConstructorUsedError;
+  bool? get error => throw _privateConstructorUsedError;
   List<LivestockData>? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $LivestockResponseCopyWith<$Res> {
       String? message,
       int? code,
       int? status,
-      bool error,
+      bool? error,
       List<LivestockData>? data});
 }
 
@@ -65,7 +65,7 @@ class _$LivestockResponseCopyWithImpl<$Res, $Val extends LivestockResponse>
     Object? message = freezed,
     Object? code = freezed,
     Object? status = freezed,
-    Object? error = null,
+    Object? error = freezed,
     Object? data = freezed,
   }) {
     return _then(_value.copyWith(
@@ -85,10 +85,10 @@ class _$LivestockResponseCopyWithImpl<$Res, $Val extends LivestockResponse>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as int?,
-      error: null == error
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -110,7 +110,7 @@ abstract class _$$LivestockResponseImplCopyWith<$Res>
       String? message,
       int? code,
       int? status,
-      bool error,
+      bool? error,
       List<LivestockData>? data});
 }
 
@@ -129,7 +129,7 @@ class __$$LivestockResponseImplCopyWithImpl<$Res>
     Object? message = freezed,
     Object? code = freezed,
     Object? status = freezed,
-    Object? error = null,
+    Object? error = freezed,
     Object? data = freezed,
   }) {
     return _then(_$LivestockResponseImpl(
@@ -149,10 +149,10 @@ class __$$LivestockResponseImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as int?,
-      error: null == error
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
@@ -185,7 +185,7 @@ class _$LivestockResponseImpl implements _LivestockResponse {
   @override
   final int? status;
   @override
-  final bool error;
+  final bool? error;
   final List<LivestockData>? _data;
   @override
   List<LivestockData>? get data {
@@ -240,7 +240,7 @@ abstract class _LivestockResponse implements LivestockResponse {
       required final String? message,
       required final int? code,
       required final int? status,
-      required final bool error,
+      required final bool? error,
       required final List<LivestockData>? data}) = _$LivestockResponseImpl;
 
   factory _LivestockResponse.fromJson(Map<String, dynamic> json) =
@@ -255,7 +255,7 @@ abstract class _LivestockResponse implements LivestockResponse {
   @override
   int? get status;
   @override
-  bool get error;
+  bool? get error;
   @override
   List<LivestockData>? get data;
   @override

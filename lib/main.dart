@@ -9,7 +9,7 @@ import 'package:digiternak_app/data/remote/profile/profile_repository.dart';
 import 'package:digiternak_app/data/service/api_service.dart';
 import 'package:digiternak_app/data/service/profile_service.dart';
 import 'package:digiternak_app/provider/auth/auth_provider.dart';
-import 'package:digiternak_app/provider/feature/fattening/cage_provider.dart';
+import 'package:digiternak_app/provider/cage/cage_provider.dart';
 import 'package:digiternak_app/provider/home/home_provider.dart';
 import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
 import 'package:digiternak_app/provider/profile/profile_provider.dart';

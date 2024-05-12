@@ -2,16 +2,13 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:digiternak_app/data/model/base_model.dart';
-import 'package:digiternak_app/data/model/catatan/request/catatan_request.dart';
-import 'package:digiternak_app/data/model/catatan/response/all_catatan_response.dart';
-import 'package:digiternak_app/data/model/catatan/response/catatan_response.dart';
-import 'package:digiternak_app/data/model/catatan/response/data/catatan_data.dart';
-import 'package:digiternak_app/data/model/kandang/request/kandang_request.dart';
-import 'package:digiternak_app/data/model/kandang/response/create/create_kandang_response.dart';
-import 'package:digiternak_app/data/model/kandang/response/kandang_response.dart';
-import 'package:digiternak_app/data/model/kandang/response/result/kandang_result.dart';
+import 'package:digiternak_app/data/model/cage/response/cage_response.dart';
+import 'package:digiternak_app/data/model/notes/request/note_request.dart';
+import 'package:digiternak_app/data/model/notes/response/notes_response.dart';
+import 'package:digiternak_app/data/model/notes/response/note_response.dart';
+import 'package:digiternak_app/data/model/cage/request/cage_request.dart';
+import 'package:digiternak_app/data/model/cage/response/cages_response.dart';
 import 'package:digiternak_app/data/model/livestock/request/livestock_request.dart';
-import 'package:digiternak_app/data/model/livestock/response/all_livestock/all_livestock_response.dart';
 import 'package:digiternak_app/data/model/livestock/response/create/create_livestock_response.dart';
 import 'package:digiternak_app/data/model/livestock/response/livestock_response.dart';
 import 'package:digiternak_app/data/model/livestock/response/upload_image/livestock_upload_image_response.dart';
@@ -33,7 +30,7 @@ class ApiService {
     return token ?? '';
   }
 
-  Future<KandangResponse> getKandang() async {
+  Future<CagesResponse> getKandang() async {
     final token = await getToken();
 
     final response = await http
@@ -41,16 +38,10 @@ class ApiService {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     });
-
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      final result = KandangResponse.fromJsonList(jsonDecode(response.body));
-      return result;
-    } else {
-      throw Exception('Failed to load kandang');
-    }
+    return CagesResponse.fromJson(json.decode(response.body));
   }
 
-  Future<KandangResult> getKandangById(int id) async {
+  Future<CageResponse> getKandangById(int id) async {
     final token = await getToken();
     final response = await http
         .get(Uri.parse('$endpoint/cage/view/$id'), headers: <String, String>{
@@ -58,15 +49,11 @@ class ApiService {
       'Authorization': 'Bearer $token',
     });
 
-    final result = KandangResult.fromJson(json.decode(response.body));
-
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
+    final result = CageResponse.fromJson(json.decode(response.body));
     return result;
   }
 
-  Future<CreateKandangResponse> createKandang(KandangRequest request) async {
+  Future<BaseModel> createKandang(CageRequest request) async {
     final token = await getToken();
     final response = await http.post(
       Uri.parse('$endpoint/cage/create'),
@@ -77,18 +64,14 @@ class ApiService {
       body: jsonEncode(request),
     );
 
-    final result = CreateKandangResponse.fromJson(jsonDecode(response.body));
-
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
-
+    final result = BaseModel.fromJson(jsonDecode(response.body));
+    print("coi $result");
     return result;
   }
 
   //Catatan
-  Future<CatatanResponse> createCatatan(
-      CatatanRequest request, int livestockId) async {
+  Future<NoteResponse> createCatatan(
+      NoteRequest request, int livestockId) async {
     final token = await getToken();
     final response = await http.post(
       Uri.parse('$endpoint/note/create/$livestockId'),
@@ -98,14 +81,11 @@ class ApiService {
       },
       body: jsonEncode(request),
     );
-    final result = CatatanResponse.fromJson(json.decode(response.body));
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
+    final result = NoteResponse.fromJson(json.decode(response.body));
     return result;
   }
 
-  Future<AllCatatanResponse> getAllCatatanData() async {
+  Future<NotesResponse> getAllCatatanData() async {
     final token = await getToken();
     final response = await http.get(
       Uri.parse('$endpoint/note/index'),
@@ -114,10 +94,10 @@ class ApiService {
         'Content-Type': 'application/json'
       },
     );
-    return AllCatatanResponse.fromJsonList(json.decode(response.body));
+    return NotesResponse.fromJson(json.decode(response.body));
   }
 
-  Future<CatatanData> getCatatanById(int id) async {
+  Future<NoteResponse> getCatatanById(int id) async {
     final token = await getToken();
     final response = await http.get(
       Uri.parse('$endpoint/note/view/$id'),
@@ -126,14 +106,11 @@ class ApiService {
         'Content-Type': 'application/json',
       },
     );
-    final result = CatatanData.fromJson(json.decode(response.body));
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
+    final result = NoteResponse.fromJson(json.decode(response.body));
     return result;
   }
 
-  Future<AllCatatanResponse?> getAllNotesByLivestockId(int id) async {
+  Future<NotesResponse?> getAllNotesByLivestockId(int id) async {
     final token = await getToken();
     final response = await http.get(
       Uri.parse('$endpoint/note/livestock/$id'),
@@ -142,15 +119,11 @@ class ApiService {
         'Content-Type': 'application/json'
       },
     );
-    final result = AllCatatanResponse.fromJsonList(json.decode(response.body));
-    if (result.data.isEmpty) {
-      return AllCatatanResponse.fromJson(json.decode(response.body));
-    }
+    final result = NotesResponse.fromJson(json.decode(response.body));
     return result;
   }
 
-  Future<CatatanResponse> editCatatanById(
-      CatatanRequest request, int noteId) async {
+  Future<NoteResponse> editCatatanById(NoteRequest request, int noteId) async {
     final token = await getToken();
     final response = await http.put(
       Uri.parse('$endpoint/note/update/$noteId'),
@@ -161,10 +134,7 @@ class ApiService {
       body: jsonEncode(request),
     );
 
-    final result = CatatanResponse.fromJson(json.decode(response.body));
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
+    final result = NoteResponse.fromJson(json.decode(response.body));
     return result;
   }
 
@@ -178,9 +148,6 @@ class ApiService {
       },
     );
     final result = BaseModel.fromJson(json.decode(response.body));
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
     return result;
   }
 
@@ -195,13 +162,10 @@ class ApiService {
       },
     );
     final result = LivestockResponse.fromJson(json.decode(response.body));
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
     return result;
   }
 
-  Future<AllLivestockResponse> getAllLivestock() async {
+  Future<LivestockResponse> getAllLivestock() async {
     final token = await getToken();
     final userId = await authRepository.getUserId();
     final response = await http.get(
@@ -211,10 +175,7 @@ class ApiService {
         'Content-Type': 'application/json'
       },
     );
-    final result = AllLivestockResponse.fromJson(json.decode(response.body));
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
+    final result = LivestockResponse.fromJson(json.decode(response.body));
     return result;
   }
 
@@ -229,9 +190,6 @@ class ApiService {
         body: jsonEncode(request));
 
     final result = CreateLivestockResponse.fromJson(json.decode(response.body));
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
     return result;
   }
 
@@ -245,10 +203,6 @@ class ApiService {
         });
 
     final result = BaseModel.fromJson(json.decode(response.body));
-
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
     return result;
   }
 
@@ -266,10 +220,6 @@ class ApiService {
     );
 
     final result = BaseModel.fromJson(json.decode(response.body));
-
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
     return result;
   }
 
@@ -310,10 +260,6 @@ class ApiService {
 
     final result =
         LivestockUploadImageResponse.fromJson(json.decode(responseData));
-
-    if (result.status == 401) {
-      await authRepository.logout();
-    }
 
     return result;
   }

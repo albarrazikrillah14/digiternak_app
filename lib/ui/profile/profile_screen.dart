@@ -2,8 +2,11 @@ import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/provider/auth/auth_provider.dart';
 import 'package:digiternak_app/provider/profile/profile_provider.dart';
 import 'package:digiternak_app/ui/auth/login/login_screen.dart';
-import 'package:digiternak_app/ui/profile/complete_data/complete_data_step_one_screen.dart';
+import 'package:digiternak_app/ui/profile/complete_data/edit_profile_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/dialog_widget.dart';
+import 'package:digiternak_app/widget/error_widget.dart';
+import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +14,7 @@ import 'package:provider/provider.dart';
 class ProfileScreen extends StatefulWidget {
   static const routeName = "/profile_screen";
 
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -44,142 +47,195 @@ class _ProfileScreenState extends State<ProfileScreen> {
         indexBar: 1,
         body: Consumer<ProfileProvider>(
           builder: (context, provider, child) {
-            if (provider.state == ResultState.unauthorized) {
-              return Center(
-                child: PrimaryButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(
-                        context, LoginScreen.routeName);
-                  },
-                  title: "Masuk Kembali",
-                ),
-              );
-            }
-            return provider.state == ResultState.loading
-                ? const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.blue,
-                    ),
-                  )
-                : SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+            switch (provider.state) {
+              case ResultState.unauthorized:
+                return errorWidget(
+                  context: context,
+                  type: ErrorType.unauthorization,
+                );
+              case ResultState.loading:
+                return loadingScreen();
+              case ResultState.hasData:
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            "assets/ic_profile.png",
+                            width: 64,
+                            height: 64,
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          provider.data.data!.fullName == ""
+                              ? Container()
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      (provider.data.data!.fullName ?? "")
+                                              .isEmpty
+                                          ? "Halo, ${provider.data.data!.username}"
+                                          : "Nama Lengkap",
+                                      style:
+                                          const TextStyle(color: Colors.grey),
+                                    ),
+                                    Text(
+                                      (provider.data.data!.fullName ?? "")
+                                          .toUpperCase(),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      _ContainerProfile(
+                        title: "Akun",
+                        child: Column(
                           children: [
-                            const Icon(
-                              Icons.person,
-                              size: 64,
-                            ),
-                            provider.data.fullName == ""
-                                ? Container()
-                                : Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        (provider.data.fullName ?? "").isEmpty
-                                            ? "Halo, ${provider.data.username}"
-                                            : "Nama Lengkap",
-                                        style:
-                                            const TextStyle(color: Colors.grey),
-                                      ),
-                                      Text(
-                                        (provider.data.fullName ?? "")
-                                            .toUpperCase(),
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
+                            _buildInfoRow(
+                                title: "Username",
+                                value: provider.data.data!.username ?? ""),
+                            _buildInfoRow(
+                                title: "Email",
+                                value: provider.data.data!.email ?? ""),
+                            _buildInfoRow(
+                                title: "Status",
+                                value: provider.data.data!.role?.name ?? "",
+                                isLastData: true),
                           ],
                         ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        _ContainerProfile(
-                          title: "Akun",
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      (provider.data.data!.fullName ?? "").isEmpty
+                          ? PrimaryButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, EditProfileScreen.routeName);
+                              },
+                              title: "Lengkapi Data Diri")
+                          : _ContainerProfile(
+                              title: "Data Diri",
+                              child: Column(
+                                children: [
+                                  _buildInfoRow(
+                                      title: "Nama Lengkap",
+                                      value:
+                                          provider.data.data!.fullName ?? ""),
+                                  _buildInfoRow(
+                                      title: "Tanggal Lahir",
+                                      value:
+                                          provider.data.data!.birthdate ?? ""),
+                                  _buildInfoRow(
+                                      title: "NIK",
+                                      value: provider.data.data!.nik ?? ""),
+                                  _buildInfoRow(
+                                      title: "Nomor Hp",
+                                      value: provider.data.data!.phoneNumber ??
+                                          ""),
+                                  _buildInfoRow(
+                                      title: "Alamat",
+                                      value: provider.data.data!.address ?? "",
+                                      isLastData: true)
+                                ],
+                              ),
+                            ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      _ContainerProfile(
                           child: Column(
                             children: [
-                              _buildInfoRow(
-                                  title: "Username",
-                                  value: provider.data.username ?? ""),
-                              _buildInfoRow(
-                                  title: "Email",
-                                  value: provider.data.email ?? ""),
-                              _buildInfoRow(
-                                  title: "Status",
-                                  value: provider.data.role?.name ?? "",
-                                  isLastData: true),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        (provider.data.fullName ?? "").isEmpty
-                            ? PrimaryButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context,
-                                      CompleteDataStepOneScreen.routeName);
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, EditProfileScreen.routeName);
                                 },
-                                title: "Lengkapi Data Diri")
-                            : _ContainerProfile(
-                                title: "Data Diri",
-                                child: Column(
+                                child: const Row(
                                   children: [
-                                    _buildInfoRow(
-                                        title: "Nama Lengkap",
-                                        value: provider.data.fullName ?? ""),
-                                    _buildInfoRow(
-                                        title: "Tanggal Lahir",
-                                        value: provider.data.birthdate ?? ""),
-                                    _buildInfoRow(
-                                        title: "NIK",
-                                        value: provider.data.nik ?? ""),
-                                    _buildInfoRow(
-                                        title: "Nomor Hp",
-                                        value: provider.data.phoneNumber ?? ""),
-                                    _buildInfoRow(
-                                        title: "Alamat",
-                                        value: provider.data.address ?? "",
-                                        isLastData: true)
+                                    Icon(
+                                      Icons.edit,
+                                      color: Colors.blue,
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      "Ubah Profile",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            final logout = await authProvider.logout();
-                            if (logout) {
-                              Navigator.pushNamed(
-                                  context, LoginScreen.routeName);
-                            }
-                          },
-                          child: const Row(
-                            children: [
-                              Icon(
-                                Icons.arrow_back,
-                                color: Colors.red,
+                              const SizedBox(
+                                height: 16,
                               ),
-                              SizedBox(
-                                width: 4,
+                              InkWell(
+                                onTap: () {
+                                  showAlertDialog(
+                                      context: context,
+                                      title: "Keluar",
+                                      messsage: "Apakah Anda Yakin?",
+                                      onSuccess: () async {
+                                        final logout =
+                                            await authProvider.logout();
+                                        if (logout) {
+                                          Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            LoginScreen.routeName,
+                                            (route) => false,
+                                          );
+                                        }
+                                      });
+                                },
+                                child: const Row(
+                                  children: [
+                                    Icon(
+                                      Icons.logout_rounded,
+                                      color: Colors.red,
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      "Keluar",
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
                               ),
-                              Text(
-                                "Keluar",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              )
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                  );
+                          title: "Lainnya"),
+                    ],
+                  ),
+                );
+              default:
+                return errorWidget(
+                  context: context,
+                  message: provider.message,
+                  onPress: () async {
+                    await provider.getProfile();
+                  },
+                );
+            }
           },
         ),
       ),
@@ -201,7 +257,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title,
               style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(

@@ -24,7 +24,8 @@ mixin _$BaseModel {
   String? get message => throw _privateConstructorUsedError;
   int? get code => throw _privateConstructorUsedError;
   int? get status => throw _privateConstructorUsedError;
-  bool get error => throw _privateConstructorUsedError;
+  bool? get error => throw _privateConstructorUsedError;
+  List<String>? get details => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,7 +39,12 @@ abstract class $BaseModelCopyWith<$Res> {
       _$BaseModelCopyWithImpl<$Res, BaseModel>;
   @useResult
   $Res call(
-      {String? name, String? message, int? code, int? status, bool error});
+      {String? name,
+      String? message,
+      int? code,
+      int? status,
+      bool? error,
+      List<String>? details});
 }
 
 /// @nodoc
@@ -58,7 +64,8 @@ class _$BaseModelCopyWithImpl<$Res, $Val extends BaseModel>
     Object? message = freezed,
     Object? code = freezed,
     Object? status = freezed,
-    Object? error = null,
+    Object? error = freezed,
+    Object? details = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
@@ -77,10 +84,14 @@ class _$BaseModelCopyWithImpl<$Res, $Val extends BaseModel>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as int?,
-      error: null == error
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -94,7 +105,12 @@ abstract class _$$BaseModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? name, String? message, int? code, int? status, bool error});
+      {String? name,
+      String? message,
+      int? code,
+      int? status,
+      bool? error,
+      List<String>? details});
 }
 
 /// @nodoc
@@ -112,7 +128,8 @@ class __$$BaseModelImplCopyWithImpl<$Res>
     Object? message = freezed,
     Object? code = freezed,
     Object? status = freezed,
-    Object? error = null,
+    Object? error = freezed,
+    Object? details = freezed,
   }) {
     return _then(_$BaseModelImpl(
       name: freezed == name
@@ -131,10 +148,14 @@ class __$$BaseModelImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as int?,
-      error: null == error
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
+      details: freezed == details
+          ? _value._details
+          : details // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -147,7 +168,9 @@ class _$BaseModelImpl implements _BaseModel {
       required this.message,
       required this.code,
       required this.status,
-      required this.error});
+      required this.error,
+      required final List<String>? details})
+      : _details = details;
 
   factory _$BaseModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$BaseModelImplFromJson(json);
@@ -161,11 +184,20 @@ class _$BaseModelImpl implements _BaseModel {
   @override
   final int? status;
   @override
-  final bool error;
+  final bool? error;
+  final List<String>? _details;
+  @override
+  List<String>? get details {
+    final value = _details;
+    if (value == null) return null;
+    if (_details is EqualUnmodifiableListView) return _details;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'BaseModel(name: $name, message: $message, code: $code, status: $status, error: $error)';
+    return 'BaseModel(name: $name, message: $message, code: $code, status: $status, error: $error, details: $details)';
   }
 
   @override
@@ -177,13 +209,14 @@ class _$BaseModelImpl implements _BaseModel {
             (identical(other.message, message) || other.message == message) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.error, error) || other.error == error) &&
+            const DeepCollectionEquality().equals(other._details, _details));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, message, code, status, error);
+  int get hashCode => Object.hash(runtimeType, name, message, code, status,
+      error, const DeepCollectionEquality().hash(_details));
 
   @JsonKey(ignore: true)
   @override
@@ -205,7 +238,8 @@ abstract class _BaseModel implements BaseModel {
       required final String? message,
       required final int? code,
       required final int? status,
-      required final bool error}) = _$BaseModelImpl;
+      required final bool? error,
+      required final List<String>? details}) = _$BaseModelImpl;
 
   factory _BaseModel.fromJson(Map<String, dynamic> json) =
       _$BaseModelImpl.fromJson;
@@ -219,7 +253,9 @@ abstract class _BaseModel implements BaseModel {
   @override
   int? get status;
   @override
-  bool get error;
+  bool? get error;
+  @override
+  List<String>? get details;
   @override
   @JsonKey(ignore: true)
   _$$BaseModelImplCopyWith<_$BaseModelImpl> get copyWith =>

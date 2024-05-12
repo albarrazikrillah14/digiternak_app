@@ -3,12 +3,14 @@ import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/data/model/livestock/response/data/livestock_data.dart';
 import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
 import 'package:digiternak_app/provider/notes/notes_provider.dart';
-import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/detail_image/detail_image_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/update/update_livestock_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/list/notes_livestock_list.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/notes/list/list_notes_screen.dart';
+import 'package:digiternak_app/ui/upload/upload_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/error_widget.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
+import 'package:digiternak_app/widget/snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,10 +34,6 @@ class _LivestockDetailState extends State<LivestockDetail> {
     notesProvider = context.read<NotesProvider>();
     notesProvider.getNotesByLivestockId(widget.data?.id ?? 0);
     provider.setDeleteState();
-
-    if (provider.deleteState == ResultState.unauthorized) {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    }
   }
 
   @override
@@ -48,25 +46,21 @@ class _LivestockDetailState extends State<LivestockDetail> {
           child: Consumer<LivestockProvider>(
             builder: (context, provider, child) {
               switch (provider.deleteState) {
+                case ResultState.error:
+                  return errorWidget(
+                      context: context,
+                      message: provider.message,
+                      onPress: () {
+                        provider.setDeleteState();
+                      });
                 case ResultState.unauthorized:
-                  return Center(
-                    child: PrimaryButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, LoginScreen.routeName);
-                      },
-                      title: "Masuk Kembali",
-                    ),
-                  );
+                  return errorWidget(
+                      context: context, type: ErrorType.unauthorization);
                 case ResultState.loading:
                   return const Center(
                     child: CircularProgressIndicator(
                       color: Colors.blue,
                     ),
-                  );
-                case ResultState.error:
-                  return const Center(
-                    child: Text('Terjadi Kesalahan'),
                   );
                 case ResultState.hasData:
                   return const Center(
@@ -140,13 +134,23 @@ class _LivestockDetailState extends State<LivestockDetail> {
                                 case ResultState.hasData:
                                   return InkWell(
                                     onTap: () {
-                                      Navigator.pushNamed(
-                                          context, NotesLiveStockList.routeName,
-                                          arguments: provider.notes!.data);
+                                      if (provider.notes.data?.isNotEmpty ??
+                                          false) {
+                                        Navigator.pushNamed(
+                                          context,
+                                          ListNotesScreen.routeName,
+                                          arguments: provider.notes.data,
+                                        );
+                                      } else {
+                                        snackBar(
+                                            context: context,
+                                            message: "Data Kosong");
+                                      }
                                     },
                                     child: _buildInfoRow(
-                                        title: "Jumalah Catatan",
-                                        value: "${provider.notes!.data.length}",
+                                        title: "Jumlah Catatan",
+                                        value:
+                                            "${provider.notes.data?.length ?? 0}",
                                         isRightButton: true),
                                   );
                                 default:
@@ -155,10 +159,35 @@ class _LivestockDetailState extends State<LivestockDetail> {
                             },
                           ),
                         ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Dokumentasi",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushReplacementNamed(
+                                    context, UploadScreen.routeName,
+                                    arguments: {
+                                      'type': UploadType.LVIESTOCK,
+                                      'id': "${widget.data?.id ?? 0}",
+                                    });
+                              },
+                              child: const Icon(Icons.add),
+                            ),
+                          ],
+                        ),
                         !(widget.data?.images?.isEmpty ?? true)
                             ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Dokumentasi"),
                                   const SizedBox(
                                     height: 10,
                                   ),
@@ -266,11 +295,11 @@ class _LivestockDetailState extends State<LivestockDetail> {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 10,
                           ),
-                          const Icon(
-                            Icons.arrow_right,
-                            color: Colors.blue,
-                            size: 36,
-                          )
+                          Image.asset(
+                            'assets/ic_arrow_right.png',
+                            width: 16,
+                            height: 16,
+                          ),
                         ],
                       )
                     : Text(

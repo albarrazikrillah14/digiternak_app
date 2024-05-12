@@ -2,10 +2,13 @@ import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/common/utils/mapper/mapper.dart';
 import 'package:digiternak_app/data/model/livestock/request/livestock_request.dart';
 import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
-import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/upload/upload_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/dialog_widget.dart';
+import 'package:digiternak_app/widget/error_widget.dart';
+import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
+import 'package:digiternak_app/widget/snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,10 +47,6 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
 
     provider = context.read<LivestockProvider>();
     provider.getKandang();
-
-    if (provider.kandangState == ResultState.unauthorized) {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    }
   }
 
   @override
@@ -71,25 +70,16 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
           builder: (context, provider, child) {
             switch (provider.kandangState) {
               case ResultState.unauthorized:
-                return Center(
-                  child: PrimaryButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, LoginScreen.routeName);
-                    },
-                    title: "Masuk Kembali",
-                  ),
+                return errorWidget(
+                  context: context,
+                  type: ErrorType.unauthorization,
                 );
 
               case ResultState.loading:
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.blue,
-                  ),
-                );
+                return loadingScreen();
               case ResultState.hasData:
                 final List<int> typeOfLivestockList = [1, 2];
-                List<int?> cageIdList = provider.kandang.data.map((value) {
+                List<int?> cageIdList = provider.kandang.data!.map((value) {
                   return value.id;
                 }).toList();
 
@@ -128,8 +118,10 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                         _TexFormField(
                           form: TextFormField(
                             controller: nameController,
-                            decoration:
-                                const InputDecoration(hintText: 'Nama ternak'),
+                            decoration: const InputDecoration(
+                              hintText: 'Nama ternak',
+                              labelText: 'Nama Ternak',
+                            ),
                             validator: (value) {
                               if (value?.isEmpty ?? true) {
                                 return 'Tidak boleh kosong';
@@ -144,6 +136,7 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                             controller: birthdateController,
                             decoration: const InputDecoration(
                               labelText: 'Tanggal Lahir',
+                              hintText: 'Tanggal Lahir',
                             ),
                             readOnly: true,
                             onTap: () {
@@ -177,7 +170,7 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                             items: cageIdList.map((e) {
                               return DropdownMenuItem(
                                 value: e,
-                                child: Text(cage.data
+                                child: Text(cage.data!
                                         .firstWhere(
                                             (element) => element.id == e)
                                         .name ??
@@ -316,6 +309,7 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                             keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
                               hintText: 'Umur ternak dalam tahun',
+                              labelText: 'Umur ternak dalam tahun',
                             ),
                             validator: (value) {
                               if (value?.isEmpty ?? true) {
@@ -332,6 +326,7 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                             keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
                               hintText: 'Lingkar dada ternak dalam cm',
+                              labelText: 'Lingkar data ternak dalam cm',
                             ),
                             validator: (value) {
                               if (value?.isEmpty ?? true) {
@@ -348,6 +343,7 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                             keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
                               hintText: 'Berat badan ternak dalam kg',
+                              labelText: 'Berat badat ternak dalam kg',
                             ),
                             validator: (value) {
                               if (value?.isEmpty ?? true) {
@@ -364,6 +360,7 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                             keyboardType: TextInputType.multiline,
                             decoration: const InputDecoration(
                               hintText: 'Kondisi  ternak',
+                              labelText: 'Kondisi ternak',
                             ),
                             validator: (value) {
                               if (value?.isEmpty ?? true) {
@@ -378,7 +375,7 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                           height: 16,
                         ),
                         PrimaryButton(
-                            onPressed: () async {
+                            onPressed: () {
                               final request = LivestockRequest(
                                   name: nameController.text,
                                   birthdate: formatDateString(
@@ -399,20 +396,27 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                                   health: healthController.text);
 
                               if (formKey.currentState!.validate()) {
-                                await provider.createLivestock(request);
+                                showAlertDialog(
+                                    context: context,
+                                    title: "Tambah Ternak",
+                                    messsage: "Apakah data ternak sudah benar?",
+                                    onSuccess: () async {
+                                      await provider.createLivestock(request);
 
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            provider.livestock.message ?? "")));
-                                if (provider.livestock.error == false) {
-                                  Navigator.pushNamed(
-                                      context, UploadScreen.routeName,
-                                      arguments: {
-                                        'type': UploadType.LVIESTOCK,
-                                        'id': "${provider.livestock.data.id}",
-                                      });
-                                }
+                                      snackBar(
+                                          context: context,
+                                          message:
+                                              provider.livestock.message ?? "");
+                                      if (provider.livestock.error == false) {
+                                        Navigator.pushReplacementNamed(
+                                            context, UploadScreen.routeName,
+                                            arguments: {
+                                              'type': UploadType.LVIESTOCK,
+                                              'id':
+                                                  "${provider.livestock.data?.id ?? 0}",
+                                            });
+                                      }
+                                    });
                               }
                             },
                             title: "Daftar Ternak")
@@ -420,10 +424,22 @@ class _AddLivestockScreenState extends State<AddLivestockScreen> {
                     ),
                   ),
                 );
-              default:
-                return const Center(
-                  child: Text("Terjadi kesalahan / belum mempunyai kandang"),
+              case ResultState.error:
+                return errorWidget(
+                  context: context,
+                  message: provider.livestock.details?[0] ?? "",
+                  onPress: () {
+                    provider.getKandang();
+                  },
                 );
+              case ResultState.noData:
+                return errorWidget(
+                    context: context,
+                    message: "Silahkan Daftarkan kandang terlebih dahulu",
+                    onPress: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    });
             }
           },
         ),

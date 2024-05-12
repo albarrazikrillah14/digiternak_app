@@ -30,7 +30,7 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
     final result = await profileRepository.getProfile();
 
-    if (result.username?.isEmpty ?? true) {
+    if (result.data?.username!.isEmpty ?? true) {
       _state = ResultState.noData;
       _error = true;
       _message = 'Data not found';

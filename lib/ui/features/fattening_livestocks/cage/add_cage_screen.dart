@@ -1,8 +1,10 @@
 import 'package:digiternak_app/common/result.dart';
-import 'package:digiternak_app/data/model/kandang/request/kandang_request.dart';
-import 'package:digiternak_app/provider/feature/fattening/cage_provider.dart';
-import 'package:digiternak_app/ui/auth/login/login_screen.dart';
+import 'package:digiternak_app/data/model/cage/request/cage_request.dart';
+import 'package:digiternak_app/provider/cage/cage_provider.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/dialog_widget.dart';
+import 'package:digiternak_app/widget/error_widget.dart';
+import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,121 +29,157 @@ class _AddCageScreenState extends State<AddCageScreen> {
     super.initState();
 
     provider = context.read<CageProvider>();
-    provider.getAllCage();
-    if (provider.state == ResultState.unauthorized) {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    }
+    provider.setState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: provider,
-      child: Consumer<CageProvider>(
-        builder: (context, provider, child) {
-          return BaseScreen(
-            title: "Tambah Kandang",
-            body: SingleChildScrollView(
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    Column(
+    return BaseScreen(
+      title: "Tambah Kandang",
+      body: ChangeNotifierProvider.value(
+        value: provider,
+        child: Consumer<CageProvider>(
+          builder: (context, provider, child) {
+            switch (provider.state) {
+              case ResultState.error:
+                return errorWidget(
+                  context: context,
+                  message: provider.message,
+                  onPress: () {
+                    provider.setState();
+                  },
+                );
+              case ResultState.unauthorized:
+                return errorWidget(
+                  context: context,
+                  type: ErrorType.unauthorization,
+                );
+              case ResultState.loading:
+                return loadingScreen();
+              case ResultState.noData:
+                return SingleChildScrollView(
+                  child: Form(
+                    key: formKey,
+                    child: Column(
                       children: [
-                        TextFormField(
-                          controller: nameController,
-                          decoration: const InputDecoration(
-                            hintText: 'Nama Kandang',
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Masukkan nilai dengan benar';
-                            }
+                        Column(
+                          children: [
+                            TextFormField(
+                              controller: nameController,
+                              decoration: const InputDecoration(
+                                hintText: 'Nama Kandang',
+                                labelText: 'Nama Kandang',
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Masukkan nilai dengan benar';
+                                }
 
-                            final regex = RegExp(r'^[A-Za-z0-9\s]{3,10}$');
-                            if (!regex.hasMatch(value)) {
-                              return 'Nilai harus terdiri dari 3 hingga 10 karakter dan hanya boleh mengandung huruf, angka, dan spasi';
-                            }
-                            return null;
-                          },
+                                final regex = RegExp(r'^[A-Za-z0-9\s]{3,10}$');
+                                if (!regex.hasMatch(value)) {
+                                  return 'Nilai harus terdiri dari 3 hingga 10 karakter dan hanya boleh mengandung huruf, angka, dan spasi';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            TextFormField(
+                              controller: locationController,
+                              decoration: const InputDecoration(
+                                hintText: 'Lokasi Kandang',
+                                labelText: 'Lokasi Kandang',
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Masukkan nilai dengan benar';
+                                }
+                                if (value.length > 255) {
+                                  return 'Nilai tidak boleh melebihi 255 karakter';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            TextFormField(
+                              controller: descriptionController,
+                              decoration: const InputDecoration(
+                                hintText: 'Deskripsi Kandang',
+                                labelText: 'Deskripsi Kandang',
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Masukkan nilai dengan benar';
+                                }
+                                if (value.length > 255) {
+                                  return 'Nilai tidak boleh melebihi 255 karakter';
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 16,
                         ),
-                        TextFormField(
-                          controller: locationController,
-                          decoration:
-                              const InputDecoration(hintText: 'Lokasi Kandang'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Masukkan nilai dengan benar';
+                        PrimaryButton(
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              final scaffoldMessenger =
+                                  ScaffoldMessenger.of(context);
+                              final request = CageRequest(
+                                name: nameController.text,
+                                location: locationController.text,
+                                description: descriptionController.text,
+                              );
+
+                              showAlertDialog(
+                                context: context,
+                                title: "Tambah Kandang",
+                                messsage: "Apakah data kandang sudah benar?",
+                                onSuccess: () async {
+                                  final result =
+                                      await provider.createKandang(request);
+
+                                  if (result.error == true) {
+                                    scaffoldMessenger.showSnackBar(
+                                      SnackBar(
+                                          content: Text(result.details![0])),
+                                    );
+                                    Navigator.pop(context);
+                                  } else {
+                                    scaffoldMessenger.showSnackBar(
+                                      SnackBar(
+                                          content: Text(result.message ?? "")),
+                                    );
+                                    Navigator.pop(context);
+                                    if (result.status != 401) {
+                                      Navigator.pop(context);
+                                    }
+                                  }
+                                },
+                              );
                             }
-                            if (value.length > 255) {
-                              return 'Nilai tidak boleh melebihi 255 karakter';
-                            }
-                            return null;
                           },
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        TextFormField(
-                          controller: descriptionController,
-                          decoration: const InputDecoration(
-                              hintText: 'Deskripsi Kandang'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Masukkan nilai dengan benar';
-                            }
-                            if (value.length > 255) {
-                              return 'Nilai tidak boleh melebihi 255 karakter';
-                            }
-                            return null;
-                          },
+                          title: "Tambah Kandang",
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    PrimaryButton(
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          final scaffoldMessenger =
-                              ScaffoldMessenger.of(context);
-                          final request = KandangRequest(
-                            name: nameController.text,
-                            location: locationController.text,
-                            description: descriptionController.text,
-                          );
-
-                          final result = await provider.createKandang(request);
-
-                          if (!result.error) {
-                            scaffoldMessenger.showSnackBar(
-                              SnackBar(content: Text(result.message ?? "")),
-                            );
-                            Navigator.pop(context);
-                          } else {
-                            scaffoldMessenger.showSnackBar(
-                              SnackBar(content: Text(result.message ?? "")),
-                            );
-                          }
-                        }
-                      },
-                      title: "Tambah Kandang",
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
+                  ),
+                );
+              default:
+                return Container();
+            }
+          },
+        ),
       ),
     );
   }
 
-  Widget _CageContainer(KandangRequest data) {
+  Widget _CageContainer(CageRequest data) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),

@@ -14,7 +14,11 @@ _$CreateLivestockResponseImpl _$$CreateLivestockResponseImplFromJson(
       status: (json['status'] as num?)?.toInt(),
       message: json['message'] as String?,
       error: json['error'] as bool,
-      data: LivestockData.fromJson(json['data'] as Map<String, dynamic>),
+      data: json['data'] == null
+          ? null
+          : LivestockData.fromJson(json['data'] as Map<String, dynamic>),
+      details:
+          (json['details'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$CreateLivestockResponseImplToJson(
@@ -26,4 +30,5 @@ Map<String, dynamic> _$$CreateLivestockResponseImplToJson(
       'message': instance.message,
       'error': instance.error,
       'data': instance.data,
+      'details': instance.details,
     };

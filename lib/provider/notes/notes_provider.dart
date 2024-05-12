@@ -1,8 +1,8 @@
 import 'package:digiternak_app/common/result.dart';
-import 'package:digiternak_app/data/model/catatan/request/catatan_request.dart';
-import 'package:digiternak_app/data/model/catatan/response/all_catatan_response.dart';
-import 'package:digiternak_app/data/model/catatan/response/data/catatan_data.dart';
-import 'package:digiternak_app/data/model/livestock/response/all_livestock/all_livestock_response.dart';
+import 'package:digiternak_app/data/model/livestock/response/livestock_response.dart';
+import 'package:digiternak_app/data/model/notes/request/note_request.dart';
+import 'package:digiternak_app/data/model/notes/response/note_response.dart';
+import 'package:digiternak_app/data/model/notes/response/notes_response.dart';
 import 'package:digiternak_app/data/remote/notes/notes_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -19,9 +19,9 @@ class NotesProvider extends ChangeNotifier {
   ResultState _deleteState = ResultState.noData;
   ResultState _updateState = ResultState.noData;
   ResultState _createState = ResultState.noData;
-  late AllLivestockResponse _livestocks;
-  late AllCatatanResponse _notes;
-  late CatatanData? _note;
+  late LivestockResponse _livestocks;
+  late NotesResponse _notes;
+  late NoteResponse? _note;
 
   ResultState get stateNote => _stateNote;
   ResultState get state => _state;
@@ -30,11 +30,11 @@ class NotesProvider extends ChangeNotifier {
   ResultState get deleteState => _deleteState;
   ResultState get updateState => _updateState;
   String get message => _message;
-  AllLivestockResponse get livestocks => _livestocks;
-  AllCatatanResponse get notes => _notes;
-  CatatanData? get note => _note;
+  LivestockResponse get livestocks => _livestocks;
+  NotesResponse get notes => _notes;
+  NoteResponse? get note => _note;
 
-  Future<void> createNote(CatatanRequest request, int livestockId) async {
+  Future<void> createNote(NoteRequest request, int livestockId) async {
     _createState = ResultState.loading;
     notifyListeners();
 
@@ -43,7 +43,7 @@ class NotesProvider extends ChangeNotifier {
     if (result.error == false) {
       _createState = ResultState.hasData;
       _message = "Catatan berhasil ditambahkan";
-      _note = result.data;
+      _note = result;
     } else {
       _createState = ResultState.error;
       _message = "Catatan gagal ditambahkan";
@@ -67,7 +67,7 @@ class NotesProvider extends ChangeNotifier {
 
     final result = await repository.getNoteById(noteId);
 
-    if (result.id == 0) {
+    if ((result.data?.id ?? 0) == 0) {
       _stateNote = ResultState.noData;
     } else {
       _note = result;
@@ -81,7 +81,7 @@ class NotesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> editNoteById(CatatanRequest request, int noteId) async {
+  Future<void> editNoteById(NoteRequest request, int noteId) async {
     _updateState = ResultState.loading;
     notifyListeners();
 
@@ -161,7 +161,7 @@ class NotesProvider extends ChangeNotifier {
 
     final result = await repository.getNotesByUserId();
 
-    if (result.data.isEmpty) {
+    if (result.data?.isEmpty ?? true) {
       _state = ResultState.noData;
       notifyListeners();
     } else {

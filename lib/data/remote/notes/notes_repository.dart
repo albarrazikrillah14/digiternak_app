@@ -1,9 +1,8 @@
 import 'package:digiternak_app/data/model/base_model.dart';
-import 'package:digiternak_app/data/model/catatan/request/catatan_request.dart';
-import 'package:digiternak_app/data/model/catatan/response/all_catatan_response.dart';
-import 'package:digiternak_app/data/model/catatan/response/catatan_response.dart';
-import 'package:digiternak_app/data/model/catatan/response/data/catatan_data.dart';
-import 'package:digiternak_app/data/model/livestock/response/all_livestock/all_livestock_response.dart';
+import 'package:digiternak_app/data/model/livestock/response/livestock_response.dart';
+import 'package:digiternak_app/data/model/notes/request/note_request.dart';
+import 'package:digiternak_app/data/model/notes/response/notes_response.dart';
+import 'package:digiternak_app/data/model/notes/response/note_response.dart';
 import 'package:digiternak_app/data/service/api_service.dart';
 
 class NotesRepository {
@@ -11,28 +10,27 @@ class NotesRepository {
 
   NotesRepository(this.service);
 
-  Future<AllLivestockResponse> getAllLivestock() async {
+  Future<LivestockResponse> getAllLivestock() async {
     return await service.getAllLivestock();
   }
 
-  Future<CatatanResponse> createNote(
-      CatatanRequest request, int livestockId) async {
+  Future<NoteResponse> createNote(NoteRequest request, int livestockId) async {
     return await service.createCatatan(request, livestockId);
   }
 
-  Future<CatatanData> getNoteById(int noteId) async {
+  Future<NoteResponse> getNoteById(int noteId) async {
     return await service.getCatatanById(noteId);
   }
 
-  Future<AllCatatanResponse> getNotesByUserId() async {
+  Future<NotesResponse> getNotesByUserId() async {
     return await service.getAllCatatanData();
   }
 
-  Future<AllCatatanResponse?> getNotesByLivestockId(int livestockId) async {
+  Future<NotesResponse?> getNotesByLivestockId(int livestockId) async {
     return await service.getAllNotesByLivestockId(livestockId);
   }
 
-  Future<CatatanResponse> editNoteById(CatatanRequest request, noteId) async {
+  Future<NoteResponse> editNoteById(NoteRequest request, noteId) async {
     return await service.editCatatanById(request, noteId);
   }
 

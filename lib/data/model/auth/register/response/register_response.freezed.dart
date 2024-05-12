@@ -20,9 +20,13 @@ RegisterResponse _$RegisterResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RegisterResponse {
-  String get message => throw _privateConstructorUsedError;
-  bool get error => throw _privateConstructorUsedError;
-  RegisterData get data => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  int? get code => throw _privateConstructorUsedError;
+  int? get status => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
+  bool? get error => throw _privateConstructorUsedError;
+  RegisterData? get data => throw _privateConstructorUsedError;
+  String? get details => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,9 +40,16 @@ abstract class $RegisterResponseCopyWith<$Res> {
           RegisterResponse value, $Res Function(RegisterResponse) then) =
       _$RegisterResponseCopyWithImpl<$Res, RegisterResponse>;
   @useResult
-  $Res call({String message, bool error, RegisterData data});
+  $Res call(
+      {String? name,
+      int? code,
+      int? status,
+      String? message,
+      bool? error,
+      RegisterData? data,
+      String? details});
 
-  $RegisterDataCopyWith<$Res> get data;
+  $RegisterDataCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -54,30 +65,54 @@ class _$RegisterResponseCopyWithImpl<$Res, $Val extends RegisterResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = null,
-    Object? error = null,
-    Object? data = null,
+    Object? name = freezed,
+    Object? code = freezed,
+    Object? status = freezed,
+    Object? message = freezed,
+    Object? error = freezed,
+    Object? data = freezed,
+    Object? details = freezed,
   }) {
     return _then(_value.copyWith(
-      message: null == message
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      error: null == error
+              as String?,
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      data: null == data
+              as bool?,
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as RegisterData,
+              as RegisterData?,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $RegisterDataCopyWith<$Res> get data {
-    return $RegisterDataCopyWith<$Res>(_value.data, (value) {
+  $RegisterDataCopyWith<$Res>? get data {
+    if (_value.data == null) {
+      return null;
+    }
+
+    return $RegisterDataCopyWith<$Res>(_value.data!, (value) {
       return _then(_value.copyWith(data: value) as $Val);
     });
   }
@@ -91,10 +126,17 @@ abstract class _$$RegisterResponseImplCopyWith<$Res>
       __$$RegisterResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String message, bool error, RegisterData data});
+  $Res call(
+      {String? name,
+      int? code,
+      int? status,
+      String? message,
+      bool? error,
+      RegisterData? data,
+      String? details});
 
   @override
-  $RegisterDataCopyWith<$Res> get data;
+  $RegisterDataCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -108,23 +150,43 @@ class __$$RegisterResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = null,
-    Object? error = null,
-    Object? data = null,
+    Object? name = freezed,
+    Object? code = freezed,
+    Object? status = freezed,
+    Object? message = freezed,
+    Object? error = freezed,
+    Object? data = freezed,
+    Object? details = freezed,
   }) {
     return _then(_$RegisterResponseImpl(
-      message: null == message
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      error: null == error
+              as String?,
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as bool,
-      data: null == data
+              as bool?,
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as RegisterData,
+              as RegisterData?,
+      details: freezed == details
+          ? _value.details
+          : details // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -133,21 +195,35 @@ class __$$RegisterResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RegisterResponseImpl implements _RegisterResponse {
   _$RegisterResponseImpl(
-      {required this.message, required this.error, required this.data});
+      {required this.name,
+      required this.code,
+      required this.status,
+      required this.message,
+      required this.error,
+      required this.data,
+      required this.details});
 
   factory _$RegisterResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$RegisterResponseImplFromJson(json);
 
   @override
-  final String message;
+  final String? name;
   @override
-  final bool error;
+  final int? code;
   @override
-  final RegisterData data;
+  final int? status;
+  @override
+  final String? message;
+  @override
+  final bool? error;
+  @override
+  final RegisterData? data;
+  @override
+  final String? details;
 
   @override
   String toString() {
-    return 'RegisterResponse(message: $message, error: $error, data: $data)';
+    return 'RegisterResponse(name: $name, code: $code, status: $status, message: $message, error: $error, data: $data, details: $details)';
   }
 
   @override
@@ -155,14 +231,19 @@ class _$RegisterResponseImpl implements _RegisterResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RegisterResponseImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.error, error) || other.error == error) &&
-            (identical(other.data, data) || other.data == data));
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.details, details) || other.details == details));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, message, error, data);
+  int get hashCode => Object.hash(
+      runtimeType, name, code, status, message, error, data, details);
 
   @JsonKey(ignore: true)
   @override
@@ -181,19 +262,31 @@ class _$RegisterResponseImpl implements _RegisterResponse {
 
 abstract class _RegisterResponse implements RegisterResponse {
   factory _RegisterResponse(
-      {required final String message,
-      required final bool error,
-      required final RegisterData data}) = _$RegisterResponseImpl;
+      {required final String? name,
+      required final int? code,
+      required final int? status,
+      required final String? message,
+      required final bool? error,
+      required final RegisterData? data,
+      required final String? details}) = _$RegisterResponseImpl;
 
   factory _RegisterResponse.fromJson(Map<String, dynamic> json) =
       _$RegisterResponseImpl.fromJson;
 
   @override
-  String get message;
+  String? get name;
   @override
-  bool get error;
+  int? get code;
   @override
-  RegisterData get data;
+  int? get status;
+  @override
+  String? get message;
+  @override
+  bool? get error;
+  @override
+  RegisterData? get data;
+  @override
+  String? get details;
   @override
   @JsonKey(ignore: true)
   _$$RegisterResponseImplCopyWith<_$RegisterResponseImpl> get copyWith =>

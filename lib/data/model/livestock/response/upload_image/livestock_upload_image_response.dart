@@ -11,8 +11,9 @@ class LivestockUploadImageResponse with _$LivestockUploadImageResponse {
     required int? code,
     required int? status,
     required String? message,
-    required bool error,
-    required UploadData data,
+    required bool? error,
+    required UploadData? data,
+    required List<String>? details,
   }) = _LivestockUploadImageResponse;
 
   factory LivestockUploadImageResponse.fromJson(Map<String, dynamic> json) =>

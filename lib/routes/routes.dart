@@ -1,12 +1,11 @@
-import 'package:digiternak_app/data/model/catatan/response/data/catatan_data.dart';
-import 'package:digiternak_app/data/model/kandang/response/result/kandang_result.dart';
+import 'package:digiternak_app/data/model/notes/response/data/note_data.dart';
+import 'package:digiternak_app/data/model/cage/response/result/cage_result.dart';
 import 'package:digiternak_app/data/model/livestock/response/data/livestock_data.dart';
 import 'package:digiternak_app/data/remote/auth/auth_repository.dart';
 import 'package:digiternak_app/provider/auth/auth_provider.dart';
 import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/auth/register/register_screen.dart';
-import 'package:digiternak_app/ui/dashboard/DashboardLivestockScreen.dart';
-import 'package:digiternak_app/ui/dashboard/KandangDetailScreen.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/cage/detail_cage_screen.dart';
 import 'package:digiternak_app/ui/detail_image/detail_image_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/cage/add_cage_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/cage/list/list_cage_screen.dart';
@@ -14,16 +13,16 @@ import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/add_li
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/list/list_livestock_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/livestock_upload_image_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/update/update_livestock_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/add/livestock_add_notes_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/detail/livestock_detail_notes_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/list/notes_livestock_list.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/notes/add/add_note_screen.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/notes/detail/detail_note_screen.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/notes/list/list_notes_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/detail/livestock_detail.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/fattening_home_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/notes_home_livestock.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/search/fattening_search_livestocks_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/update/livestock_update_notes.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/notes/home_notes_screen.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/home/home_livestock_screen.dart';
+import 'package:digiternak_app/ui/features/fattening_livestocks/notes/update/update_note_screen.dart';
 import 'package:digiternak_app/ui/home/home_screen.dart';
-import 'package:digiternak_app/ui/profile/complete_data/complete_data_step_one_screen.dart';
+import 'package:digiternak_app/ui/profile/complete_data/edit_profile_screen.dart';
 import 'package:digiternak_app/ui/profile/profile_screen.dart';
 import 'package:digiternak_app/ui/splash/splash_screen.dart';
 import 'package:digiternak_app/ui/upload/upload_screen.dart';
@@ -39,34 +38,28 @@ final routes = {
   RegisterScreen.routeName: (context) => const RegisterScreen(),
   ProfileScreen.routeName: (context) => const ProfileScreen(),
   FatteningHomeScreen.routeName: (context) => const FatteningHomeScreen(),
-  FatteningSearchLiveStocksScreen.routeName: (context) =>
-      const FatteningSearchLiveStocksScreen(),
+  HomeLivestockScreen.routeName: (context) => const HomeLivestockScreen(),
   LivestockDetail.routeName: (context) => LivestockDetail(
       data: ModalRoute.of(context)!.settings.arguments as LivestockData?),
-  NotesHomeLiveStock.routeName: (context) => const NotesHomeLiveStock(),
-  NotesLiveStockList.routeName: (context) => NotesLiveStockList(
-        data: ModalRoute.of(context)!.settings.arguments as List<CatatanData>,
+  HomeNotesScreen.routeName: (context) => const HomeNotesScreen(),
+  ListNotesScreen.routeName: (context) => ListNotesScreen(
+        data: ModalRoute.of(context)!.settings.arguments as List<NoteData>,
       ),
-  LivestockDetailNotes.routeName: (context) => LivestockDetailNotes(
+  DetailNoteScreen.routeName: (context) => DetailNoteScreen(
         id: ModalRoute.of(context)!.settings.arguments as int,
       ),
-  LivestockAddNotesScreen.routeName: (context) =>
-      const LivestockAddNotesScreen(),
-  ListLivestockScreen.routeName: (context) => ListLivestockScreen(
-      data: ModalRoute.of(context)!.settings.arguments as List<LivestockData>),
-  LivestockUpdateNotes.routeName: (context) => LivestockUpdateNotes(
-      data: ModalRoute.of(context)!.settings.arguments as CatatanData),
+  AddNoteScreen.routeName: (context) => const AddNoteScreen(),
+  ListLivestockScreen.routeName: (context) => const ListLivestockScreen(),
+  UpdateNoteScreen.routeName: (context) => UpdateNoteScreen(
+      data: ModalRoute.of(context)!.settings.arguments as NoteData),
   UpdateLivestockScreen.routeName: (context) => UpdateLivestockScreen(
       data: ModalRoute.of(context)!.settings.arguments as LivestockData),
-  CompleteDataStepOneScreen.routeName: (context) =>
-      const CompleteDataStepOneScreen(),
+  EditProfileScreen.routeName: (context) => const EditProfileScreen(),
 
   QRCodeWidget.routeName: (context) => QRCodeWidget(
         type: ModalRoute.of(context)!.settings.arguments as QRtype,
       ),
-  DashboardLivestockScreen.routeName: (context) =>
-      const DashboardLivestockScreen(),
-  KandangDetailScreen.routeName: (context) => KandangDetailScreen(
+  DetailCageScreen.routeName: (context) => DetailCageScreen(
       id: ModalRoute.of(context)!.settings.arguments as String),
   AddLivestockScreen.routeName: (context) => const AddLivestockScreen(),
 
@@ -74,8 +67,7 @@ final routes = {
   AddCageScreen.routeName: (context) => const AddCageScreen(),
   LivestockUploadImageScreen.routeName: (context) => LivestockUploadImageScreen(
       livestockId: ModalRoute.of(context)!.settings.arguments as int),
-  ListCageScreen.routeName: (context) => ListCageScreen(
-      data: ModalRoute.of(context)!.settings.arguments as List<KandangResult>),
+  ListCageScreen.routeName: (context) => const ListCageScreen(),
 
   //Upload
   UploadScreen.routeName: (context) {
