@@ -2,7 +2,6 @@ import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/data/model/livestock/response/data/livestock_data.dart';
 import 'package:digiternak_app/provider/home/home_provider.dart';
 import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
-import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/add_livestock_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/detail/livestock_detail.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
@@ -173,7 +172,6 @@ class LivestockWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print("${livestockData}");
         Navigator.pushNamed(context, LivestockDetail.routeName,
             arguments: livestockData);
       },

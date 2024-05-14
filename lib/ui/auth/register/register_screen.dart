@@ -1,6 +1,5 @@
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/data/model/auth/register/request/register_request.dart';
-import 'package:digiternak_app/data/remote/auth/auth_repository.dart';
 import 'package:digiternak_app/provider/auth/auth_provider.dart';
 import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
