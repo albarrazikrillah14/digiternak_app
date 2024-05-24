@@ -8,8 +8,10 @@ import 'package:digiternak_app/ui/features/fattening_livestocks/fattening_home_s
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/list/list_livestock_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/notes/list/list_notes_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/custom_row.dart';
 import 'package:digiternak_app/widget/error_widget.dart';
 import 'package:digiternak_app/widget/feature_item_widget.dart';
+import 'package:digiternak_app/widget/image_rounded.dart';
 import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:digiternak_app/widget/note_card_widget.dart';
 import 'package:flutter/material.dart';
@@ -55,66 +57,61 @@ class _HomeScreenState extends State<HomeScreen> {
               case ResultState.loading:
                 return loadingScreen();
               default:
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 200,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 4),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: Image.asset(
-                                  'assets/sapi${index + 1}.jpeg',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            );
-                          },
-                          itemCount: 3,
-                        ),
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 200,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: ImageRounded(
+                              image: 'assets/sapi${index + 1}.jpeg',
+                              width: MediaQuery.of(context).size.width - 100,
+                            ),
+                          );
+                        },
+                        itemCount: 3,
                       ),
-                      const SizedBox(
-                        height: 16,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    (provider.cages == null)
+                        ? Container()
+                        : HomeDashboardWidget(data: provider.cages!),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    HomeFeatureWidget(
+                      data: [
+                        FeatureItem(
+                            image: "assets/ic_feature.png",
+                            featureName: "Peggemukan"),
+                      ],
+                    ),
+                    ChangeNotifierProvider.value(
+                      value: notesProvider,
+                      child: Consumer<NotesProvider>(
+                        builder: (context, provider, child) {
+                          switch (provider.state) {
+                            case ResultState.loading:
+                              return loadingScreen();
+                            case ResultState.hasData:
+                              return LastNoteWidget(
+                                data: provider.notes,
+                              );
+                            default:
+                              return Container();
+                          }
+                        },
                       ),
-                      (provider.cages == null)
-                          ? Container()
-                          : HomeDashboardWidget(data: provider.cages!),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      HomeFeatureWidget(
-                        data: [
-                          FeatureItem(
-                              image: "assets/ic_feature.png",
-                              featureName: "Peggemukan"),
-                        ],
-                      ),
-                      ChangeNotifierProvider.value(
-                        value: notesProvider,
-                        child: Consumer<NotesProvider>(
-                          builder: (context, provider, child) {
-                            switch (provider.state) {
-                              case ResultState.loading:
-                                return loadingScreen();
-                              case ResultState.hasData:
-                                return LastNoteWidget(
-                                  data: provider.notes,
-                                );
-                              default:
-                                return Container();
-                            }
-                          },
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                  ],
                 );
             }
           },
@@ -146,43 +143,23 @@ class _LastNoteWidgetState extends State<LastNoteWidget> {
     }
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 230,
+      height: 317,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Catatan",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          CustomRow(
+            title: 'Catatan',
+            value: 'Lihat semuanya',
+            suffixWidget: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, ListNotesScreen.routeName,
+                    arguments: widget.data.data);
+              },
+              child: const Icon(
+                Icons.keyboard_arrow_right,
+                color: Colors.blue,
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, ListNotesScreen.routeName,
-                      arguments: widget.data.data);
-                },
-                child: Row(
-                  children: [
-                    const Text(
-                      "Lihat Semuanya",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10),
-                    ),
-                    Image.asset(
-                      "assets/ic_arrow_right.png",
-                      width: 16,
-                      height: 16,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
+            ),
           ),
           Expanded(
               child: ListView.builder(
@@ -191,7 +168,11 @@ class _LastNoteWidgetState extends State<LastNoteWidget> {
             itemBuilder: (context, index) {
               final data = widget
                   .data.data![(widget.data.data?.length ?? 0) - index - 1];
-              return NoteCardWidget(data: data);
+              return Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                margin: const EdgeInsets.only(right: 16),
+                child: NoteCardWidget(data: data),
+              );
             },
             itemCount:
                 widget.data.data!.length > 3 ? 3 : widget.data.data!.length,
@@ -216,12 +197,12 @@ class _HomeFeatureWidgetState extends State<HomeFeatureWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Fitur",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 16),
         ),
         SizedBox(
-          height: 110,
+          height: 121,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.data.length,
@@ -244,7 +225,7 @@ class _HomeFeatureWidgetState extends State<HomeFeatureWidget> {
               );
             },
           ),
-        )
+        ),
       ],
     );
   }

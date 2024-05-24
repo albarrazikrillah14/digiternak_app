@@ -18,9 +18,12 @@ class DialogAlert extends StatelessWidget {
       backgroundColor: Colors.white,
       title: Text(
         title,
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 24),
       ),
-      content: Text(message),
+      content: Text(
+        message,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 24),
+      ),
       actions: <Widget>[
         PrimaryButton(
           onPressed: onSuccess,

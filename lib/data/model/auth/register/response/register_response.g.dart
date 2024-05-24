@@ -17,7 +17,8 @@ _$RegisterResponseImpl _$$RegisterResponseImplFromJson(
       data: json['data'] == null
           ? null
           : RegisterData.fromJson(json['data'] as Map<String, dynamic>),
-      details: json['details'] as String?,
+      details:
+          (json['details'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$RegisterResponseImplToJson(

@@ -189,5 +189,6 @@ class NotesProvider extends ChangeNotifier {
 
   void setState() {
     _state = ResultState.noData;
+    notifyListeners();
   }
 }

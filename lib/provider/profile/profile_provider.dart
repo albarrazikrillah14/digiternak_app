@@ -70,4 +70,9 @@ class ProfileProvider extends ChangeNotifier {
 
     return result;
   }
+
+  void setState() {
+    _state = ResultState.noData;
+    notifyListeners();
+  }
 }

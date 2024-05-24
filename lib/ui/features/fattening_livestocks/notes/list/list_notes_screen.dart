@@ -23,12 +23,10 @@ class _ListNotesScreenState extends State<ListNotesScreen> {
     return BaseScreen(
       title: "Catatan Ternak",
       isHasBackButton: true,
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return NoteCardWidget(
-              data: widget.data[widget.data.length - index - 1]);
-        },
-        itemCount: widget.data.length,
+      body: Column(
+        children: widget.data.map((it) {
+          return NoteCardWidget(data: it);
+        }).toList(),
       ),
     );
   }

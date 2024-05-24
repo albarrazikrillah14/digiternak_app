@@ -1,9 +1,10 @@
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/provider/cage/cage_provider.dart';
-import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/container_widget.dart';
+import 'package:digiternak_app/widget/custom_row.dart';
 import 'package:digiternak_app/widget/error_widget.dart';
-import 'package:digiternak_app/widget/primary_button.dart';
+import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,94 +33,52 @@ class _DetailCageScreenState extends State<DetailCageScreen> {
     return BaseScreen(
       title: "KandangKu",
       isHasBackButton: true,
-      body: SingleChildScrollView(
-        child: ChangeNotifierProvider.value(
-          value: provider,
-          child: Consumer<CageProvider>(
-            builder: (context, provider, child) {
-              switch (provider.stateCage) {
-                case ResultState.unauthorized:
-                  return Center(
-                    child: PrimaryButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, LoginScreen.routeName);
-                      },
-                      title: "Masuk Kembali",
-                    ),
-                  );
-                case ResultState.loading:
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.blue,
-                    ),
-                  );
-                case ResultState.hasData:
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.asset("assets/ic_sapi.png"),
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Text(
-                            provider.cage?.data?.name ?? "",
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            provider.cage?.data?.location ?? "",
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          const Divider(),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            children: [
-                              const Text("Jumlah Ternak: "),
-                              Text(
-                                  "${provider.cage?.data?.livestocks?.length ?? 0}")
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                            provider.cage?.data?.description ?? "",
-                            textAlign: TextAlign.justify,
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                case ResultState.error:
-                  return errorWidget(
+      body: ChangeNotifierProvider.value(
+        value: provider,
+        child: Consumer<CageProvider>(
+          builder: (context, provider, child) {
+            switch (provider.stateCage) {
+              case ResultState.unauthorized:
+                return errorWidget(
+                    context: context, type: ErrorType.unauthorization);
+              case ResultState.loading:
+                return loadingScreen();
+              case ResultState.hasData:
+                return buildContainer(
                     context: context,
-                    message: provider.message,
-                  );
-                default:
-                  return Container();
-              }
-            },
-          ),
+                    child: Column(
+                      children: [
+                        CustomRow(
+                            title: 'Id kandang',
+                            value: "${provider.cage?.data?.id ?? ""}"),
+                        CustomRow(
+                          title: 'Nama kandang',
+                          value: provider.cage?.data?.name ?? "",
+                        ),
+                        CustomRow(
+                          title: 'Lokasi kandang',
+                          value: provider.cage?.data?.location ?? "",
+                        ),
+                        CustomRow(
+                            title: 'Jumlah ternak',
+                            value:
+                                "${provider.cage?.data?.livestocks?.length ?? 0}"),
+                        CustomRow(
+                            title: 'Detail',
+                            value: provider.cage?.data?.description ?? ""),
+                      ],
+                    ),
+                    title: 'Detail kandang');
+
+              case ResultState.error:
+                return errorWidget(
+                  context: context,
+                  message: provider.message,
+                );
+              default:
+                return Container();
+            }
+          },
         ),
       ),
     );

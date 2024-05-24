@@ -68,9 +68,8 @@ class AuthProvider extends ChangeNotifier {
       _state = ResultState.hasData;
     } else {
       _state = ResultState.error;
-      _message = result.details ?? "";
+      _message = result.details?[0] ?? "";
     }
-
     notifyListeners();
     return result;
   }

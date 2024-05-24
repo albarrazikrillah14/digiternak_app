@@ -42,7 +42,10 @@ class _BaseScreenState extends State<BaseScreen> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   widget.title,
-                  style: const TextStyle(color: Colors.white),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: Colors.white, fontSize: 24),
                 ),
               ),
               leading: widget.isHasBackButton
@@ -58,18 +61,25 @@ class _BaseScreenState extends State<BaseScreen> {
                   : null,
             )
           : null,
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ),
-          color: Color.fromRGBO(240, 242, 245, 1),
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                  color: Color.fromRGBO(240, 242, 245, 1),
+                ),
+                child: widget.body,
+              ),
+            )
+          ],
         ),
-        child: widget.body,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: widget.isRoot

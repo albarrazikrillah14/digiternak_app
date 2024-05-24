@@ -45,6 +45,7 @@ class LivestockProvider extends ChangeNotifier {
     _createState = ResultState.loading;
     notifyListeners();
 
+    print("KONYOL ${request}");
     final result = await repository.createLivestock(request);
 
     if (result.error) {

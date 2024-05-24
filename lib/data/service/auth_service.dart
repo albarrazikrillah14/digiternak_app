@@ -4,6 +4,7 @@ import 'package:digiternak_app/data/model/auth/login/request/login_request.dart'
 import 'package:digiternak_app/data/model/auth/login/response/login_response.dart';
 import 'package:digiternak_app/data/model/auth/register/request/register_request.dart';
 import 'package:digiternak_app/data/model/auth/register/response/register_response.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
@@ -11,7 +12,7 @@ class AuthService {
 
   AuthService(this.client);
 
-  static const String endpoint = 'https://digiternak-420314.uc.r.appspot.com';
+  final endpoint = dotenv.env["BASE_URL"]!;
 
   Future<RegisterResponse> register(RegisterRequest request) async {
     final response = await http.post(

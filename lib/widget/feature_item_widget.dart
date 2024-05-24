@@ -6,36 +6,39 @@ class FeatureItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 80,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.white,
-            ),
-            child: Center(
-              child: Image.asset(
-                data.image,
-                width: 48,
-                height: 48,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Colors.white,
+          ),
+          child: Column(
+            children: [
+              Center(
+                child: Image.asset(
+                  data.image,
+                  width: 48,
+                  height: 48,
+                ),
               ),
-            ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                data.featureName,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(fontSize: 12),
+              ),
+            ],
           ),
-          const SizedBox(
-            height: 4,
-          ),
-          Text(
-            data.featureName,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black),
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

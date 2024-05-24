@@ -17,10 +17,12 @@ import 'package:digiternak_app/provider/upload/upload_provider.dart';
 import 'package:digiternak_app/routes/routes.dart';
 import 'package:digiternak_app/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: '.env');
   runApp(const DigiTernakApp());
 }
 
@@ -60,53 +62,7 @@ class DigiTernakApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'DigiTernak App',
-        theme: ThemeData(
-          textTheme: myTextTheme,
-          colorScheme: Theme.of(context).colorScheme.copyWith(
-                primary: primaryColor,
-                onPrimary: Colors.black,
-                secondary: secondaryColor,
-              ),
-          appBarTheme: const AppBarTheme(
-              elevation: 0, iconTheme: IconThemeData(color: Colors.white)),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: secondaryColor,
-              foregroundColor: Colors.white,
-              textStyle: const TextStyle(),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8),
-                ),
-              ),
-            ),
-          ),
-          inputDecorationTheme: const InputDecorationTheme(
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.green),
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: secondaryColor),
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
-              ),
-            ),
-            labelStyle: TextStyle(color: titleColor),
-            hintStyle: TextStyle(color: Colors.grey),
-            iconColor: Colors.blue,
-            prefixIconColor: Colors.blue,
-            suffixIconColor: Colors.blue,
-          ),
-        ),
+        theme: appTheme,
         initialRoute: SplashScreen.routeName,
         routes: routes,
       ),

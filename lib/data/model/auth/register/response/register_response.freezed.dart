@@ -26,7 +26,7 @@ mixin _$RegisterResponse {
   String? get message => throw _privateConstructorUsedError;
   bool? get error => throw _privateConstructorUsedError;
   RegisterData? get data => throw _privateConstructorUsedError;
-  String? get details => throw _privateConstructorUsedError;
+  List<String>? get details => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +47,7 @@ abstract class $RegisterResponseCopyWith<$Res> {
       String? message,
       bool? error,
       RegisterData? data,
-      String? details});
+      List<String>? details});
 
   $RegisterDataCopyWith<$Res>? get data;
 }
@@ -101,7 +101,7 @@ class _$RegisterResponseCopyWithImpl<$Res, $Val extends RegisterResponse>
       details: freezed == details
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>?,
     ) as $Val);
   }
 
@@ -133,7 +133,7 @@ abstract class _$$RegisterResponseImplCopyWith<$Res>
       String? message,
       bool? error,
       RegisterData? data,
-      String? details});
+      List<String>? details});
 
   @override
   $RegisterDataCopyWith<$Res>? get data;
@@ -184,9 +184,9 @@ class __$$RegisterResponseImplCopyWithImpl<$Res>
           : data // ignore: cast_nullable_to_non_nullable
               as RegisterData?,
       details: freezed == details
-          ? _value.details
+          ? _value._details
           : details // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>?,
     ));
   }
 }
@@ -201,7 +201,8 @@ class _$RegisterResponseImpl implements _RegisterResponse {
       required this.message,
       required this.error,
       required this.data,
-      required this.details});
+      required final List<String>? details})
+      : _details = details;
 
   factory _$RegisterResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$RegisterResponseImplFromJson(json);
@@ -218,8 +219,15 @@ class _$RegisterResponseImpl implements _RegisterResponse {
   final bool? error;
   @override
   final RegisterData? data;
+  final List<String>? _details;
   @override
-  final String? details;
+  List<String>? get details {
+    final value = _details;
+    if (value == null) return null;
+    if (_details is EqualUnmodifiableListView) return _details;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
@@ -237,13 +245,13 @@ class _$RegisterResponseImpl implements _RegisterResponse {
             (identical(other.message, message) || other.message == message) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.data, data) || other.data == data) &&
-            (identical(other.details, details) || other.details == details));
+            const DeepCollectionEquality().equals(other._details, _details));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, name, code, status, message, error, data, details);
+  int get hashCode => Object.hash(runtimeType, name, code, status, message,
+      error, data, const DeepCollectionEquality().hash(_details));
 
   @JsonKey(ignore: true)
   @override
@@ -268,7 +276,7 @@ abstract class _RegisterResponse implements RegisterResponse {
       required final String? message,
       required final bool? error,
       required final RegisterData? data,
-      required final String? details}) = _$RegisterResponseImpl;
+      required final List<String>? details}) = _$RegisterResponseImpl;
 
   factory _RegisterResponse.fromJson(Map<String, dynamic> json) =
       _$RegisterResponseImpl.fromJson;
@@ -286,7 +294,7 @@ abstract class _RegisterResponse implements RegisterResponse {
   @override
   RegisterData? get data;
   @override
-  String? get details;
+  List<String>? get details;
   @override
   @JsonKey(ignore: true)
   _$$RegisterResponseImplCopyWith<_$RegisterResponseImpl> get copyWith =>

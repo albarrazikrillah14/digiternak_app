@@ -13,7 +13,7 @@ class RegisterResponse with _$RegisterResponse {
     required String? message,
     required bool? error,
     required RegisterData? data,
-    required String? details,
+    required List<String>? details,
   }) = _RegisterResponse;
 
   factory RegisterResponse.fromJson(Map<String, dynamic> json) =>

@@ -53,12 +53,10 @@ class _ListLivestockScreenState extends State<ListLivestockScreen> {
                     },
                   );
                 case ResultState.hasData:
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      return LivestockWidget(
-                          livestockData: provider.allLivestock.data?[index]);
-                    },
-                    itemCount: provider.allLivestock.data?.length,
+                  return Column(
+                    children: provider.allLivestock.data!.map((it) {
+                      return LivestockWidget(livestockData: it);
+                    }).toList(),
                   );
               }
             },

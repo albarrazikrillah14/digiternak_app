@@ -17,21 +17,26 @@ Widget buildContainer({
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              closeContainer ?? Container(),
-            ],
-          ),
-          const SizedBox(height: 8),
+          title != ""
+              ? Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: Colors.black, fontSize: 24),
+                        ),
+                        closeContainer ?? Container(),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                )
+              : Container(),
           child,
         ],
       ),

@@ -1,35 +1,37 @@
-import 'package:digiternak_app/common/constant.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DetailImageScreen extends StatefulWidget {
   static const routeName = '/detail_image_screen';
   final List<String> data;
 
-  const DetailImageScreen({super.key, required this.data});
+  const DetailImageScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   State<DetailImageScreen> createState() => _DetailImageScreenState();
 }
 
 class _DetailImageScreenState extends State<DetailImageScreen> {
+  final String BASE_IMAGE_URL = dotenv.env["BASE_IMAGE_URL"]!;
+
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-        title: "Detail Gambar",
-        body: ListView.builder(
+      title: "Detail Gambar",
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height - 32,
+        child: ListView(
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8),
-              child: Image.network(
-                "$BASE_IMAGE_URL${widget.data[index]}",
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.fitWidth,
-              ),
+          children: widget.data.map((it) {
+            return Image.network(
+              "$BASE_IMAGE_URL$it",
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.fitWidth,
             );
-          },
-          itemCount: widget.data.length,
-        ));
+          }).toList(),
+        ),
+      ),
+    );
   }
 }

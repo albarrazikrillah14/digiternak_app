@@ -1,5 +1,4 @@
 import 'package:digiternak_app/data/model/notes/response/data/note_data.dart';
-import 'package:digiternak_app/data/model/cage/response/result/cage_result.dart';
 import 'package:digiternak_app/data/model/livestock/response/data/livestock_data.dart';
 import 'package:digiternak_app/data/remote/auth/auth_repository.dart';
 import 'package:digiternak_app/provider/auth/auth_provider.dart';
@@ -24,6 +23,7 @@ import 'package:digiternak_app/ui/features/fattening_livestocks/notes/update/upd
 import 'package:digiternak_app/ui/home/home_screen.dart';
 import 'package:digiternak_app/ui/profile/complete_data/edit_profile_screen.dart';
 import 'package:digiternak_app/ui/profile/profile_screen.dart';
+import 'package:digiternak_app/ui/qr_code/qrcode_screen.dart';
 import 'package:digiternak_app/ui/splash/splash_screen.dart';
 import 'package:digiternak_app/ui/upload/upload_screen.dart';
 import 'package:digiternak_app/widget/qr_widget.dart';
@@ -79,5 +79,8 @@ final routes = {
   },
 
   DetailImageScreen.routeName: (context) => DetailImageScreen(
-      data: ModalRoute.of(context)!.settings.arguments as List<String>)
+      data: ModalRoute.of(context)!.settings.arguments as List<String>),
+
+  QRCodeScreen.routeName: (context) =>
+      QRCodeScreen(data: ModalRoute.of(context)!.settings.arguments as String),
 };

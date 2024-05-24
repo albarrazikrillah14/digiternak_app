@@ -6,6 +6,7 @@ import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/container_widget.dart';
 import 'package:digiternak_app/widget/dialog_widget.dart';
 import 'package:digiternak_app/widget/feature_item_widget.dart';
+import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class FatteningHomeScreen extends StatefulWidget {
@@ -37,92 +38,108 @@ class _FatteningHomeScreenState extends State<FatteningHomeScreen> {
     return BaseScreen(
       title: "Penggemukan",
       isHasBackButton: true,
-      body: SingleChildScrollView(
-        child: FutureBuilder<bool>(
-          future: repository.isTutorial(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator(
-                color: Colors.blue,
-              );
-            } else {
-              bool isTutorial = snapshot.data ?? true;
-              return Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      "assets/ic_writing.jpeg",
-                      width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.cover,
-                    ),
+      body: FutureBuilder<bool>(
+        future: repository.isTutorial(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return loadingScreen();
+          } else {
+            bool isTutorial = snapshot.data ?? true;
+            return Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.asset(
+                    "assets/ic_writing.jpeg",
+                    width: MediaQuery.of(context).size.width,
+                    height: 200,
+                    fit: BoxFit.cover,
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  !isTutorial
-                      ? buildContainer(
-                          context: context,
-                          child: const Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Alur Aplikasi ini adalah: "),
-                              Divider(),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                  "1. Kamu harus memiliki kandang terlebih dahulu."),
-                              Text(
-                                  "2. Daftarkan ternak anda, serta menambahkan kandang terhadap ternak."),
-                              Text("3. Lakukan Pencatatan."),
-                            ],
-                          ),
-                          title: "Tutorial",
-                          closeContainer: InkWell(
-                            onTap: () {
-                              showAlertDialog(
-                                context: context,
-                                title: "Tutorial",
-                                messsage:
-                                    "Apakah anda yakin untuk menghapus tutorial? setelah anda memencet Ya, tutorial tidak akan muncul lagi.",
-                                onSuccess: () async {
-                                  final result =
-                                      await repository.removeTutorial();
-                                  if (result) {
-                                    setState(() {
-                                      Navigator.pop(context);
-                                    });
-                                  }
-                                },
-                              );
-                            },
-                            child: const Icon(
-                              Icons.close,
-                              color: Colors.red,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                !isTutorial
+                    ? buildContainer(
+                        context: context,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Alur Aplikasi ini adalah: ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(fontSize: 16)),
+                            const Divider(),
+                            const SizedBox(
+                              height: 4,
                             ),
+                            Text(
+                              "1. Kamu harus memiliki kandang terlebih dahulu.",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(fontSize: 16),
+                            ),
+                            Text(
+                              "2. Daftarkan ternak anda.",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(fontSize: 16),
+                            ),
+                            Text(
+                              "3. Lakukan Pencatatan.",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                        title: "Tutorial",
+                        closeContainer: InkWell(
+                          onTap: () {
+                            showAlertDialog(
+                              context: context,
+                              title: "Tutorial",
+                              messsage:
+                                  "Apakah anda yakin untuk menghapus tutorial? setelah anda memencet Ya, tutorial tidak akan muncul lagi.",
+                              onSuccess: () async {
+                                final result =
+                                    await repository.removeTutorial();
+                                if (result) {
+                                  setState(() {
+                                    Navigator.pop(context);
+                                  });
+                                }
+                              },
+                            );
+                          },
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.red,
                           ),
-                        )
-                      : Container(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  FatteningFeatureWidget(
-                    data: [
-                      FeatureItem(
-                          image: "assets/ic_add.png", featureName: "Catatan"),
-                      FeatureItem(
-                          image: "assets/ic_cow.png", featureName: "Ternak"),
-                      FeatureItem(
-                          image: "assets/ic_kandang.png",
-                          featureName: "Kandang"),
-                    ],
-                  )
-                ],
-              );
-            }
-          },
-        ),
+                        ),
+                      )
+                    : Container(),
+                const SizedBox(
+                  height: 20,
+                ),
+                FatteningFeatureWidget(
+                  data: [
+                    FeatureItem(
+                        image: "assets/ic_add.png", featureName: "Catatan"),
+                    FeatureItem(
+                        image: "assets/ic_cow.png", featureName: "Ternak"),
+                    FeatureItem(
+                        image: "assets/ic_kandang.png", featureName: "Kandang"),
+                  ],
+                )
+              ],
+            );
+          }
+        },
       ),
     );
   }

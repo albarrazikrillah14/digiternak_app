@@ -33,11 +33,8 @@ class ErrorWidget extends StatelessWidget {
                   : type == ErrorType.empty
                       ? "Data tidak ditemukan"
                       : message,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+              style:
+                  Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 24),
             ),
             const SizedBox(
               height: 16,

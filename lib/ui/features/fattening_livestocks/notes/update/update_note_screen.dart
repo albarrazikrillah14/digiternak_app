@@ -4,7 +4,12 @@ import 'package:digiternak_app/data/model/notes/response/data/note_data.dart';
 import 'package:digiternak_app/provider/notes/notes_provider.dart';
 import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/container_widget.dart';
+import 'package:digiternak_app/widget/custom_row.dart';
+import 'package:digiternak_app/widget/error_widget.dart';
+import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
+import 'package:digiternak_app/widget/primary_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -53,63 +58,55 @@ class _UpdateNoteScreenState extends State<UpdateNoteScreen> {
             builder: (context, provider, child) {
               switch (provider.updateState) {
                 case ResultState.unauthorized:
-                  return Center(
-                    child: PrimaryButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, LoginScreen.routeName);
-                      },
-                      title: "Masuk Kembali",
-                    ),
-                  );
+                  return errorWidget(
+                      context: context, type: ErrorType.unauthorization);
                 case ResultState.loading:
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.blue,
-                    ),
-                  );
+                  return loadingScreen();
                 case ResultState.error:
-                  return const Center(
-                    child: Text("terjadi Kesalahan"),
-                  );
+                  return errorWidget(
+                      context: context,
+                      message: provider.message,
+                      onPress: () {
+                        provider.setUpdateState();
+                      });
                 default:
-                  return SingleChildScrollView(
-                      child: Form(
+                  return Form(
                     key: formKey,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _TextInfoField(
-                            title: "Ternak",
-                            value: widget.data.livestockVID ?? ""),
-                        _TextInfoField(
-                            title: "Nama Kandang",
-                            value: widget.data.livestockCage ?? ""),
-                        _TextFormField(
-                          form: TextFormField(
-                            controller: feedController,
-                            decoration: const InputDecoration(
-                              hintText: "Makanan",
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 16,
                             ),
-                          ),
-                        ),
-                        _TextFormField(
-                          form: TextFormField(
-                            controller: costsController,
-                            decoration:
-                                const InputDecoration(hintText: "Biaya"),
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        _TextFormField(
-                          form: TextFormField(
-                            controller: detailController,
-                            decoration:
-                                const InputDecoration(hintText: "Detail"),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 16,
+                            buildContainer(
+                                context: context,
+                                child: Column(
+                                  children: [
+                                    CustomRow(
+                                        title: "Ternak",
+                                        value: widget.data.livestockVID ?? ""),
+                                    CustomRow(
+                                        title: "Nama Kandang",
+                                        value: widget.data.livestockCage ?? ""),
+                                  ],
+                                ),
+                                title: ""),
+                            PrimaryTextField(
+                              placeHolder: 'Makanan',
+                              controller: feedController,
+                            ),
+                            PrimaryTextField(
+                              placeHolder: 'Biaya',
+                              controller: costsController,
+                              keyboardType: TextInputType.number,
+                            ),
+                            PrimaryTextField(
+                              placeHolder: 'Detail',
+                              controller: detailController,
+                            ),
+                          ],
                         ),
                         PrimaryButton(
                             onPressed: () async {
@@ -133,68 +130,10 @@ class _UpdateNoteScreenState extends State<UpdateNoteScreen> {
                             title: "Ubah Catatan"),
                       ],
                     ),
-                  ));
+                  );
               }
             },
           ),
         ));
-  }
-
-  Widget _DropDownButton(
-      {required String title, required DropdownButton dropdown}) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 16,
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.grey, width: 1)),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Flexible(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  dropdown
-                ],
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _TextFormField({required TextFormField form}) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 16,
-        ),
-        form,
-      ],
-    );
-  }
-
-  Widget _TextInfoField({required String title, required String value}) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 16,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text(title), Text(value)],
-        )
-      ],
-    );
   }
 }

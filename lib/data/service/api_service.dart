@@ -14,12 +14,13 @@ import 'package:digiternak_app/data/model/livestock/response/livestock_response.
 import 'package:digiternak_app/data/model/livestock/response/upload_image/livestock_upload_image_response.dart';
 import 'package:digiternak_app/data/remote/auth/auth_repository.dart';
 import 'package:digiternak_app/ui/upload/upload_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
   final http.Client client;
 
-  final endpoint = 'https://digiternak-420314.uc.r.appspot.com';
+  final endpoint = dotenv.env["BASE_URL"]!;
 
   final AuthRepository authRepository;
 

@@ -1,9 +1,9 @@
-import 'package:digiternak_app/common/styles/styles.dart';
 import 'package:digiternak_app/provider/auth/auth_provider.dart';
 import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/auth/register/register_screen.dart';
 import 'package:digiternak_app/ui/home/home_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
+import 'package:digiternak_app/widget/primary_row.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,87 +25,54 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void navigate() async {
     final isLoggedIn = await widget.authProvider.isLoggedIn();
-    Future.delayed(const Duration(seconds: 2), () {
-      if (isLoggedIn.isNotEmpty) {
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-      } else {
-        Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-      }
-    });
+    if (isLoggedIn.isNotEmpty) {
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    } else {
+      Navigator.pushReplacementNamed(context, SplashScreen.routeName);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: Colors.white,
+      appBar: null,
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 32,
-            ),
-            Center(
-              child: Image.asset(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
                 "assets/digi_ternak_logo.png",
-                height: 266,
-                scale: 1,
               ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Text(
-              'Catat Ternakmu',
-              style: TextStyle(
-                fontSize: 18,
+              const SizedBox(
+                height: 16,
               ),
-            ),
-            const SizedBox(
-              height: 64,
-            ),
-            PrimaryButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(
-                      context, RegisterScreen.routeName);
-                },
-                title: "MULAI"),
-            const SizedBox(
-              height: 64,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Sudah punya akun? "),
-                GestureDetector(
-                  onTap: () {
+              Text(
+                "Temukan solusi terbaik untuk pencatatan pakan sapi Anda dengan aplikasi modern. Manajemen pakan ternak menjadi lebih mudah dan efisien.",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const SizedBox(
+                height: 64,
+              ),
+              PrimaryButton(
+                  onPressed: () {
                     Navigator.pushReplacementNamed(
-                        context, LoginScreen.routeName);
+                        context, RegisterScreen.routeName);
                   },
-                  child: const Text(
-                    "Masuk",
-                    style: TextStyle(color: secondaryColor),
-                  ),
-                )
-              ],
-            ),
-            const Spacer(),
-            const Center(
-              child: Column(
-                children: [
-                  Text(
-                    "CSN Ilmu Komputer IPB 2024",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  Text(
-                    "Versi 1.0.0",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ],
+                  title: 'Daftar'),
+              PrimaryRow(
+                label: 'Sudah punya akun?',
+                detailLabel: 'Masuk',
+                onTap: () {
+                  Navigator.pushReplacementNamed(
+                      context, LoginScreen.routeName);
+                },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

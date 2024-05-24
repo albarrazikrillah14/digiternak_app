@@ -42,26 +42,23 @@ class _ListCageScreenState extends State<ListCageScreen> {
                 return errorWidget(
                     context: context, type: ErrorType.unauthorization);
               case ResultState.hasData:
-                return ListView.builder(
-                  itemBuilder: (context, index) {
+                return Column(
+                  children: provider.cages!.data!.map((it) {
                     return InkWell(
                       onTap: () {
                         Navigator.pushNamed(context, DetailCageScreen.routeName,
-                            arguments: "${provider.cages!.data?[index].id}");
+                            arguments: "${it.id}");
                       },
                       child: KandangLiveStockScreen(
                         data: KandangData(
-                          id: "${provider.cages?.data?[index].id}",
-                          name: provider.cages?.data?[index].name ?? "",
-                          jumlahSapi:
-                              provider.cages?.data?[index].livestocks?.length ??
-                                  0,
-                          lokasi: provider.cages?.data?[index].location ?? "",
+                          id: "${it.id}",
+                          name: it.name ?? "",
+                          jumlahSapi: it.livestocks?.length ?? 0,
+                          lokasi: it.location ?? "",
                         ),
                       ),
                     );
-                  },
-                  itemCount: provider.cages?.data?.length,
+                  }).toList(),
                 );
               case ResultState.error:
                 return errorWidget(

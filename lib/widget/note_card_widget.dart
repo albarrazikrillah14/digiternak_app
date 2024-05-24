@@ -1,7 +1,11 @@
-import 'package:digiternak_app/common/constant.dart';
+import 'package:digiternak_app/common/utils/mapper/mapper.dart';
 import 'package:digiternak_app/data/model/notes/response/data/note_data.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/notes/detail/detail_note_screen.dart';
+import 'package:digiternak_app/widget/container_widget.dart';
+import 'package:digiternak_app/widget/custom_row.dart';
+import 'package:digiternak_app/widget/image_rounded.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NoteCardWidget extends StatefulWidget {
   final NoteData data;
@@ -12,6 +16,7 @@ class NoteCardWidget extends StatefulWidget {
 }
 
 class _NoteCardWidgetState extends State<NoteCardWidget> {
+  final String BASE_IMAGE_URL = dotenv.env["BASE_IMAGE_URL"]!;
   @override
   void initState() {
     super.initState();
@@ -24,56 +29,42 @@ class _NoteCardWidgetState extends State<NoteCardWidget> {
         Navigator.pushNamed(context, DetailNoteScreen.routeName,
             arguments: widget.data.id);
       },
-      child: Container(
-        padding: const EdgeInsets.all(4),
-        margin: const EdgeInsets.all(4),
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              child: widget.data.images!.isEmpty
-                  ? Image.asset(
-                      "assets/ic_sapi.png",
-                      height: 100,
-                      width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.network(
-                      "$BASE_IMAGE_URL${widget.data.images![0]}",
-                      height: 100,
-                      width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.cover,
-                    ),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "Nama Ternak: ${widget.data.livestockName ?? ""}",
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-            Text(
-              "Kode Ternak: ${widget.data.livestockVID ?? ""}",
-              style: const TextStyle(
-                  fontWeight: FontWeight.normal, color: Colors.grey),
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(
-              widget.data.details ?? "",
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            )
-          ],
-        ),
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 16,
+          ),
+          buildContainer(
+              context: context,
+              child: Column(
+                children: [
+                  widget.data.images!.isEmpty
+                      ? ImageRounded(
+                          image: "assets/ic_sapi.png",
+                          height: 100,
+                          width: MediaQuery.of(context).size.width,
+                        )
+                      : ImageRounded(
+                          image: "$BASE_IMAGE_URL${widget.data.images![0]}",
+                          sourceType: ImageSourceType.network,
+                          height: 100,
+                          width: MediaQuery.of(context).size.width,
+                        ),
+                  CustomRow(
+                    title: 'Tanggal',
+                    value: formatTanggal(widget.data.dateRecorded ?? ""),
+                  ),
+                  CustomRow(
+                      title: 'Kode ternak',
+                      value: widget.data.livestockVID ?? ""),
+                  CustomRow(
+                    title: 'Detail',
+                    value: safeSubstring(widget.data.details ?? "", 0, 10),
+                  ),
+                ],
+              ),
+              title: widget.data.livestockName ?? ""),
+        ],
       ),
     );
   }

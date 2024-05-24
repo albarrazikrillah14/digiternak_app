@@ -10,6 +10,45 @@ String formatDateString(String dateString) {
   }
 }
 
+String formatTanggal(String input) {
+  List<String> bulan = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember"
+  ];
+
+  List<String> tanggalSplit = input.split('-');
+  int hari = int.parse(tanggalSplit[2]);
+  int bulanIndex = int.parse(tanggalSplit[1]) - 1;
+  String tahun = tanggalSplit[0];
+
+  return "$hari ${bulan[bulanIndex]} $tahun";
+}
+
+String safeSubstring(String text, int startIndex, int endIndex) {
+  if (endIndex > text.length) {
+    endIndex = text.length;
+  }
+  return "${text.substring(startIndex, endIndex)}...";
+}
+
+String formatCurrency(double amount) {
+  String formattedAmount = amount.toStringAsFixed(0).replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+        (Match match) => '${match[1]}.',
+      );
+  return 'Rp $formattedAmount';
+}
+
 String maintenanceFormatter(int id) {
   switch (id) {
     case 1:

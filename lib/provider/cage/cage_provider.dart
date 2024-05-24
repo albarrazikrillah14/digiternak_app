@@ -43,7 +43,7 @@ class CageProvider extends ChangeNotifier {
     } else {
       _state = ResultState.error;
     }
-    _message = result.message ?? "";
+    _message = result.details?[0] ?? "";
     notifyListeners();
 
     if (result.status == 401) {

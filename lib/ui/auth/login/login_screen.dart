@@ -1,5 +1,5 @@
+import 'package:digiternak_app/common/formatter/hashing.dart';
 import 'package:digiternak_app/common/result.dart';
-import 'package:digiternak_app/common/styles/styles.dart';
 import 'package:digiternak_app/data/model/auth/login/request/login_request.dart';
 import 'package:digiternak_app/provider/auth/auth_provider.dart';
 import 'package:digiternak_app/ui/auth/register/register_screen.dart';
@@ -8,6 +8,9 @@ import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/error_widget.dart';
 import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
+import 'package:digiternak_app/widget/primary_row.dart';
+import 'package:digiternak_app/widget/primary_textfield.dart';
+import 'package:digiternak_app/widget/snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,122 +64,82 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 );
               default:
-                return SingleChildScrollView(
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 64),
-                        Image.asset(
-                          "assets/digi_ternak_logo.png",
-                          height: 185,
-                          width: 105,
-                        ),
-                        const SizedBox(height: 32),
-                        const Text(
-                          "Masuk Sekarang",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 22),
-                        ),
-                        const SizedBox(height: 32),
-                        TextFormField(
-                          controller: usernameController,
-                          decoration: const InputDecoration(
-                            labelText: 'Nama Pengguna',
+                return Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          Image.asset(
+                            "assets/digi_ternak_logo.png",
+                            height: 200,
+                            width: 200,
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Masukkan Nama Pengguna';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          controller: passwordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            labelText: 'Kata Sandi',
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Masukkan Kata Sandi';
-                            }
-                            if (value.length < 6) {
-                              return 'Kata Sandi harus memiliki minimal 6 karakter';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 32),
-                        PrimaryButton(
-                            onPressed: () async {
-                              if (formKey.currentState!.validate()) {
-                                final scaffoldMessenger =
-                                    ScaffoldMessenger.of(context);
-                                final request = LoginRequest(
-                                  username: usernameController.text,
-                                  password: passwordController.text,
-                                );
-
-                                final result = await provider.login(request);
-                                if (!result.error) {
-                                  provider.saveToken(result.data!.token);
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  prefs.setInt('userId', result.data!.id);
-                                  Navigator.pushReplacementNamed(
-                                      context, HomeScreen.routeName);
-                                } else {
-                                  scaffoldMessenger.showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Login gagal")),
-                                  );
-                                }
+                          PrimaryTextField(
+                            placeHolder: 'Nama Pengguna',
+                            controller: usernameController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Masukkan Nama Pengguna';
                               }
+                              return null;
                             },
-                            title: "Masuk"),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text('Belum punya akun?'),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushNamedAndRemoveUntil(context,
-                                    RegisterScreen.routeName, (route) => false);
-                              },
-                              child: const Text(
-                                'Daftar',
-                                style: TextStyle(color: secondaryColor),
-                              ),
-                            )
-                          ],
-                        ),
-                        const Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "CSN Ilmu Komputer IPB 2024",
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                Text(
-                                  "Versi 1.0.0",
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                          PrimaryTextField(
+                            placeHolder: 'Kata Sandi',
+                            isPassword: true,
+                            controller: passwordController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Masukkan Kata Sandi';
+                              }
+                              if (value.length < 6) {
+                                return 'Kata Sandi harus memiliki minimal 6 karakter';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          PrimaryButton(
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  final request = LoginRequest(
+                                    username: usernameController.text,
+                                    password: passwordController.text,
+                                  );
+
+                                  final result = await provider.login(request);
+                                  if (!result.error) {
+                                    provider.saveToken(result.data!.token);
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    prefs.setInt('userId', result.data!.id);
+                                    Navigator.pushReplacementNamed(
+                                        context, HomeScreen.routeName);
+                                  } else {
+                                    snackBar(
+                                        context: context,
+                                        message: "Login gagal");
+                                  }
+                                }
+                              },
+                              title: "Masuk"),
+                          PrimaryRow(
+                            label: 'Belum punya akun?',
+                            detailLabel: 'Daftar',
+                            onTap: () {
+                              Navigator.pushNamedAndRemoveUntil(context,
+                                  RegisterScreen.routeName, (route) => false);
+                            },
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 );
             }

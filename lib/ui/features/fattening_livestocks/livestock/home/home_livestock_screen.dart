@@ -5,8 +5,11 @@ import 'package:digiternak_app/provider/livestock/livestock_provider.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/add_livestock_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/detail/livestock_detail.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/custom_row.dart';
 import 'package:digiternak_app/widget/error_widget.dart';
+import 'package:digiternak_app/widget/image_rounded.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
+import 'package:digiternak_app/widget/primary_textfield.dart';
 import 'package:digiternak_app/widget/qr_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -56,108 +59,106 @@ class _HomeLivestockScreenState extends State<HomeLivestockScreen> {
     return BaseScreen(
       title: "Ternak",
       isHasBackButton: true,
-      body: SingleChildScrollView(
-        child: ChangeNotifierProvider.value(
-          value: provider,
-          child: Consumer<HomeProvider>(
-            builder: (context, provider, child) {
-              switch (provider.stateSearch) {
-                case ResultState.unauthorized:
-                  return errorWidget(
-                      context: context, type: ErrorType.unauthorization);
-                case ResultState.loading:
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.blue,
-                    ),
-                  );
-                case ResultState.hasData:
-                  return const SizedBox();
+      body: ChangeNotifierProvider.value(
+        value: provider,
+        child: Consumer<HomeProvider>(
+          builder: (context, provider, child) {
+            switch (provider.stateSearch) {
+              case ResultState.unauthorized:
+                return errorWidget(
+                    context: context, type: ErrorType.unauthorization);
+              case ResultState.loading:
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.blue,
+                  ),
+                );
+              case ResultState.hasData:
+                return const SizedBox();
 
-                case ResultState.noData:
-                  return Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          controller: queryController,
-                          decoration: InputDecoration(
-                            hintText: "Masukkan Kode Sapi",
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, QRCodeWidget.routeName,
-                                    arguments: QRtype.livestocks);
-                              },
-                              icon: const Icon(
-                                Icons.qr_code,
-                                size: 24,
-                              ),
-                            ),
+              case ResultState.noData:
+                return Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      PrimaryTextField(
+                        placeHolder: 'Masukkan kode ternak',
+                        controller: queryController,
+                        icon: const Icon(
+                          Icons.qr_code,
+                          size: 24,
+                        ),
+                        iconTapped: () {
+                          Navigator.pushNamed(context, QRCodeWidget.routeName,
+                              arguments: QRtype.livestocks);
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "query tidak boleh kosong";
+                          }
+                          return null;
+                        },
+                      ),
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 16,
                           ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "query tidak boleh kosong";
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        PrimaryButton(
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              provider.setSearchState();
-                              await provider
-                                  .getLivestockByVID(queryController.text);
+                          PrimaryButton(
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                provider.setSearchState();
+                                await provider
+                                    .getLivestockByVID(queryController.text);
 
-                              if (provider.stateSearch == ResultState.hasData) {
+                                if (provider.stateSearch ==
+                                    ResultState.hasData) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              provider.livestock?.message ??
+                                                  "")));
+
+                                  Navigator.pushReplacementNamed(
+                                      context, LivestockDetail.routeName,
+                                      arguments: provider.livestock?.data![0]);
+                                }
+                              } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            provider.livestock?.message ??
-                                                "")));
-
-                                Navigator.pushReplacementNamed(
-                                    context, LivestockDetail.routeName,
-                                    arguments: provider.livestock?.data![0]);
+                                  const SnackBar(
+                                    content: Text(
+                                        "Silahkan isi kode sapi terlebih dahulu"),
+                                  ),
+                                );
                               }
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      "Silahkan isi kode sapi terlebih dahulu"),
-                                ),
-                              );
-                            }
-                          },
-                          title: "CARI TERNAK",
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        PrimaryButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, AddLivestockScreen.routeName);
-                          },
-                          title: "TAMBAH TERNAK",
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
-                  );
-                default:
-                  return errorWidget(
-                      context: context,
-                      message: provider.message,
-                      onPress: () {
-                        provider.setSearchState();
-                      });
-              }
-            },
-          ),
+                            },
+                            title: "CARI TERNAK",
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          PrimaryButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, AddLivestockScreen.routeName);
+                            },
+                            title: "TAMBAH TERNAK",
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              default:
+                return errorWidget(
+                    context: context,
+                    message: provider.message,
+                    onPress: () {
+                      provider.setSearchState();
+                    });
+            }
+          },
         ),
       ),
     );
@@ -179,29 +180,27 @@ class LivestockWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(8)),
+              color: Colors.white, borderRadius: BorderRadius.circular(16)),
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: Column(
               children: [
                 livestockData?.images!.isNotEmpty ?? true
-                    ? Image.network(
-                        "https://storage.googleapis.com/digiternak1/${livestockData!.images?[0] ?? ""}",
+                    ? ImageRounded(
+                        image:
+                            "https://storage.googleapis.com/digiternak1/${livestockData!.images?[0] ?? ""}",
+                        sourceType: ImageSourceType.network,
                         width: MediaQuery.of(context).size.width,
                         height: 150,
-                        fit: BoxFit.cover)
-                    : Image.asset("assets/ic_sapi.png",
+                      )
+                    : ImageRounded(
+                        image: "assets/ic_sapi.png",
                         width: MediaQuery.of(context).size.width,
                         height: 150,
-                        fit: BoxFit.cover),
-                const SizedBox(height: 8),
-                Text(
-                  "${livestockData?.name ?? ""} - ${livestockData?.vid ?? ""}",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
+                      ),
+                CustomRow(title: 'Id ternak', value: livestockData?.vid ?? ""),
+                CustomRow(
+                    title: 'Nama ternak', value: livestockData?.name ?? ""),
               ],
             ),
           ),

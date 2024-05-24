@@ -5,8 +5,13 @@ import 'package:digiternak_app/provider/profile/profile_provider.dart';
 import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/profile/profile_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/custom_dropdown.dart';
+import 'package:digiternak_app/widget/date_picket_widget.dart';
 import 'package:digiternak_app/widget/dialog_widget.dart';
+import 'package:digiternak_app/widget/error_widget.dart';
+import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
+import 'package:digiternak_app/widget/primary_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -54,158 +59,134 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       value: provider,
       child: Consumer<ProfileProvider>(
         builder: (context, provider, child) {
-          if (provider.state == ResultState.unauthorized) {
-            return Center(
-              child: PrimaryButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(
-                      context, LoginScreen.routeName);
+          switch (provider.state) {
+            case ResultState.unauthorized:
+              return Center(
+                child: PrimaryButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                        context, LoginScreen.routeName);
+                  },
+                  title: "Masuk Kembali",
+                ),
+              );
+
+            case ResultState.loading:
+              return loadingScreen();
+
+            case ResultState.error:
+              return errorWidget(
+                context: context,
+                message: provider.message,
+                onPress: () {
+                  provider.setState();
                 },
-                title: "Masuk Kembali",
-              ),
-            );
-          }
-          return BaseScreen(
-            title: "Lengkapi Data",
-            isHasBackButton: true,
-            body: Form(
-                key: formKey,
-                child: SingleChildScrollView(
+              );
+            default:
+              return BaseScreen(
+                title: "Lengkapi Data",
+                body: Form(
+                  key: formKey,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TextFormField(
-                        controller: idNumberController,
-                        decoration: const InputDecoration(
-                          labelText: 'Nomor NIK...',
-                        ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value?.length != 16) {
-                            return 'Masukkan NIK dengan 16 karakter';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        controller: fullNameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Nama Lengkap..',
-                        ),
-                        validator: (value) {
-                          final regex = RegExp(r'^[a-zA-Z\s]+$');
-                          if (value == null || value.isEmpty) {
-                            return 'Masukkan nama lengkap dengan benar';
-                          }
-                          if (!regex.hasMatch(value)) {
-                            return 'Nama lengkap hanya boleh mengandung huruf dan spasi';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        controller: birthDateController,
-                        decoration: const InputDecoration(
-                          labelText: 'Tanggal Lahir',
-                        ),
-                        readOnly: true,
-                        onTap: () {
-                          showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime.now(),
-                          ).then((value) {
-                            if (value != null) {
-                              setState(() {
-                                birthDate = value;
-                                birthDateController.text =
-                                    '${birthDate.day}/${birthDate.month}/${birthDate.year}';
-                              });
-                            }
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Masukkan Tanggal Lahir dengan benar';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      DropdownButtonFormField<String>(
-                        value: gender,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            gender = newValue!;
-                          });
-                        },
-                        decoration: const InputDecoration(
-                          labelText: 'Jenis Kelamin',
-                          hintText: 'Pilih Jenis Kelamin',
-                          border: OutlineInputBorder(),
-                        ),
-                        items: const [
-                          DropdownMenuItem<String>(
-                            value: "Pria",
-                            child: Text("Pria"),
+                      Column(
+                        children: [
+                          PrimaryTextField(
+                            placeHolder: 'Nomor nik',
+                            controller: idNumberController,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value?.length != 16) {
+                                return 'Masukkan NIK dengan 16 karakter';
+                              }
+                              return null;
+                            },
                           ),
-                          DropdownMenuItem<String>(
-                            value: "Wanita",
-                            child: Text("Wanita"),
+                          PrimaryTextField(
+                            placeHolder: 'Nama lengkap',
+                            controller: fullNameController,
+                            validator: (value) {
+                              final regex = RegExp(r'^[a-zA-Z\s]+$');
+                              if (value == null || value.isEmpty) {
+                                return 'Masukkan nama lengkap dengan benar';
+                              }
+                              if (!regex.hasMatch(value)) {
+                                return 'Nama lengkap hanya boleh mengandung huruf dan spasi';
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.name,
+                          ),
+                          PrimaryTextField(
+                            placeHolder: 'Tanggal lahir',
+                            controller: birthDateController,
+                            icon: const Icon(Icons.calendar_month),
+                            iconTapped: () async {
+                              String? selectedDate = await selectDate(context);
+                              if (selectedDate != null) {
+                                setState(() {
+                                  birthDateController.text = selectedDate;
+                                });
+                              }
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Masukkan Tanggal Lahir dengan benar';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          CustomDropdownFormField(
+                            labelText: 'Jenis Kelamin',
+                            hintText: 'Pilih Jenis Kelamin',
+                            value: gender,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                gender = newValue!;
+                              });
+                            },
+                            items: const [
+                              DropdownMenuItem<String>(
+                                value: "Pria",
+                                child: Text("Pria"),
+                              ),
+                              DropdownMenuItem<String>(
+                                value: "Wanita",
+                                child: Text("Wanita"),
+                              ),
+                            ],
+                          ),
+                          PrimaryTextField(
+                            placeHolder: 'Alamat',
+                            controller: addressController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Masukkan Alamat dengan benar';
+                              }
+                              return null;
+                            },
+                          ),
+                          PrimaryTextField(
+                            placeHolder: 'Nomor handphone',
+                            controller: phoneNumberController,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              final regex = RegExp(r'^08\d{1,15}$');
+                              if (value == null || value.isEmpty) {
+                                return 'Masukkan nomor telepon dengan benar';
+                              }
+                              if (!regex.hasMatch(value)) {
+                                return 'Nomor telepon harus dimulai dengan 08 dan terdiri dari 9-16 digit angka';
+                              }
+                              return null;
+                            },
                           ),
                         ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Pilih jenis kelamin';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        controller: addressController,
-                        decoration: const InputDecoration(
-                          labelText: 'Alamat',
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Masukkan Alamat dengan benar';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        controller: phoneNumberController,
-                        decoration: const InputDecoration(
-                          labelText: 'Nomor Handphone',
-                        ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          final regex = RegExp(r'^08\d{1,15}$');
-                          if (value == null || value.isEmpty) {
-                            return 'Masukkan nomor telepon dengan benar';
-                          }
-                          if (!regex.hasMatch(value)) {
-                            return 'Nomor telepon harus dimulai dengan 08 dan terdiri dari 9-16 digit angka';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
                       ),
                       PrimaryButton(
                           onPressed: () async {
@@ -242,13 +223,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             }
                           },
                           title: "SUBMIT"),
-                      const SizedBox(
-                        height: 32,
-                      ),
                     ],
                   ),
-                )),
-          );
+                ),
+              );
+          }
         },
       ),
     );
