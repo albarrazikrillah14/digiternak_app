@@ -1,6 +1,7 @@
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/data/model/cage/response/cages_response.dart';
 import 'package:digiternak_app/data/model/notes/response/notes_response.dart';
+import 'package:digiternak_app/main.dart';
 import 'package:digiternak_app/provider/cage/cage_provider.dart';
 import 'package:digiternak_app/provider/notes/notes_provider.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/cage/list/list_cage_screen.dart';
@@ -26,7 +27,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with RouteAware {
   late CageProvider cageProvider;
   late NotesProvider notesProvider;
 
@@ -38,6 +39,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
     notesProvider = context.read<NotesProvider>();
     notesProvider.getNotesByUserId();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+  }
+
+  @override
+  void didPopNext() {
+    cageProvider.getAllCage();
+    notesProvider.getNotesByUserId();
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
   }
 
   @override
@@ -72,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           );
                         },
-                        itemCount: 3,
+                        itemCount: 2,
                       ),
                     ),
                     const SizedBox(

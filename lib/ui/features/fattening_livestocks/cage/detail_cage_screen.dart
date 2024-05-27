@@ -44,31 +44,28 @@ class _DetailCageScreenState extends State<DetailCageScreen> {
               case ResultState.loading:
                 return loadingScreen();
               case ResultState.hasData:
-                return buildContainer(
-                    context: context,
-                    child: Column(
-                      children: [
-                        CustomRow(
-                            title: 'Id kandang',
-                            value: "${provider.cage?.data?.id ?? ""}"),
-                        CustomRow(
-                          title: 'Nama kandang',
-                          value: provider.cage?.data?.name ?? "",
-                        ),
-                        CustomRow(
-                          title: 'Lokasi kandang',
-                          value: provider.cage?.data?.location ?? "",
-                        ),
-                        CustomRow(
-                            title: 'Jumlah ternak',
-                            value:
-                                "${provider.cage?.data?.livestocks?.length ?? 0}"),
-                        CustomRow(
-                            title: 'Detail',
-                            value: provider.cage?.data?.description ?? ""),
-                      ],
+                return Column(
+                  children: [
+                    CustomRow(
+                        title: 'Id kandang',
+                        value: "${provider.cage?.data?.id ?? ""}"),
+                    CustomRow(
+                      title: 'Nama kandang',
+                      value: provider.cage?.data?.name ?? "",
                     ),
-                    title: 'Detail kandang');
+                    CustomRow(
+                      title: 'Lokasi kandang',
+                      value: provider.cage?.data?.location ?? "",
+                    ),
+                    CustomRow(
+                        title: 'Jumlah ternak',
+                        value:
+                            "${provider.cage?.data?.livestocks?.length ?? 0}"),
+                    CustomRow(
+                        title: 'Detail',
+                        value: provider.cage?.data?.description ?? ""),
+                  ],
+                );
 
               case ResultState.error:
                 return errorWidget(

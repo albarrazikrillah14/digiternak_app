@@ -39,11 +39,7 @@ class _NoteCardWidgetState extends State<NoteCardWidget> {
               child: Column(
                 children: [
                   widget.data.images!.isEmpty
-                      ? ImageRounded(
-                          image: "assets/ic_sapi.png",
-                          height: 100,
-                          width: MediaQuery.of(context).size.width,
-                        )
+                      ? Container()
                       : ImageRounded(
                           image: "$BASE_IMAGE_URL${widget.data.images![0]}",
                           sourceType: ImageSourceType.network,

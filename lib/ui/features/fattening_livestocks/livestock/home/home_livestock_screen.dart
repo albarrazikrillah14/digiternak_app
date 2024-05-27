@@ -193,11 +193,7 @@ class LivestockWidget extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         height: 150,
                       )
-                    : ImageRounded(
-                        image: "assets/ic_sapi.png",
-                        width: MediaQuery.of(context).size.width,
-                        height: 150,
-                      ),
+                    : Container(),
                 CustomRow(title: 'Id ternak', value: livestockData?.vid ?? ""),
                 CustomRow(
                     title: 'Nama ternak', value: livestockData?.name ?? ""),

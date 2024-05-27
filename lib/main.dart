@@ -21,6 +21,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 void main() async {
   await dotenv.load(fileName: '.env');
   runApp(const DigiTernakApp());
@@ -61,6 +63,7 @@ class DigiTernakApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        navigatorObservers: [routeObserver],
         title: 'DigiTernak App',
         theme: appTheme,
         initialRoute: SplashScreen.routeName,

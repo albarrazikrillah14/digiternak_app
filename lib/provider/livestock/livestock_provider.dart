@@ -45,7 +45,6 @@ class LivestockProvider extends ChangeNotifier {
     _createState = ResultState.loading;
     notifyListeners();
 
-    print("KONYOL ${request}");
     final result = await repository.createLivestock(request);
 
     if (result.error) {
@@ -54,6 +53,7 @@ class LivestockProvider extends ChangeNotifier {
     } else {
       _createState = ResultState.hasData;
       _livestock = result;
+      await getAllLivestock();
     }
 
     if (result.status == 401) {
@@ -122,8 +122,9 @@ class LivestockProvider extends ChangeNotifier {
     } else {
       _deletState = ResultState.hasData;
       _message = "Berhasil Menghapus Ternak";
+      await getAllLivestock();
     }
-
+    notifyListeners();
     if (result.status == 401) {
       _deletState = ResultState.unauthorized;
     }
@@ -144,6 +145,7 @@ class LivestockProvider extends ChangeNotifier {
     } else {
       _message = result.message ?? "";
       _updateState = ResultState.hasData;
+      await getAllLivestock();
     }
     if (result.status == 401) {
       _updateState = ResultState.unauthorized;

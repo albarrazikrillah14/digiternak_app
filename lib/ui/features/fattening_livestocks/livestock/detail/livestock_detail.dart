@@ -1,4 +1,3 @@
-import 'package:digiternak_app/common/constant.dart';
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/common/utils/mapper/mapper.dart';
 import 'package:digiternak_app/data/model/livestock/response/data/livestock_data.dart';
@@ -13,6 +12,7 @@ import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:digiternak_app/widget/custom_row.dart';
 import 'package:digiternak_app/widget/error_widget.dart';
 import 'package:digiternak_app/widget/image_rounded.dart';
+import 'package:digiternak_app/widget/loading_screen.dart';
 import 'package:digiternak_app/widget/primary_button.dart';
 import 'package:digiternak_app/widget/snackbar_widget.dart';
 import 'package:flutter/material.dart';
@@ -69,14 +69,10 @@ class _LivestockDetailState extends State<LivestockDetail> {
                     ),
                   );
                 case ResultState.hasData:
-                  return const Center(
-                    child: Text("Data tidak ditemukan"),
-                  );
+                  return loadingScreen();
                 case ResultState.noData:
                   if (widget.data == null) {
-                    return const Center(
-                      child: Text("Data tidak ditemukan"),
-                    );
+                    return loadingScreen();
                   }
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,10 +80,7 @@ class _LivestockDetailState extends State<LivestockDetail> {
                       Column(
                         children: [
                           (widget.data?.images?.isEmpty ?? true)
-                              ? ImageRounded(
-                                  image: "assets/ic_sapi.png",
-                                  height: 200,
-                                  width: MediaQuery.of(context).size.width)
+                              ? Container()
                               : ImageRounded(
                                   image:
                                       "$BASE_IMAGE_URL${widget.data?.images?[0] ?? ""}",
@@ -165,6 +158,9 @@ class _LivestockDetailState extends State<LivestockDetail> {
                               builder: (context, provider, child) {
                                 switch (provider.state) {
                                   case ResultState.hasData:
+                                    if (provider.notes.data == null) {
+                                      return Container();
+                                    }
                                     return InkWell(
                                       onTap: () {
                                         if (provider.notes.data?.isNotEmpty ??

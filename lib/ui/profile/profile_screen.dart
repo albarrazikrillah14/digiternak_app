@@ -146,6 +146,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         value:
                                             provider.data.data!.fullName ?? ""),
                                     CustomRow(
+                                        title: "Kelamin",
+                                        value:
+                                            (provider.data.data?.gender ?? 1) ==
+                                                    1
+                                                ? "Laki - Laki"
+                                                : "Perempuan"),
+                                    CustomRow(
                                       title: "Tanggal Lahir",
                                       value: formatTanggal(
                                           provider.data.data!.birthdate ?? ""),
