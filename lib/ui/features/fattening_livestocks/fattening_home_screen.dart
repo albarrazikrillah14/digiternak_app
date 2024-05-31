@@ -124,7 +124,7 @@ class _FatteningHomeScreenState extends State<FatteningHomeScreen> {
                       )
                     : Container(),
                 const SizedBox(
-                  height: 20,
+                  height: 16,
                 ),
                 FatteningFeatureWidget(
                   data: [

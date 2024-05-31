@@ -45,7 +45,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
-                      .copyWith(color: Colors.white, fontSize: 24),
+                      .copyWith(color: Colors.white, fontSize: 18),
                 ),
               ),
               leading: widget.isHasBackButton

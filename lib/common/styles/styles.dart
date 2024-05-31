@@ -46,11 +46,6 @@ const double textFieldHeight = 46.0;
 
 final ThemeData appTheme = ThemeData(
   textTheme: myTextTheme,
-  colorScheme: ColorScheme.fromSwatch().copyWith(
-    primary: primaryColor,
-    onPrimary: Colors.black,
-    secondary: secondaryColor,
-  ),
   appBarTheme: const AppBarTheme(
     elevation: 0,
     iconTheme: IconThemeData(color: Colors.white),
