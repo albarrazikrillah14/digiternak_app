@@ -20,7 +20,7 @@ class ProfileService {
 
   Future<EditProfileResponse> editProfile(ProfileRequest request) async {
     final token = await getToken();
-    final response = await http.put(Uri.parse('$endpoint/user/edit-profile'),
+    final response = await http.put(Uri.parse('$endpoint/user'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token'
@@ -34,7 +34,7 @@ class ProfileService {
   Future<ProfileResponse> getUserProfile() async {
     final token = await getToken();
     final response = await http.get(
-      Uri.parse('$endpoint/user/profile'),
+      Uri.parse('$endpoint/user'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token'

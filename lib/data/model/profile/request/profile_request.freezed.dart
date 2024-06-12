@@ -26,8 +26,8 @@ mixin _$ProfileRequest {
   String get birthdate => throw _privateConstructorUsedError;
   @JsonKey(name: 'phone_number')
   String get phoneNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'gender_id')
-  int get gender => throw _privateConstructorUsedError;
+  @JsonKey(name: 'gender')
+  String get gender => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $ProfileRequestCopyWith<$Res> {
       @JsonKey(name: 'full_name') String fullName,
       String birthdate,
       @JsonKey(name: 'phone_number') String phoneNumber,
-      @JsonKey(name: 'gender_id') int gender,
+      @JsonKey(name: 'gender') String gender,
       String address});
 }
 
@@ -91,7 +91,7 @@ class _$ProfileRequestCopyWithImpl<$Res, $Val extends ProfileRequest>
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -113,7 +113,7 @@ abstract class _$$ProfilRequestImplCopyWith<$Res>
       @JsonKey(name: 'full_name') String fullName,
       String birthdate,
       @JsonKey(name: 'phone_number') String phoneNumber,
-      @JsonKey(name: 'gender_id') int gender,
+      @JsonKey(name: 'gender') String gender,
       String address});
 }
 
@@ -155,7 +155,7 @@ class __$$ProfilRequestImplCopyWithImpl<$Res>
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -172,7 +172,7 @@ class _$ProfilRequestImpl implements _ProfilRequest {
       @JsonKey(name: 'full_name') required this.fullName,
       required this.birthdate,
       @JsonKey(name: 'phone_number') required this.phoneNumber,
-      @JsonKey(name: 'gender_id') required this.gender,
+      @JsonKey(name: 'gender') required this.gender,
       required this.address});
 
   factory _$ProfilRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -189,8 +189,8 @@ class _$ProfilRequestImpl implements _ProfilRequest {
   @JsonKey(name: 'phone_number')
   final String phoneNumber;
   @override
-  @JsonKey(name: 'gender_id')
-  final int gender;
+  @JsonKey(name: 'gender')
+  final String gender;
   @override
   final String address;
 
@@ -240,7 +240,7 @@ abstract class _ProfilRequest implements ProfileRequest {
       @JsonKey(name: 'full_name') required final String fullName,
       required final String birthdate,
       @JsonKey(name: 'phone_number') required final String phoneNumber,
-      @JsonKey(name: 'gender_id') required final int gender,
+      @JsonKey(name: 'gender') required final String gender,
       required final String address}) = _$ProfilRequestImpl;
 
   factory _ProfilRequest.fromJson(Map<String, dynamic> json) =
@@ -257,8 +257,8 @@ abstract class _ProfilRequest implements ProfileRequest {
   @JsonKey(name: 'phone_number')
   String get phoneNumber;
   @override
-  @JsonKey(name: 'gender_id')
-  int get gender;
+  @JsonKey(name: 'gender')
+  String get gender;
   @override
   String get address;
   @override

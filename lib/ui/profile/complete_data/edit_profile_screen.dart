@@ -30,7 +30,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final birthDateController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final addressController = TextEditingController();
-  String gender = "Pria";
+  String gender = "Laki-laki";
 
   DateTime birthDate = DateTime.now();
 
@@ -51,6 +51,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     idNumberController.dispose();
     fullNameController.dispose();
     birthDateController.dispose();
+    phoneNumberController.dispose();
+    addressController.dispose();
   }
 
   @override
@@ -152,12 +154,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             },
                             items: const [
                               DropdownMenuItem<String>(
-                                value: "Pria",
-                                child: Text("Pria"),
+                                value: "Laki-laki",
+                                child: Text("Laki-laki"),
                               ),
                               DropdownMenuItem<String>(
-                                value: "Wanita",
-                                child: Text("Wanita"),
+                                value: "Perempuan",
+                                child: Text("Perempuan"),
                               ),
                             ],
                           ),
@@ -200,9 +202,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   birthdate: formatDateString(
                                       birthDateController.text),
                                   phoneNumber: phoneNumberController.text,
-                                  gender: gender == "Pria" ? 1 : 0,
+                                  gender: gender,
                                   address: addressController.text);
-
                               showAlertDialog(
                                   context: context,
                                   title: "Data Pengguna",

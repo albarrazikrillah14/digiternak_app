@@ -10,7 +10,7 @@ class ProfileRequest with _$ProfileRequest {
     @JsonKey(name: 'full_name') required String fullName,
     required String birthdate,
     @JsonKey(name: 'phone_number') required String phoneNumber,
-    @JsonKey(name: 'gender_id') required int gender,
+    @JsonKey(name: 'gender') required String gender,
     required String address,
   }) = _ProfilRequest;
 

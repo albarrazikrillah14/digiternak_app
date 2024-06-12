@@ -138,7 +138,7 @@ class NotesProvider extends ChangeNotifier {
     _livestockState = ResultState.loading;
     notifyListeners();
 
-    final result = await repository.getAllLivestock();
+    final result = await repository.getLivestocks();
 
     if (result.data == null) {
       _message = "Belum ada Ternak, silahkan daftarka ternak terlebih dahulu";

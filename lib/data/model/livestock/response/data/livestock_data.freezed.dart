@@ -20,33 +20,34 @@ LivestockData _$LivestockDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LivestockData {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
-  int get userId => throw _privateConstructorUsedError;
+  int? get userId => throw _privateConstructorUsedError;
   String? get eid => throw _privateConstructorUsedError;
   String? get vid => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get birthdate => throw _privateConstructorUsedError;
-  String get gender => throw _privateConstructorUsedError;
-  String get age => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get birthdate => throw _privateConstructorUsedError;
+  String? get gender => throw _privateConstructorUsedError;
+  int? get age => throw _privateConstructorUsedError;
   @JsonKey(name: 'chest_size')
-  String get chestSize => throw _privateConstructorUsedError;
+  int? get chestSize => throw _privateConstructorUsedError;
   @JsonKey(name: 'body_weight')
-  String get bodyWeight => throw _privateConstructorUsedError;
-  String get health => throw _privateConstructorUsedError;
-  Cage get cage => throw _privateConstructorUsedError;
+  int? get bodyWeight => throw _privateConstructorUsedError;
+  String? get health => throw _privateConstructorUsedError;
+  Cage? get cage => throw _privateConstructorUsedError;
   @JsonKey(name: 'type_of_livestock')
-  TypeOfLivestock get typeOfLivestock => throw _privateConstructorUsedError;
+  String? get typeOfLivestock => throw _privateConstructorUsedError;
   @JsonKey(name: 'breed_of_livestock')
-  Breed get breedOfLivestock => throw _privateConstructorUsedError;
+  String? get breedOfLivestock => throw _privateConstructorUsedError;
+  String? get purpose => throw _privateConstructorUsedError;
   @JsonKey(name: 'maintenance')
-  Maintenance get typeOfCage => throw _privateConstructorUsedError;
+  String? get typeOfCage => throw _privateConstructorUsedError;
   @JsonKey(name: 'source')
-  Source get source => throw _privateConstructorUsedError;
+  String? get source => throw _privateConstructorUsedError;
   @JsonKey(name: 'ownership_status')
-  Ownership get ownership => throw _privateConstructorUsedError;
+  String? get ownership => throw _privateConstructorUsedError;
   @JsonKey(name: 'reproduction')
-  Reproduction get reproduction => throw _privateConstructorUsedError;
+  String? get reproduction => throw _privateConstructorUsedError;
   @JsonKey(name: 'livestock_images')
   List<String>? get images => throw _privateConstructorUsedError;
 
@@ -63,33 +64,28 @@ abstract class $LivestockDataCopyWith<$Res> {
       _$LivestockDataCopyWithImpl<$Res, LivestockData>;
   @useResult
   $Res call(
-      {int id,
-      @JsonKey(name: 'user_id') int userId,
+      {int? id,
+      @JsonKey(name: 'user_id') int? userId,
       String? eid,
       String? vid,
-      String name,
-      String birthdate,
-      String gender,
-      String age,
-      @JsonKey(name: 'chest_size') String chestSize,
-      @JsonKey(name: 'body_weight') String bodyWeight,
-      String health,
-      Cage cage,
-      @JsonKey(name: 'type_of_livestock') TypeOfLivestock typeOfLivestock,
-      @JsonKey(name: 'breed_of_livestock') Breed breedOfLivestock,
-      @JsonKey(name: 'maintenance') Maintenance typeOfCage,
-      @JsonKey(name: 'source') Source source,
-      @JsonKey(name: 'ownership_status') Ownership ownership,
-      @JsonKey(name: 'reproduction') Reproduction reproduction,
+      String? name,
+      String? birthdate,
+      String? gender,
+      int? age,
+      @JsonKey(name: 'chest_size') int? chestSize,
+      @JsonKey(name: 'body_weight') int? bodyWeight,
+      String? health,
+      Cage? cage,
+      @JsonKey(name: 'type_of_livestock') String? typeOfLivestock,
+      @JsonKey(name: 'breed_of_livestock') String? breedOfLivestock,
+      String? purpose,
+      @JsonKey(name: 'maintenance') String? typeOfCage,
+      @JsonKey(name: 'source') String? source,
+      @JsonKey(name: 'ownership_status') String? ownership,
+      @JsonKey(name: 'reproduction') String? reproduction,
       @JsonKey(name: 'livestock_images') List<String>? images});
 
-  $CageCopyWith<$Res> get cage;
-  $TypeOfLivestockCopyWith<$Res> get typeOfLivestock;
-  $BreedCopyWith<$Res> get breedOfLivestock;
-  $MaintenanceCopyWith<$Res> get typeOfCage;
-  $SourceCopyWith<$Res> get source;
-  $OwnershipCopyWith<$Res> get ownership;
-  $ReproductionCopyWith<$Res> get reproduction;
+  $CageCopyWith<$Res>? get cage;
 }
 
 /// @nodoc
@@ -105,35 +101,36 @@ class _$LivestockDataCopyWithImpl<$Res, $Val extends LivestockData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? userId = null,
+    Object? id = freezed,
+    Object? userId = freezed,
     Object? eid = freezed,
     Object? vid = freezed,
-    Object? name = null,
-    Object? birthdate = null,
-    Object? gender = null,
-    Object? age = null,
-    Object? chestSize = null,
-    Object? bodyWeight = null,
-    Object? health = null,
-    Object? cage = null,
-    Object? typeOfLivestock = null,
-    Object? breedOfLivestock = null,
-    Object? typeOfCage = null,
-    Object? source = null,
-    Object? ownership = null,
-    Object? reproduction = null,
+    Object? name = freezed,
+    Object? birthdate = freezed,
+    Object? gender = freezed,
+    Object? age = freezed,
+    Object? chestSize = freezed,
+    Object? bodyWeight = freezed,
+    Object? health = freezed,
+    Object? cage = freezed,
+    Object? typeOfLivestock = freezed,
+    Object? breedOfLivestock = freezed,
+    Object? purpose = freezed,
+    Object? typeOfCage = freezed,
+    Object? source = freezed,
+    Object? ownership = freezed,
+    Object? reproduction = freezed,
     Object? images = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      userId: null == userId
+              as int?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       eid: freezed == eid
           ? _value.eid
           : eid // ignore: cast_nullable_to_non_nullable
@@ -142,62 +139,66 @@ class _$LivestockDataCopyWithImpl<$Res, $Val extends LivestockData>
           ? _value.vid
           : vid // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      birthdate: null == birthdate
+              as String?,
+      birthdate: freezed == birthdate
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
-              as String,
-      gender: null == gender
+              as String?,
+      gender: freezed == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as String,
-      age: null == age
+              as String?,
+      age: freezed == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
-              as String,
-      chestSize: null == chestSize
+              as int?,
+      chestSize: freezed == chestSize
           ? _value.chestSize
           : chestSize // ignore: cast_nullable_to_non_nullable
-              as String,
-      bodyWeight: null == bodyWeight
+              as int?,
+      bodyWeight: freezed == bodyWeight
           ? _value.bodyWeight
           : bodyWeight // ignore: cast_nullable_to_non_nullable
-              as String,
-      health: null == health
+              as int?,
+      health: freezed == health
           ? _value.health
           : health // ignore: cast_nullable_to_non_nullable
-              as String,
-      cage: null == cage
+              as String?,
+      cage: freezed == cage
           ? _value.cage
           : cage // ignore: cast_nullable_to_non_nullable
-              as Cage,
-      typeOfLivestock: null == typeOfLivestock
+              as Cage?,
+      typeOfLivestock: freezed == typeOfLivestock
           ? _value.typeOfLivestock
           : typeOfLivestock // ignore: cast_nullable_to_non_nullable
-              as TypeOfLivestock,
-      breedOfLivestock: null == breedOfLivestock
+              as String?,
+      breedOfLivestock: freezed == breedOfLivestock
           ? _value.breedOfLivestock
           : breedOfLivestock // ignore: cast_nullable_to_non_nullable
-              as Breed,
-      typeOfCage: null == typeOfCage
+              as String?,
+      purpose: freezed == purpose
+          ? _value.purpose
+          : purpose // ignore: cast_nullable_to_non_nullable
+              as String?,
+      typeOfCage: freezed == typeOfCage
           ? _value.typeOfCage
           : typeOfCage // ignore: cast_nullable_to_non_nullable
-              as Maintenance,
-      source: null == source
+              as String?,
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as Source,
-      ownership: null == ownership
+              as String?,
+      ownership: freezed == ownership
           ? _value.ownership
           : ownership // ignore: cast_nullable_to_non_nullable
-              as Ownership,
-      reproduction: null == reproduction
+              as String?,
+      reproduction: freezed == reproduction
           ? _value.reproduction
           : reproduction // ignore: cast_nullable_to_non_nullable
-              as Reproduction,
+              as String?,
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
@@ -207,57 +208,13 @@ class _$LivestockDataCopyWithImpl<$Res, $Val extends LivestockData>
 
   @override
   @pragma('vm:prefer-inline')
-  $CageCopyWith<$Res> get cage {
-    return $CageCopyWith<$Res>(_value.cage, (value) {
+  $CageCopyWith<$Res>? get cage {
+    if (_value.cage == null) {
+      return null;
+    }
+
+    return $CageCopyWith<$Res>(_value.cage!, (value) {
       return _then(_value.copyWith(cage: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $TypeOfLivestockCopyWith<$Res> get typeOfLivestock {
-    return $TypeOfLivestockCopyWith<$Res>(_value.typeOfLivestock, (value) {
-      return _then(_value.copyWith(typeOfLivestock: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $BreedCopyWith<$Res> get breedOfLivestock {
-    return $BreedCopyWith<$Res>(_value.breedOfLivestock, (value) {
-      return _then(_value.copyWith(breedOfLivestock: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MaintenanceCopyWith<$Res> get typeOfCage {
-    return $MaintenanceCopyWith<$Res>(_value.typeOfCage, (value) {
-      return _then(_value.copyWith(typeOfCage: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $SourceCopyWith<$Res> get source {
-    return $SourceCopyWith<$Res>(_value.source, (value) {
-      return _then(_value.copyWith(source: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $OwnershipCopyWith<$Res> get ownership {
-    return $OwnershipCopyWith<$Res>(_value.ownership, (value) {
-      return _then(_value.copyWith(ownership: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ReproductionCopyWith<$Res> get reproduction {
-    return $ReproductionCopyWith<$Res>(_value.reproduction, (value) {
-      return _then(_value.copyWith(reproduction: value) as $Val);
     });
   }
 }
@@ -271,40 +228,29 @@ abstract class _$$LivestockDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
-      @JsonKey(name: 'user_id') int userId,
+      {int? id,
+      @JsonKey(name: 'user_id') int? userId,
       String? eid,
       String? vid,
-      String name,
-      String birthdate,
-      String gender,
-      String age,
-      @JsonKey(name: 'chest_size') String chestSize,
-      @JsonKey(name: 'body_weight') String bodyWeight,
-      String health,
-      Cage cage,
-      @JsonKey(name: 'type_of_livestock') TypeOfLivestock typeOfLivestock,
-      @JsonKey(name: 'breed_of_livestock') Breed breedOfLivestock,
-      @JsonKey(name: 'maintenance') Maintenance typeOfCage,
-      @JsonKey(name: 'source') Source source,
-      @JsonKey(name: 'ownership_status') Ownership ownership,
-      @JsonKey(name: 'reproduction') Reproduction reproduction,
+      String? name,
+      String? birthdate,
+      String? gender,
+      int? age,
+      @JsonKey(name: 'chest_size') int? chestSize,
+      @JsonKey(name: 'body_weight') int? bodyWeight,
+      String? health,
+      Cage? cage,
+      @JsonKey(name: 'type_of_livestock') String? typeOfLivestock,
+      @JsonKey(name: 'breed_of_livestock') String? breedOfLivestock,
+      String? purpose,
+      @JsonKey(name: 'maintenance') String? typeOfCage,
+      @JsonKey(name: 'source') String? source,
+      @JsonKey(name: 'ownership_status') String? ownership,
+      @JsonKey(name: 'reproduction') String? reproduction,
       @JsonKey(name: 'livestock_images') List<String>? images});
 
   @override
-  $CageCopyWith<$Res> get cage;
-  @override
-  $TypeOfLivestockCopyWith<$Res> get typeOfLivestock;
-  @override
-  $BreedCopyWith<$Res> get breedOfLivestock;
-  @override
-  $MaintenanceCopyWith<$Res> get typeOfCage;
-  @override
-  $SourceCopyWith<$Res> get source;
-  @override
-  $OwnershipCopyWith<$Res> get ownership;
-  @override
-  $ReproductionCopyWith<$Res> get reproduction;
+  $CageCopyWith<$Res>? get cage;
 }
 
 /// @nodoc
@@ -318,35 +264,36 @@ class __$$LivestockDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? userId = null,
+    Object? id = freezed,
+    Object? userId = freezed,
     Object? eid = freezed,
     Object? vid = freezed,
-    Object? name = null,
-    Object? birthdate = null,
-    Object? gender = null,
-    Object? age = null,
-    Object? chestSize = null,
-    Object? bodyWeight = null,
-    Object? health = null,
-    Object? cage = null,
-    Object? typeOfLivestock = null,
-    Object? breedOfLivestock = null,
-    Object? typeOfCage = null,
-    Object? source = null,
-    Object? ownership = null,
-    Object? reproduction = null,
+    Object? name = freezed,
+    Object? birthdate = freezed,
+    Object? gender = freezed,
+    Object? age = freezed,
+    Object? chestSize = freezed,
+    Object? bodyWeight = freezed,
+    Object? health = freezed,
+    Object? cage = freezed,
+    Object? typeOfLivestock = freezed,
+    Object? breedOfLivestock = freezed,
+    Object? purpose = freezed,
+    Object? typeOfCage = freezed,
+    Object? source = freezed,
+    Object? ownership = freezed,
+    Object? reproduction = freezed,
     Object? images = freezed,
   }) {
     return _then(_$LivestockDataImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      userId: null == userId
+              as int?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       eid: freezed == eid
           ? _value.eid
           : eid // ignore: cast_nullable_to_non_nullable
@@ -355,62 +302,66 @@ class __$$LivestockDataImplCopyWithImpl<$Res>
           ? _value.vid
           : vid // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      birthdate: null == birthdate
+              as String?,
+      birthdate: freezed == birthdate
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
-              as String,
-      gender: null == gender
+              as String?,
+      gender: freezed == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as String,
-      age: null == age
+              as String?,
+      age: freezed == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
-              as String,
-      chestSize: null == chestSize
+              as int?,
+      chestSize: freezed == chestSize
           ? _value.chestSize
           : chestSize // ignore: cast_nullable_to_non_nullable
-              as String,
-      bodyWeight: null == bodyWeight
+              as int?,
+      bodyWeight: freezed == bodyWeight
           ? _value.bodyWeight
           : bodyWeight // ignore: cast_nullable_to_non_nullable
-              as String,
-      health: null == health
+              as int?,
+      health: freezed == health
           ? _value.health
           : health // ignore: cast_nullable_to_non_nullable
-              as String,
-      cage: null == cage
+              as String?,
+      cage: freezed == cage
           ? _value.cage
           : cage // ignore: cast_nullable_to_non_nullable
-              as Cage,
-      typeOfLivestock: null == typeOfLivestock
+              as Cage?,
+      typeOfLivestock: freezed == typeOfLivestock
           ? _value.typeOfLivestock
           : typeOfLivestock // ignore: cast_nullable_to_non_nullable
-              as TypeOfLivestock,
-      breedOfLivestock: null == breedOfLivestock
+              as String?,
+      breedOfLivestock: freezed == breedOfLivestock
           ? _value.breedOfLivestock
           : breedOfLivestock // ignore: cast_nullable_to_non_nullable
-              as Breed,
-      typeOfCage: null == typeOfCage
+              as String?,
+      purpose: freezed == purpose
+          ? _value.purpose
+          : purpose // ignore: cast_nullable_to_non_nullable
+              as String?,
+      typeOfCage: freezed == typeOfCage
           ? _value.typeOfCage
           : typeOfCage // ignore: cast_nullable_to_non_nullable
-              as Maintenance,
-      source: null == source
+              as String?,
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as Source,
-      ownership: null == ownership
+              as String?,
+      ownership: freezed == ownership
           ? _value.ownership
           : ownership // ignore: cast_nullable_to_non_nullable
-              as Ownership,
-      reproduction: null == reproduction
+              as String?,
+      reproduction: freezed == reproduction
           ? _value.reproduction
           : reproduction // ignore: cast_nullable_to_non_nullable
-              as Reproduction,
+              as String?,
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
@@ -437,6 +388,7 @@ class _$LivestockDataImpl implements _LivestockData {
       required this.cage,
       @JsonKey(name: 'type_of_livestock') required this.typeOfLivestock,
       @JsonKey(name: 'breed_of_livestock') required this.breedOfLivestock,
+      required this.purpose,
       @JsonKey(name: 'maintenance') required this.typeOfCage,
       @JsonKey(name: 'source') required this.source,
       @JsonKey(name: 'ownership_status') required this.ownership,
@@ -448,50 +400,52 @@ class _$LivestockDataImpl implements _LivestockData {
       _$$LivestockDataImplFromJson(json);
 
   @override
-  final int id;
+  final int? id;
   @override
   @JsonKey(name: 'user_id')
-  final int userId;
+  final int? userId;
   @override
   final String? eid;
   @override
   final String? vid;
   @override
-  final String name;
+  final String? name;
   @override
-  final String birthdate;
+  final String? birthdate;
   @override
-  final String gender;
+  final String? gender;
   @override
-  final String age;
+  final int? age;
   @override
   @JsonKey(name: 'chest_size')
-  final String chestSize;
+  final int? chestSize;
   @override
   @JsonKey(name: 'body_weight')
-  final String bodyWeight;
+  final int? bodyWeight;
   @override
-  final String health;
+  final String? health;
   @override
-  final Cage cage;
+  final Cage? cage;
   @override
   @JsonKey(name: 'type_of_livestock')
-  final TypeOfLivestock typeOfLivestock;
+  final String? typeOfLivestock;
   @override
   @JsonKey(name: 'breed_of_livestock')
-  final Breed breedOfLivestock;
+  final String? breedOfLivestock;
+  @override
+  final String? purpose;
   @override
   @JsonKey(name: 'maintenance')
-  final Maintenance typeOfCage;
+  final String? typeOfCage;
   @override
   @JsonKey(name: 'source')
-  final Source source;
+  final String? source;
   @override
   @JsonKey(name: 'ownership_status')
-  final Ownership ownership;
+  final String? ownership;
   @override
   @JsonKey(name: 'reproduction')
-  final Reproduction reproduction;
+  final String? reproduction;
   final List<String>? _images;
   @override
   @JsonKey(name: 'livestock_images')
@@ -505,7 +459,7 @@ class _$LivestockDataImpl implements _LivestockData {
 
   @override
   String toString() {
-    return 'LivestockData(id: $id, userId: $userId, eid: $eid, vid: $vid, name: $name, birthdate: $birthdate, gender: $gender, age: $age, chestSize: $chestSize, bodyWeight: $bodyWeight, health: $health, cage: $cage, typeOfLivestock: $typeOfLivestock, breedOfLivestock: $breedOfLivestock, typeOfCage: $typeOfCage, source: $source, ownership: $ownership, reproduction: $reproduction, images: $images)';
+    return 'LivestockData(id: $id, userId: $userId, eid: $eid, vid: $vid, name: $name, birthdate: $birthdate, gender: $gender, age: $age, chestSize: $chestSize, bodyWeight: $bodyWeight, health: $health, cage: $cage, typeOfLivestock: $typeOfLivestock, breedOfLivestock: $breedOfLivestock, purpose: $purpose, typeOfCage: $typeOfCage, source: $source, ownership: $ownership, reproduction: $reproduction, images: $images)';
   }
 
   @override
@@ -532,6 +486,7 @@ class _$LivestockDataImpl implements _LivestockData {
                 other.typeOfLivestock == typeOfLivestock) &&
             (identical(other.breedOfLivestock, breedOfLivestock) ||
                 other.breedOfLivestock == breedOfLivestock) &&
+            (identical(other.purpose, purpose) || other.purpose == purpose) &&
             (identical(other.typeOfCage, typeOfCage) ||
                 other.typeOfCage == typeOfCage) &&
             (identical(other.source, source) || other.source == source) &&
@@ -560,6 +515,7 @@ class _$LivestockDataImpl implements _LivestockData {
         cage,
         typeOfLivestock,
         breedOfLivestock,
+        purpose,
         typeOfCage,
         source,
         ownership,
@@ -583,26 +539,27 @@ class _$LivestockDataImpl implements _LivestockData {
 
 abstract class _LivestockData implements LivestockData {
   factory _LivestockData(
-      {required final int id,
-      @JsonKey(name: 'user_id') required final int userId,
+      {required final int? id,
+      @JsonKey(name: 'user_id') required final int? userId,
       required final String? eid,
       required final String? vid,
-      required final String name,
-      required final String birthdate,
-      required final String gender,
-      required final String age,
-      @JsonKey(name: 'chest_size') required final String chestSize,
-      @JsonKey(name: 'body_weight') required final String bodyWeight,
-      required final String health,
-      required final Cage cage,
+      required final String? name,
+      required final String? birthdate,
+      required final String? gender,
+      required final int? age,
+      @JsonKey(name: 'chest_size') required final int? chestSize,
+      @JsonKey(name: 'body_weight') required final int? bodyWeight,
+      required final String? health,
+      required final Cage? cage,
       @JsonKey(name: 'type_of_livestock')
-      required final TypeOfLivestock typeOfLivestock,
+      required final String? typeOfLivestock,
       @JsonKey(name: 'breed_of_livestock')
-      required final Breed breedOfLivestock,
-      @JsonKey(name: 'maintenance') required final Maintenance typeOfCage,
-      @JsonKey(name: 'source') required final Source source,
-      @JsonKey(name: 'ownership_status') required final Ownership ownership,
-      @JsonKey(name: 'reproduction') required final Reproduction reproduction,
+      required final String? breedOfLivestock,
+      required final String? purpose,
+      @JsonKey(name: 'maintenance') required final String? typeOfCage,
+      @JsonKey(name: 'source') required final String? source,
+      @JsonKey(name: 'ownership_status') required final String? ownership,
+      @JsonKey(name: 'reproduction') required final String? reproduction,
       @JsonKey(name: 'livestock_images')
       required final List<String>? images}) = _$LivestockDataImpl;
 
@@ -610,50 +567,52 @@ abstract class _LivestockData implements LivestockData {
       _$LivestockDataImpl.fromJson;
 
   @override
-  int get id;
+  int? get id;
   @override
   @JsonKey(name: 'user_id')
-  int get userId;
+  int? get userId;
   @override
   String? get eid;
   @override
   String? get vid;
   @override
-  String get name;
+  String? get name;
   @override
-  String get birthdate;
+  String? get birthdate;
   @override
-  String get gender;
+  String? get gender;
   @override
-  String get age;
+  int? get age;
   @override
   @JsonKey(name: 'chest_size')
-  String get chestSize;
+  int? get chestSize;
   @override
   @JsonKey(name: 'body_weight')
-  String get bodyWeight;
+  int? get bodyWeight;
   @override
-  String get health;
+  String? get health;
   @override
-  Cage get cage;
+  Cage? get cage;
   @override
   @JsonKey(name: 'type_of_livestock')
-  TypeOfLivestock get typeOfLivestock;
+  String? get typeOfLivestock;
   @override
   @JsonKey(name: 'breed_of_livestock')
-  Breed get breedOfLivestock;
+  String? get breedOfLivestock;
+  @override
+  String? get purpose;
   @override
   @JsonKey(name: 'maintenance')
-  Maintenance get typeOfCage;
+  String? get typeOfCage;
   @override
   @JsonKey(name: 'source')
-  Source get source;
+  String? get source;
   @override
   @JsonKey(name: 'ownership_status')
-  Ownership get ownership;
+  String? get ownership;
   @override
   @JsonKey(name: 'reproduction')
-  Reproduction get reproduction;
+  String? get reproduction;
   @override
   @JsonKey(name: 'livestock_images')
   List<String>? get images;

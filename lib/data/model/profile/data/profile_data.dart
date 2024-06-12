@@ -10,7 +10,7 @@ class ProfileData with _$ProfileData {
     required int? id,
     required String? username,
     required String? email,
-    @JsonKey(name: 'gender_id') required int? gender,
+    @JsonKey(name: 'gender') required String? gender,
     required String? nik,
     @JsonKey(name: 'full_name') required String? fullName,
     required String? birthdate,

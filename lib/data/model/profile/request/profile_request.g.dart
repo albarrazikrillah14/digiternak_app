@@ -12,7 +12,7 @@ _$ProfilRequestImpl _$$ProfilRequestImplFromJson(Map<String, dynamic> json) =>
       fullName: json['full_name'] as String,
       birthdate: json['birthdate'] as String,
       phoneNumber: json['phone_number'] as String,
-      gender: (json['gender_id'] as num).toInt(),
+      gender: json['gender'] as String,
       address: json['address'] as String,
     );
 
@@ -22,6 +22,6 @@ Map<String, dynamic> _$$ProfilRequestImplToJson(_$ProfilRequestImpl instance) =>
       'full_name': instance.fullName,
       'birthdate': instance.birthdate,
       'phone_number': instance.phoneNumber,
-      'gender_id': instance.gender,
+      'gender': instance.gender,
       'address': instance.address,
     };

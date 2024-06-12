@@ -29,17 +29,17 @@ class CageProvider extends ChangeNotifier {
   BaseModel get response => _response;
   CagesResponse? get cages => _cages;
 
-  Future<BaseModel> createKandang(CageRequest request) async {
+  Future<BaseModel> createCage(CageRequest request) async {
     _state = ResultState.loading;
     notifyListeners();
 
-    final result = await repository.createKandang(request);
+    final result = await repository.createCage(request);
     _response = result;
     notifyListeners();
 
     if (!(result.error ?? false)) {
       _state = ResultState.hasData;
-      await getAllCage();
+      await getCages();
     } else {
       _state = ResultState.error;
     }
@@ -58,11 +58,11 @@ class CageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getAllCage() async {
+  Future<void> getCages() async {
     _stateCages = ResultState.loading;
     notifyListeners();
 
-    final result = await repository.getAllCage();
+    final result = await repository.getCages();
 
     if (result.data?.isEmpty ?? true) {
       _stateCages = ResultState.noData;

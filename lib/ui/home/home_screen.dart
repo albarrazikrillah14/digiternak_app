@@ -1,15 +1,20 @@
 import 'package:digiternak_app/common/result.dart';
+import 'package:digiternak_app/data/locale/fattening_repository.dart';
 import 'package:digiternak_app/data/model/cage/response/cages_response.dart';
 import 'package:digiternak_app/data/model/notes/response/notes_response.dart';
 import 'package:digiternak_app/main.dart';
 import 'package:digiternak_app/provider/cage/cage_provider.dart';
 import 'package:digiternak_app/provider/notes/notes_provider.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/cage/list/list_cage_screen.dart';
+import 'package:digiternak_app/ui/features/cage/add_cage_screen.dart';
+import 'package:digiternak_app/ui/features/cage/list/list_cage_screen.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/fattening_home_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/list/list_livestock_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/list/list_notes_screen.dart';
+import 'package:digiternak_app/ui/features/livestock/add_livestock_screen.dart';
+import 'package:digiternak_app/ui/features/livestock/list/list_livestock_screen.dart';
+import 'package:digiternak_app/ui/features/notes/food/list/list_notes_screen.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
+import 'package:digiternak_app/widget/container_widget.dart';
 import 'package:digiternak_app/widget/custom_row.dart';
+import 'package:digiternak_app/widget/dialog_widget.dart';
 import 'package:digiternak_app/widget/error_widget.dart';
 import 'package:digiternak_app/widget/feature_item_widget.dart';
 import 'package:digiternak_app/widget/image_rounded.dart';
@@ -30,15 +35,24 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with RouteAware {
   late CageProvider cageProvider;
   late NotesProvider notesProvider;
+  late FatteningRepository repository;
+  bool? isTutorial;
 
   @override
   void initState() {
     super.initState();
     cageProvider = context.read<CageProvider>();
-    cageProvider.getAllCage();
+    cageProvider.getCages();
 
     notesProvider = context.read<NotesProvider>();
     notesProvider.getNotesByUserId();
+
+    repository = FatteningRepository();
+    getTutorial();
+  }
+
+  void getTutorial() async {
+    isTutorial = await repository.isTutorial();
   }
 
   @override
@@ -49,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
   @override
   void didPopNext() {
-    cageProvider.getAllCage();
+    cageProvider.getCages();
     notesProvider.getNotesByUserId();
   }
 
@@ -103,11 +117,87 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                     const SizedBox(
                       height: 16,
                     ),
+                    FutureBuilder<bool>(
+                      future: repository.isTutorial(),
+                      builder: (context, snapshot) {
+                        return !(isTutorial ?? false)
+                            ? buildContainer(
+                                context: context,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Alur Aplikasi ini adalah: ",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(fontSize: 16)),
+                                    const Divider(),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      "1. Kamu harus memiliki kandang terlebih dahulu.",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                    Text(
+                                      "2. Daftarkan ternak anda.",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                    Text(
+                                      "3. Lakukan Pencatatan.",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                                title: "Tutorial",
+                                closeContainer: InkWell(
+                                  onTap: () {
+                                    showAlertDialog(
+                                      context: context,
+                                      title: "Tutorial",
+                                      messsage:
+                                          "Apakah anda yakin untuk menghapus tutorial? setelah anda memencet Ya, tutorial tidak akan muncul lagi.",
+                                      onSuccess: () async {
+                                        final result =
+                                            await repository.removeTutorial();
+                                        if (result) {
+                                          setState(() async {
+                                            isTutorial =
+                                                await repository.isTutorial();
+                                            Navigator.pop(context);
+                                          });
+                                        }
+                                      },
+                                    );
+                                  },
+                                  child: const Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              )
+                            : Container();
+                      },
+                    ),
                     HomeFeatureWidget(
                       data: [
                         FeatureItem(
                             image: "assets/ic_feature.png",
-                            featureName: "Peggemukan"),
+                            featureName: "Pencatatan"),
+                        FeatureItem(
+                            image: "assets/ic_cow.png", featureName: "Ternak"),
+                        FeatureItem(
+                            image: "assets/ic_kandang.png",
+                            featureName: "Kandang"),
                       ],
                     ),
                     ChangeNotifierProvider.value(
@@ -232,7 +322,11 @@ class _HomeFeatureWidgetState extends State<HomeFeatureWidget> {
                     case 0:
                       Navigator.pushNamed(
                           context, FatteningHomeScreen.routeName);
-                      break;
+                    case 1:
+                      Navigator.pushNamed(
+                          context, AddLivestockScreen.routeName);
+                    case 2:
+                      Navigator.pushNamed(context, AddCageScreen.routeName);
                     default:
                       break;
                   }

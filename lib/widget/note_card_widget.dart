@@ -1,6 +1,6 @@
 import 'package:digiternak_app/common/utils/mapper/mapper.dart';
 import 'package:digiternak_app/data/model/notes/response/data/note_data.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/detail/detail_note_screen.dart';
+import 'package:digiternak_app/ui/features/notes/food/detail/detail_note_screen.dart';
 import 'package:digiternak_app/widget/container_widget.dart';
 import 'package:digiternak_app/widget/custom_row.dart';
 import 'package:digiternak_app/widget/image_rounded.dart';
@@ -48,7 +48,7 @@ class _NoteCardWidgetState extends State<NoteCardWidget> {
                         ),
                   CustomRow(
                     title: 'Tanggal',
-                    value: formatTanggal(widget.data.dateRecorded ?? ""),
+                    value: formatTanggal(widget.data.updatedAt ?? ""),
                   ),
                   CustomRow(
                       title: 'Kode ternak',

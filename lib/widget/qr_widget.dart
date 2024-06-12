@@ -1,7 +1,7 @@
 import 'package:digiternak_app/common/result.dart';
 import 'package:digiternak_app/provider/home/home_provider.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/add/add_note_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/detail/livestock_detail.dart';
+import 'package:digiternak_app/ui/features/notes/food/add/add_note_screen.dart';
+import 'package:digiternak_app/ui/features/livestock/detail/livestock_detail.dart';
 import 'package:digiternak_app/widget/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

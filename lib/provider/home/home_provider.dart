@@ -32,7 +32,7 @@ class HomeProvider extends ChangeNotifier {
   LivestockResponse? get livestock => _livestock;
   LivestockResponse? get livestockSearch => _livestockSearch;
 
-  Future<void> getKandang({String type = ""}) async {
+  Future<void> getCages({String type = ""}) async {
     switch (type) {
       case "dashboard":
         _stateDashboard = ResultState.loading;
@@ -41,7 +41,7 @@ class HomeProvider extends ChangeNotifier {
     }
     notifyListeners();
 
-    final result = await repository.getKandang();
+    final result = await repository.getCages();
 
     if (result.data?.isNotEmpty ?? false) {
       _kandang = result;
@@ -71,7 +71,7 @@ class HomeProvider extends ChangeNotifier {
     _state = ResultState.loading;
     notifyListeners();
 
-    final result = await repository.getAllCatatanData();
+    final result = await repository.getNotes();
     if (result.data?.isEmpty ?? true) {
       _state = ResultState.noData;
     } else {

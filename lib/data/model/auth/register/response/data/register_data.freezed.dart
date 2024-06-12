@@ -23,7 +23,6 @@ mixin _$RegisterData {
   int get id => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  RegisterRole get role => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,9 +36,7 @@ abstract class $RegisterDataCopyWith<$Res> {
           RegisterData value, $Res Function(RegisterData) then) =
       _$RegisterDataCopyWithImpl<$Res, RegisterData>;
   @useResult
-  $Res call({int id, String username, String email, RegisterRole role});
-
-  $RegisterRoleCopyWith<$Res> get role;
+  $Res call({int id, String username, String email});
 }
 
 /// @nodoc
@@ -58,7 +55,6 @@ class _$RegisterDataCopyWithImpl<$Res, $Val extends RegisterData>
     Object? id = null,
     Object? username = null,
     Object? email = null,
-    Object? role = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -73,19 +69,7 @@ class _$RegisterDataCopyWithImpl<$Res, $Val extends RegisterData>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      role: null == role
-          ? _value.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as RegisterRole,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $RegisterRoleCopyWith<$Res> get role {
-    return $RegisterRoleCopyWith<$Res>(_value.role, (value) {
-      return _then(_value.copyWith(role: value) as $Val);
-    });
   }
 }
 
@@ -97,10 +81,7 @@ abstract class _$$RegisterDataImplCopyWith<$Res>
       __$$RegisterDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String username, String email, RegisterRole role});
-
-  @override
-  $RegisterRoleCopyWith<$Res> get role;
+  $Res call({int id, String username, String email});
 }
 
 /// @nodoc
@@ -117,7 +98,6 @@ class __$$RegisterDataImplCopyWithImpl<$Res>
     Object? id = null,
     Object? username = null,
     Object? email = null,
-    Object? role = null,
   }) {
     return _then(_$RegisterDataImpl(
       id: null == id
@@ -132,10 +112,6 @@ class __$$RegisterDataImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      role: null == role
-          ? _value.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as RegisterRole,
     ));
   }
 }
@@ -144,10 +120,7 @@ class __$$RegisterDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RegisterDataImpl implements _RegisterData {
   _$RegisterDataImpl(
-      {required this.id,
-      required this.username,
-      required this.email,
-      required this.role});
+      {required this.id, required this.username, required this.email});
 
   factory _$RegisterDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$RegisterDataImplFromJson(json);
@@ -158,12 +131,10 @@ class _$RegisterDataImpl implements _RegisterData {
   final String username;
   @override
   final String email;
-  @override
-  final RegisterRole role;
 
   @override
   String toString() {
-    return 'RegisterData(id: $id, username: $username, email: $email, role: $role)';
+    return 'RegisterData(id: $id, username: $username, email: $email)';
   }
 
   @override
@@ -174,13 +145,12 @@ class _$RegisterDataImpl implements _RegisterData {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.username, username) ||
                 other.username == username) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.role, role) || other.role == role));
+            (identical(other.email, email) || other.email == email));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, username, email, role);
+  int get hashCode => Object.hash(runtimeType, id, username, email);
 
   @JsonKey(ignore: true)
   @override
@@ -200,8 +170,7 @@ abstract class _RegisterData implements RegisterData {
   factory _RegisterData(
       {required final int id,
       required final String username,
-      required final String email,
-      required final RegisterRole role}) = _$RegisterDataImpl;
+      required final String email}) = _$RegisterDataImpl;
 
   factory _RegisterData.fromJson(Map<String, dynamic> json) =
       _$RegisterDataImpl.fromJson;
@@ -212,8 +181,6 @@ abstract class _RegisterData implements RegisterData {
   String get username;
   @override
   String get email;
-  @override
-  RegisterRole get role;
   @override
   @JsonKey(ignore: true)
   _$$RegisterDataImplCopyWith<_$RegisterDataImpl> get copyWith =>

@@ -22,6 +22,9 @@ NoteRequest _$NoteRequestFromJson(Map<String, dynamic> json) {
 mixin _$NoteRequest {
   @JsonKey(name: 'livestock_feed')
   String get feed => throw _privateConstructorUsedError;
+  @JsonKey(name: 'feed_weight')
+  int get feedWeight => throw _privateConstructorUsedError;
+  String get vitamin => throw _privateConstructorUsedError;
   int get costs => throw _privateConstructorUsedError;
   String get details => throw _privateConstructorUsedError;
 
@@ -39,6 +42,8 @@ abstract class $NoteRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'livestock_feed') String feed,
+      @JsonKey(name: 'feed_weight') int feedWeight,
+      String vitamin,
       int costs,
       String details});
 }
@@ -57,6 +62,8 @@ class _$NoteRequestCopyWithImpl<$Res, $Val extends NoteRequest>
   @override
   $Res call({
     Object? feed = null,
+    Object? feedWeight = null,
+    Object? vitamin = null,
     Object? costs = null,
     Object? details = null,
   }) {
@@ -64,6 +71,14 @@ class _$NoteRequestCopyWithImpl<$Res, $Val extends NoteRequest>
       feed: null == feed
           ? _value.feed
           : feed // ignore: cast_nullable_to_non_nullable
+              as String,
+      feedWeight: null == feedWeight
+          ? _value.feedWeight
+          : feedWeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      vitamin: null == vitamin
+          ? _value.vitamin
+          : vitamin // ignore: cast_nullable_to_non_nullable
               as String,
       costs: null == costs
           ? _value.costs
@@ -87,6 +102,8 @@ abstract class _$$NoteRequestImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'livestock_feed') String feed,
+      @JsonKey(name: 'feed_weight') int feedWeight,
+      String vitamin,
       int costs,
       String details});
 }
@@ -103,6 +120,8 @@ class __$$NoteRequestImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? feed = null,
+    Object? feedWeight = null,
+    Object? vitamin = null,
     Object? costs = null,
     Object? details = null,
   }) {
@@ -110,6 +129,14 @@ class __$$NoteRequestImplCopyWithImpl<$Res>
       feed: null == feed
           ? _value.feed
           : feed // ignore: cast_nullable_to_non_nullable
+              as String,
+      feedWeight: null == feedWeight
+          ? _value.feedWeight
+          : feedWeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      vitamin: null == vitamin
+          ? _value.vitamin
+          : vitamin // ignore: cast_nullable_to_non_nullable
               as String,
       costs: null == costs
           ? _value.costs
@@ -128,6 +155,8 @@ class __$$NoteRequestImplCopyWithImpl<$Res>
 class _$NoteRequestImpl implements _NoteRequest {
   _$NoteRequestImpl(
       {@JsonKey(name: 'livestock_feed') required this.feed,
+      @JsonKey(name: 'feed_weight') required this.feedWeight,
+      required this.vitamin,
       required this.costs,
       required this.details});
 
@@ -138,13 +167,18 @@ class _$NoteRequestImpl implements _NoteRequest {
   @JsonKey(name: 'livestock_feed')
   final String feed;
   @override
+  @JsonKey(name: 'feed_weight')
+  final int feedWeight;
+  @override
+  final String vitamin;
+  @override
   final int costs;
   @override
   final String details;
 
   @override
   String toString() {
-    return 'NoteRequest(feed: $feed, costs: $costs, details: $details)';
+    return 'NoteRequest(feed: $feed, feedWeight: $feedWeight, vitamin: $vitamin, costs: $costs, details: $details)';
   }
 
   @override
@@ -153,13 +187,17 @@ class _$NoteRequestImpl implements _NoteRequest {
         (other.runtimeType == runtimeType &&
             other is _$NoteRequestImpl &&
             (identical(other.feed, feed) || other.feed == feed) &&
+            (identical(other.feedWeight, feedWeight) ||
+                other.feedWeight == feedWeight) &&
+            (identical(other.vitamin, vitamin) || other.vitamin == vitamin) &&
             (identical(other.costs, costs) || other.costs == costs) &&
             (identical(other.details, details) || other.details == details));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, feed, costs, details);
+  int get hashCode =>
+      Object.hash(runtimeType, feed, feedWeight, vitamin, costs, details);
 
   @JsonKey(ignore: true)
   @override
@@ -178,6 +216,8 @@ class _$NoteRequestImpl implements _NoteRequest {
 abstract class _NoteRequest implements NoteRequest {
   factory _NoteRequest(
       {@JsonKey(name: 'livestock_feed') required final String feed,
+      @JsonKey(name: 'feed_weight') required final int feedWeight,
+      required final String vitamin,
       required final int costs,
       required final String details}) = _$NoteRequestImpl;
 
@@ -187,6 +227,11 @@ abstract class _NoteRequest implements NoteRequest {
   @override
   @JsonKey(name: 'livestock_feed')
   String get feed;
+  @override
+  @JsonKey(name: 'feed_weight')
+  int get feedWeight;
+  @override
+  String get vitamin;
   @override
   int get costs;
   @override

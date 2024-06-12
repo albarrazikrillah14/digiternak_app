@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:digiternak_app/data/model/base_model.dart';
+import 'package:digiternak_app/data/model/bcs/request/bcs_request.dart';
+import 'package:digiternak_app/data/model/bcs/response/bcs_response.dart';
+import 'package:digiternak_app/data/model/bcs/response/create/create_bcs_response.dart';
 import 'package:digiternak_app/data/model/cage/response/cage_response.dart';
 import 'package:digiternak_app/data/model/notes/request/note_request.dart';
 import 'package:digiternak_app/data/model/notes/response/notes_response.dart';
@@ -31,21 +34,21 @@ class ApiService {
     return token ?? '';
   }
 
-  Future<CagesResponse> getKandang() async {
+  Future<CagesResponse> getCages() async {
     final token = await getToken();
 
-    final response = await http
-        .get(Uri.parse('$endpoint/cage/get-cages'), headers: <String, String>{
+    final response =
+        await http.get(Uri.parse('$endpoint/cage'), headers: <String, String>{
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     });
     return CagesResponse.fromJson(json.decode(response.body));
   }
 
-  Future<CageResponse> getKandangById(int id) async {
+  Future<CageResponse> getCageById(int id) async {
     final token = await getToken();
     final response = await http
-        .get(Uri.parse('$endpoint/cage/view/$id'), headers: <String, String>{
+        .get(Uri.parse('$endpoint/cage/$id'), headers: <String, String>{
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     });
@@ -54,10 +57,10 @@ class ApiService {
     return result;
   }
 
-  Future<BaseModel> createKandang(CageRequest request) async {
+  Future<BaseModel> createCage(CageRequest request) async {
     final token = await getToken();
     final response = await http.post(
-      Uri.parse('$endpoint/cage/create'),
+      Uri.parse('$endpoint/cage'),
       headers: <String, String>{
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -66,16 +69,14 @@ class ApiService {
     );
 
     final result = BaseModel.fromJson(jsonDecode(response.body));
-    print("coi $result");
     return result;
   }
 
   //Catatan
-  Future<NoteResponse> createCatatan(
-      NoteRequest request, int livestockId) async {
+  Future<NoteResponse> createNote(NoteRequest request, int livestockId) async {
     final token = await getToken();
     final response = await http.post(
-      Uri.parse('$endpoint/note/create/$livestockId'),
+      Uri.parse('$endpoint/note/$livestockId'),
       headers: <String, String>{
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json'
@@ -86,10 +87,10 @@ class ApiService {
     return result;
   }
 
-  Future<NotesResponse> getAllCatatanData() async {
+  Future<NotesResponse> getNotes() async {
     final token = await getToken();
     final response = await http.get(
-      Uri.parse('$endpoint/note/index'),
+      Uri.parse('$endpoint/note'),
       headers: <String, String>{
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json'
@@ -98,10 +99,10 @@ class ApiService {
     return NotesResponse.fromJson(json.decode(response.body));
   }
 
-  Future<NoteResponse> getCatatanById(int id) async {
+  Future<NoteResponse> getNoteById(int id) async {
     final token = await getToken();
     final response = await http.get(
-      Uri.parse('$endpoint/note/view/$id'),
+      Uri.parse('$endpoint/note/$id'),
       headers: <String, String>{
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
@@ -111,7 +112,7 @@ class ApiService {
     return result;
   }
 
-  Future<NotesResponse?> getAllNotesByLivestockId(int id) async {
+  Future<NotesResponse?> getNotesByLivestockId(int id) async {
     final token = await getToken();
     final response = await http.get(
       Uri.parse('$endpoint/note/livestock/$id'),
@@ -124,10 +125,10 @@ class ApiService {
     return result;
   }
 
-  Future<NoteResponse> editCatatanById(NoteRequest request, int noteId) async {
+  Future<NoteResponse> editNoteById(NoteRequest request, int noteId) async {
     final token = await getToken();
     final response = await http.put(
-      Uri.parse('$endpoint/note/update/$noteId'),
+      Uri.parse('$endpoint/note/$noteId'),
       headers: <String, String>{
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json'
@@ -139,10 +140,10 @@ class ApiService {
     return result;
   }
 
-  Future<BaseModel> deleteCatatanById(int noteId) async {
+  Future<BaseModel> deleteNoteById(int noteId) async {
     final token = await getToken();
     final response = await http.delete(
-      Uri.parse('$endpoint/note/delete/$noteId'),
+      Uri.parse('$endpoint/note/$noteId'),
       headers: <String, String>{
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json'
@@ -156,7 +157,7 @@ class ApiService {
   Future<LivestockResponse> getLivestockByVID(String vid) async {
     final token = await getToken();
     final response = await http.get(
-      Uri.parse('$endpoint/livestock/search/$vid'),
+      Uri.parse('$endpoint/livestock/vid/$vid'),
       headers: <String, String>{
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json'
@@ -166,11 +167,11 @@ class ApiService {
     return result;
   }
 
-  Future<LivestockResponse> getAllLivestock() async {
+  Future<LivestockResponse> getLivestocks() async {
     final token = await getToken();
     final userId = await authRepository.getUserId();
     final response = await http.get(
-      Uri.parse('$endpoint/livestock/get-livestocks/$userId'),
+      Uri.parse('$endpoint/livestock/uid/$userId'),
       headers: <String, String>{
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json'
@@ -183,7 +184,7 @@ class ApiService {
   Future<CreateLivestockResponse> createLivestock(
       LivestockRequest request) async {
     final token = await getToken();
-    final response = await http.post(Uri.parse('$endpoint/livestock/create'),
+    final response = await http.post(Uri.parse('$endpoint/livestock'),
         headers: <String, String>{
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json'
@@ -194,10 +195,9 @@ class ApiService {
     return result;
   }
 
-  Future<BaseModel> deleteLivestock(int id) async {
+  Future<BaseModel> deleteLivestockById(int id) async {
     final token = await getToken();
-    final response = await http.delete(
-        Uri.parse("$endpoint/livestock/delete/$id"),
+    final response = await http.delete(Uri.parse("$endpoint/livestock/$id"),
         headers: <String, String>{
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json'
@@ -212,7 +212,7 @@ class ApiService {
     final token = await getToken();
 
     final response = await http.put(
-      Uri.parse("$endpoint/livestock/update/$livestockId"),
+      Uri.parse("$endpoint/livestock/$livestockId"),
       headers: <String, String>{
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json'
@@ -235,17 +235,26 @@ class ApiService {
     String url = "";
     if (type == UploadType.LVIESTOCK) {
       url = "$endpoint/livestock/upload-image/$id";
-    } else {
+    } else if (type == UploadType.NOTES) {
       url = "$endpoint/note/upload-documentation/$id";
+    } else {
+      url = "$endpoint/bcs/upload-bcs/$id";
     }
 
     final uri = Uri.parse(url);
     var request = http.MultipartRequest('POST', uri);
 
-    final multiPartFile = http.MultipartFile.fromBytes(
-        type == UploadType.LVIESTOCK ? "livestock_image[]" : "documentation[]",
-        bytes,
-        filename: fileName);
+    var param = "";
+    switch (type) {
+      case UploadType.LVIESTOCK:
+        param = "livestock_image[]";
+      case UploadType.NOTES:
+        param = "documentation[]";
+      case UploadType.BCS:
+        param = "bcs_image[]";
+    }
+    final multiPartFile =
+        http.MultipartFile.fromBytes(param, bytes, filename: fileName);
 
     final Map<String, String> headers = {
       "Content-type": "multipart/form-data",
@@ -262,6 +271,89 @@ class ApiService {
     final result =
         LivestockUploadImageResponse.fromJson(json.decode(responseData));
 
+    return result;
+  }
+
+  //BCS
+  Future<CreateBcsResponse> createBcs(
+      BcsRequest request, int livestockId) async {
+    final token = await getToken();
+
+    final response = await http.post(
+      Uri.parse("$endpoint/bcs/$livestockId"),
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      },
+      body: json.encode(request),
+    );
+
+    final result = CreateBcsResponse.fromJson(json.decode(response.body));
+
+    return result;
+  }
+
+  Future<CreateBcsResponse> editBcsById(BcsRequest request, int bcsId) async {
+    final token = await getToken();
+
+    final response = await http.put(
+      Uri.parse("$endpoint/bcs/$bcsId"),
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(request),
+    );
+
+    final result = CreateBcsResponse.fromJson(json.decode(response.body));
+
+    return result;
+  }
+
+  Future<CreateBcsResponse> getBcsById(int bcsId) async {
+    final token = await getToken();
+
+    final response = await http.get(
+      Uri.parse('$endpoint/bcs/$bcsId'),
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    final result = CreateBcsResponse.fromJson(json.decode(response.body));
+
+    return result;
+  }
+
+  Future<BcsResponse> getBcsByLivestockId(int livestockId) async {
+    final token = await getToken();
+
+    final response = await http.get(
+      Uri.parse('$endpoint/bcs/livestock/$livestockId'),
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    final result = BcsResponse.fromJson(json.decode(response.body));
+
+    return result;
+  }
+
+  Future<BaseModel> deleteBcsById(int bcsId) async {
+    final token = await getToken();
+
+    final response = await http.delete(
+      Uri.parse('$endpoint/bcs/$bcsId'),
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    final result = BaseModel.fromJson(json.decode(response.body));
     return result;
   }
 }

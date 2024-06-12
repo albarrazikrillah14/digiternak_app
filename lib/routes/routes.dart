@@ -1,25 +1,30 @@
+import 'package:digiternak_app/data/model/bcs/response/data/bcs_data.dart';
 import 'package:digiternak_app/data/model/notes/response/data/note_data.dart';
 import 'package:digiternak_app/data/model/livestock/response/data/livestock_data.dart';
 import 'package:digiternak_app/data/remote/auth/auth_repository.dart';
 import 'package:digiternak_app/provider/auth/auth_provider.dart';
 import 'package:digiternak_app/ui/auth/login/login_screen.dart';
 import 'package:digiternak_app/ui/auth/register/register_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/cage/detail_cage_screen.dart';
+import 'package:digiternak_app/ui/features/cage/detail_cage_screen.dart';
 import 'package:digiternak_app/ui/detail_image/detail_image_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/cage/add_cage_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/cage/list/list_cage_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/add_livestock_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/list/list_livestock_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/livestock_upload_image_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/update/update_livestock_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/add/add_note_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/detail/detail_note_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/list/list_notes_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/detail/livestock_detail.dart';
+import 'package:digiternak_app/ui/features/cage/add_cage_screen.dart';
+import 'package:digiternak_app/ui/features/cage/list/list_cage_screen.dart';
+import 'package:digiternak_app/ui/features/livestock/add_livestock_screen.dart';
+import 'package:digiternak_app/ui/features/livestock/list/list_livestock_screen.dart';
+import 'package:digiternak_app/ui/features/livestock/livestock_upload_image_screen.dart';
+import 'package:digiternak_app/ui/features/livestock/update/update_livestock_screen.dart';
+import 'package:digiternak_app/ui/features/notes/bcs/add/add_bcs_screen.dart';
+import 'package:digiternak_app/ui/features/notes/bcs/detail/detail_bcs_screen.dart';
+import 'package:digiternak_app/ui/features/notes/bcs/edit/edit_bcs_screen.dart';
+import 'package:digiternak_app/ui/features/notes/bcs/list/list_bcs_screen.dart';
+import 'package:digiternak_app/ui/features/notes/food/add/add_note_screen.dart';
+import 'package:digiternak_app/ui/features/notes/food/detail/detail_note_screen.dart';
+import 'package:digiternak_app/ui/features/notes/food/list/list_notes_screen.dart';
+import 'package:digiternak_app/ui/features/livestock/detail/livestock_detail.dart';
 import 'package:digiternak_app/ui/features/fattening_livestocks/fattening_home_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/home_notes_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/livestock/home/home_livestock_screen.dart';
-import 'package:digiternak_app/ui/features/fattening_livestocks/notes/update/update_note_screen.dart';
+import 'package:digiternak_app/ui/features/notes/home_notes_screen.dart';
+import 'package:digiternak_app/ui/features/livestock/home/home_livestock_screen.dart';
+import 'package:digiternak_app/ui/features/notes/food/update/update_note_screen.dart';
 import 'package:digiternak_app/ui/home/home_screen.dart';
 import 'package:digiternak_app/ui/profile/complete_data/edit_profile_screen.dart';
 import 'package:digiternak_app/ui/profile/profile_screen.dart';
@@ -83,4 +88,13 @@ final routes = {
 
   QRCodeScreen.routeName: (context) =>
       QRCodeScreen(data: ModalRoute.of(context)!.settings.arguments as String),
+
+  //BCS
+  AddBcsScreen.routeName: (context) => const AddBcsScreen(),
+  ListBcsScreen.routeName: (context) => ListBcsScreen(
+      data: ModalRoute.of(context)!.settings.arguments as List<BcsData>),
+  DetailBcsScreen.routeName: (context) => DetailBcsScreen(
+      data: ModalRoute.of(context)!.settings.arguments as BcsData),
+  EditBcsScreen.routeName: (context) => EditBcsScreen(
+      data: ModalRoute.of(context)!.settings.arguments as BcsData),
 };

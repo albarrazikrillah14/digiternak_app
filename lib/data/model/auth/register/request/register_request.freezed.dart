@@ -23,10 +23,6 @@ mixin _$RegisterRequest {
   String get username => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
-  @JsonKey(name: 'password_repeat')
-  String get passwordReapet => throw _privateConstructorUsedError;
-  @JsonKey(name: 'role_id')
-  int get roleId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,12 +36,7 @@ abstract class $RegisterRequestCopyWith<$Res> {
           RegisterRequest value, $Res Function(RegisterRequest) then) =
       _$RegisterRequestCopyWithImpl<$Res, RegisterRequest>;
   @useResult
-  $Res call(
-      {String username,
-      String email,
-      String password,
-      @JsonKey(name: 'password_repeat') String passwordReapet,
-      @JsonKey(name: 'role_id') int roleId});
+  $Res call({String username, String email, String password});
 }
 
 /// @nodoc
@@ -64,8 +55,6 @@ class _$RegisterRequestCopyWithImpl<$Res, $Val extends RegisterRequest>
     Object? username = null,
     Object? email = null,
     Object? password = null,
-    Object? passwordReapet = null,
-    Object? roleId = null,
   }) {
     return _then(_value.copyWith(
       username: null == username
@@ -80,14 +69,6 @@ class _$RegisterRequestCopyWithImpl<$Res, $Val extends RegisterRequest>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
-      passwordReapet: null == passwordReapet
-          ? _value.passwordReapet
-          : passwordReapet // ignore: cast_nullable_to_non_nullable
-              as String,
-      roleId: null == roleId
-          ? _value.roleId
-          : roleId // ignore: cast_nullable_to_non_nullable
-              as int,
     ) as $Val);
   }
 }
@@ -100,12 +81,7 @@ abstract class _$$RegisterRequestImplCopyWith<$Res>
       __$$RegisterRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String username,
-      String email,
-      String password,
-      @JsonKey(name: 'password_repeat') String passwordReapet,
-      @JsonKey(name: 'role_id') int roleId});
+  $Res call({String username, String email, String password});
 }
 
 /// @nodoc
@@ -122,8 +98,6 @@ class __$$RegisterRequestImplCopyWithImpl<$Res>
     Object? username = null,
     Object? email = null,
     Object? password = null,
-    Object? passwordReapet = null,
-    Object? roleId = null,
   }) {
     return _then(_$RegisterRequestImpl(
       username: null == username
@@ -138,14 +112,6 @@ class __$$RegisterRequestImplCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
-      passwordReapet: null == passwordReapet
-          ? _value.passwordReapet
-          : passwordReapet // ignore: cast_nullable_to_non_nullable
-              as String,
-      roleId: null == roleId
-          ? _value.roleId
-          : roleId // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
@@ -154,11 +120,7 @@ class __$$RegisterRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RegisterRequestImpl implements _RegisterRequest {
   _$RegisterRequestImpl(
-      {required this.username,
-      required this.email,
-      required this.password,
-      @JsonKey(name: 'password_repeat') required this.passwordReapet,
-      @JsonKey(name: 'role_id') required this.roleId});
+      {required this.username, required this.email, required this.password});
 
   factory _$RegisterRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$RegisterRequestImplFromJson(json);
@@ -169,16 +131,10 @@ class _$RegisterRequestImpl implements _RegisterRequest {
   final String email;
   @override
   final String password;
-  @override
-  @JsonKey(name: 'password_repeat')
-  final String passwordReapet;
-  @override
-  @JsonKey(name: 'role_id')
-  final int roleId;
 
   @override
   String toString() {
-    return 'RegisterRequest(username: $username, email: $email, password: $password, passwordReapet: $passwordReapet, roleId: $roleId)';
+    return 'RegisterRequest(username: $username, email: $email, password: $password)';
   }
 
   @override
@@ -190,16 +146,12 @@ class _$RegisterRequestImpl implements _RegisterRequest {
                 other.username == username) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
-                other.password == password) &&
-            (identical(other.passwordReapet, passwordReapet) ||
-                other.passwordReapet == passwordReapet) &&
-            (identical(other.roleId, roleId) || other.roleId == roleId));
+                other.password == password));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, username, email, password, passwordReapet, roleId);
+  int get hashCode => Object.hash(runtimeType, username, email, password);
 
   @JsonKey(ignore: true)
   @override
@@ -220,10 +172,7 @@ abstract class _RegisterRequest implements RegisterRequest {
   factory _RegisterRequest(
       {required final String username,
       required final String email,
-      required final String password,
-      @JsonKey(name: 'password_repeat') required final String passwordReapet,
-      @JsonKey(name: 'role_id')
-      required final int roleId}) = _$RegisterRequestImpl;
+      required final String password}) = _$RegisterRequestImpl;
 
   factory _RegisterRequest.fromJson(Map<String, dynamic> json) =
       _$RegisterRequestImpl.fromJson;
@@ -234,12 +183,6 @@ abstract class _RegisterRequest implements RegisterRequest {
   String get email;
   @override
   String get password;
-  @override
-  @JsonKey(name: 'password_repeat')
-  String get passwordReapet;
-  @override
-  @JsonKey(name: 'role_id')
-  int get roleId;
   @override
   @JsonKey(ignore: true)
   _$$RegisterRequestImplCopyWith<_$RegisterRequestImpl> get copyWith =>

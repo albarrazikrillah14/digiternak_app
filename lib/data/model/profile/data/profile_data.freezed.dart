@@ -23,8 +23,8 @@ mixin _$ProfileData {
   int? get id => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  @JsonKey(name: 'gender_id')
-  int? get gender => throw _privateConstructorUsedError;
+  @JsonKey(name: 'gender')
+  String? get gender => throw _privateConstructorUsedError;
   String? get nik => throw _privateConstructorUsedError;
   @JsonKey(name: 'full_name')
   String? get fullName => throw _privateConstructorUsedError;
@@ -54,7 +54,7 @@ abstract class $ProfileDataCopyWith<$Res> {
       {int? id,
       String? username,
       String? email,
-      @JsonKey(name: 'gender_id') int? gender,
+      @JsonKey(name: 'gender') String? gender,
       String? nik,
       @JsonKey(name: 'full_name') String? fullName,
       String? birthdate,
@@ -109,7 +109,7 @@ class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
       gender: freezed == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       nik: freezed == nik
           ? _value.nik
           : nik // ignore: cast_nullable_to_non_nullable
@@ -170,7 +170,7 @@ abstract class _$$ProfileDataImplCopyWith<$Res>
       {int? id,
       String? username,
       String? email,
-      @JsonKey(name: 'gender_id') int? gender,
+      @JsonKey(name: 'gender') String? gender,
       String? nik,
       @JsonKey(name: 'full_name') String? fullName,
       String? birthdate,
@@ -224,7 +224,7 @@ class __$$ProfileDataImplCopyWithImpl<$Res>
       gender: freezed == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       nik: freezed == nik
           ? _value.nik
           : nik // ignore: cast_nullable_to_non_nullable
@@ -268,7 +268,7 @@ class _$ProfileDataImpl implements _ProfileData {
       {required this.id,
       required this.username,
       required this.email,
-      @JsonKey(name: 'gender_id') required this.gender,
+      @JsonKey(name: 'gender') required this.gender,
       required this.nik,
       @JsonKey(name: 'full_name') required this.fullName,
       required this.birthdate,
@@ -288,8 +288,8 @@ class _$ProfileDataImpl implements _ProfileData {
   @override
   final String? email;
   @override
-  @JsonKey(name: 'gender_id')
-  final int? gender;
+  @JsonKey(name: 'gender')
+  final String? gender;
   @override
   final String? nik;
   @override
@@ -365,7 +365,7 @@ abstract class _ProfileData implements ProfileData {
           {required final int? id,
           required final String? username,
           required final String? email,
-          @JsonKey(name: 'gender_id') required final int? gender,
+          @JsonKey(name: 'gender') required final String? gender,
           required final String? nik,
           @JsonKey(name: 'full_name') required final String? fullName,
           required final String? birthdate,
@@ -386,8 +386,8 @@ abstract class _ProfileData implements ProfileData {
   @override
   String? get email;
   @override
-  @JsonKey(name: 'gender_id')
-  int? get gender;
+  @JsonKey(name: 'gender')
+  String? get gender;
   @override
   String? get nik;
   @override

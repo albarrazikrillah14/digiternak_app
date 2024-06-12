@@ -8,16 +8,16 @@ class HomeRepository {
 
   HomeRepository({required this.service});
 
-  Future<CagesResponse> getKandang() async {
-    return await service.getKandang();
+  Future<CagesResponse> getCages() async {
+    return await service.getCages();
   }
 
-  Future<NotesResponse> getAllCatatanData() async {
-    return await service.getAllCatatanData();
+  Future<NotesResponse> getNotes() async {
+    return await service.getNotes();
   }
 
-  Future<LivestockResponse> getAllLivestock() async {
-    return await service.getAllLivestock();
+  Future<LivestockResponse> getLivestocks() async {
+    return await service.getLivestocks();
   }
 
   Future<LivestockResponse> getLivestockByVID(String vid) async {

@@ -10,31 +10,31 @@ class NotesRepository {
 
   NotesRepository(this.service);
 
-  Future<LivestockResponse> getAllLivestock() async {
-    return await service.getAllLivestock();
+  Future<LivestockResponse> getLivestocks() async {
+    return await service.getLivestocks();
   }
 
   Future<NoteResponse> createNote(NoteRequest request, int livestockId) async {
-    return await service.createCatatan(request, livestockId);
+    return await service.createNote(request, livestockId);
   }
 
   Future<NoteResponse> getNoteById(int noteId) async {
-    return await service.getCatatanById(noteId);
+    return await service.getNoteById(noteId);
   }
 
   Future<NotesResponse> getNotesByUserId() async {
-    return await service.getAllCatatanData();
+    return await service.getNotes();
   }
 
   Future<NotesResponse?> getNotesByLivestockId(int livestockId) async {
-    return await service.getAllNotesByLivestockId(livestockId);
+    return await service.getNotesByLivestockId(livestockId);
   }
 
   Future<NoteResponse> editNoteById(NoteRequest request, noteId) async {
-    return await service.editCatatanById(request, noteId);
+    return await service.editNoteById(request, noteId);
   }
 
   Future<BaseModel> deleteNoteById(int noteId) async {
-    return await service.deleteCatatanById(noteId);
+    return await service.deleteNoteById(noteId);
   }
 }

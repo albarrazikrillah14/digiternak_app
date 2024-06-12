@@ -1,8 +1,10 @@
 import 'package:digiternak_app/common/styles/styles.dart';
 import 'package:digiternak_app/data/remote/auth/auth_repository.dart';
+import 'package:digiternak_app/data/remote/bcs/bcs_repository.dart';
 import 'package:digiternak_app/data/remote/cage/cage_repository.dart';
 import 'package:digiternak_app/data/remote/home/home_repository.dart';
 import 'package:digiternak_app/data/remote/livestock/livestock_repository.dart';
+import 'package:digiternak_app/provider/bcs/bcs_provider.dart';
 import 'package:digiternak_app/provider/notes/notes_provider.dart';
 import 'package:digiternak_app/data/remote/notes/notes_repository.dart';
 import 'package:digiternak_app/data/remote/profile/profile_repository.dart';
@@ -59,7 +61,11 @@ class DigiTernakApp extends StatelessWidget {
                 NotesRepository(ApiService(http.Client(), AuthRepository())))),
         ChangeNotifierProvider(
             create: (context) => UploadProvider(
-                service: ApiService(http.Client(), AuthRepository())))
+                service: ApiService(http.Client(), AuthRepository()))),
+        ChangeNotifierProvider(
+            create: (context) => BcsProvider(
+                repository: BcsRepository(
+                    service: ApiService(http.Client(), AuthRepository()))))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

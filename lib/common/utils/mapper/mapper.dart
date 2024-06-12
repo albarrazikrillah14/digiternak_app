@@ -26,12 +26,26 @@ String formatTanggal(String input) {
     "Desember"
   ];
 
-  List<String> tanggalSplit = input.split('-');
+  // Split the date and time parts
+  List<String> dateTimeSplit = input.split(' ');
+  String datePart = dateTimeSplit[0];
+  String timePart = dateTimeSplit.length > 1 ? dateTimeSplit[1] : '';
+
+  // Split the date part into components
+  List<String> tanggalSplit = datePart.split('-');
   int hari = int.parse(tanggalSplit[2]);
   int bulanIndex = int.parse(tanggalSplit[1]) - 1;
   String tahun = tanggalSplit[0];
 
-  return "$hari ${bulan[bulanIndex]} $tahun";
+  // Format the date part
+  String formattedDate = "$hari ${bulan[bulanIndex]} $tahun";
+
+  // Return the formatted date with time if time part is present
+  if (timePart.isNotEmpty) {
+    return "$formattedDate $timePart";
+  } else {
+    return formattedDate;
+  }
 }
 
 String safeSubstring(String text, int startIndex, int endIndex) {

@@ -120,9 +120,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               CustomRow(
                                   title: "Email",
                                   value: provider.data.data!.email ?? ""),
-                              CustomRow(
+                              const CustomRow(
                                   title: "Status",
-                                  value: provider.data.data!.role?.name ?? "",
+                                  value: "Peternak",
                                   isLastData: true),
                             ],
                           ),
@@ -148,10 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     CustomRow(
                                         title: "Kelamin",
                                         value:
-                                            (provider.data.data?.gender ?? 1) ==
-                                                    1
-                                                ? "Laki - Laki"
-                                                : "Perempuan"),
+                                            provider.data.data!.gender ?? ""),
                                     CustomRow(
                                       title: "Tanggal Lahir",
                                       value: formatTanggal(
@@ -181,36 +178,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _ContainerProfile(
                         child: Column(
                           children: [
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, EditProfileScreen.routeName);
-                              },
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.edit,
-                                    color: Colors.blue,
+                            (provider.data.data!.fullName ?? "").isEmpty
+                                ? Container()
+                                : Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            EditProfileScreen.routeName,
+                                          );
+                                        },
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.edit,
+                                              color: Colors.blue,
+                                            ),
+                                            const SizedBox(
+                                              width: 4,
+                                            ),
+                                            Text(
+                                              "Ubah Profile",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge!
+                                                  .copyWith(fontSize: 16),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 16,
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  Text(
-                                    "Ubah Profile",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
                             InkWell(
                               onTap: () {
                                 showAlertDialog(

@@ -15,16 +15,16 @@ class LivestockRepository {
     return await service.createLivestock(request);
   }
 
-  Future<CagesResponse> getKandang() async {
-    return await service.getKandang();
+  Future<CagesResponse> getCages() async {
+    return await service.getCages();
   }
 
-  Future<LivestockResponse> getAllLivestock() async {
-    return await service.getAllLivestock();
+  Future<LivestockResponse> getLivestocks() async {
+    return await service.getLivestocks();
   }
 
-  Future<BaseModel> deletLivestock(int id) async {
-    return await service.deleteLivestock(id);
+  Future<BaseModel> deletLivestockById(int id) async {
+    return await service.deleteLivestockById(id);
   }
 
   Future<LivestockResponse> getLivestockByVid(String vid) async {

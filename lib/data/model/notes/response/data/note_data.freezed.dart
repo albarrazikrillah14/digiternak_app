@@ -29,15 +29,20 @@ mixin _$NoteData {
   String? get livestockName => throw _privateConstructorUsedError;
   @JsonKey(name: 'livestock_cage')
   String? get livestockCage => throw _privateConstructorUsedError;
-  @JsonKey(name: 'date_recorded')
-  String? get dateRecorded => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   @JsonKey(name: 'livestock_feed')
   String? get livestockFeed => throw _privateConstructorUsedError;
+  @JsonKey(name: 'feed_weight')
+  int? get feedWeight => throw _privateConstructorUsedError;
+  String? get vitamin => throw _privateConstructorUsedError;
   int? get costs => throw _privateConstructorUsedError;
   String? get details => throw _privateConstructorUsedError;
   @JsonKey(name: 'note_images')
   List<String>? get images => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  String? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
+  String? get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -56,12 +61,15 @@ abstract class $NoteDataCopyWith<$Res> {
       @JsonKey(name: 'livestock_vid') String? livestockVID,
       @JsonKey(name: 'livestock_name') String? livestockName,
       @JsonKey(name: 'livestock_cage') String? livestockCage,
-      @JsonKey(name: 'date_recorded') String? dateRecorded,
       String? location,
       @JsonKey(name: 'livestock_feed') String? livestockFeed,
+      @JsonKey(name: 'feed_weight') int? feedWeight,
+      String? vitamin,
       int? costs,
       String? details,
-      @JsonKey(name: 'note_images') List<String>? images});
+      @JsonKey(name: 'note_images') List<String>? images,
+      @JsonKey(name: 'created_at') String? createdAt,
+      @JsonKey(name: 'updated_at') String? updatedAt});
 }
 
 /// @nodoc
@@ -82,12 +90,15 @@ class _$NoteDataCopyWithImpl<$Res, $Val extends NoteData>
     Object? livestockVID = freezed,
     Object? livestockName = freezed,
     Object? livestockCage = freezed,
-    Object? dateRecorded = freezed,
     Object? location = freezed,
     Object? livestockFeed = freezed,
+    Object? feedWeight = freezed,
+    Object? vitamin = freezed,
     Object? costs = freezed,
     Object? details = freezed,
     Object? images = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -110,10 +121,6 @@ class _$NoteDataCopyWithImpl<$Res, $Val extends NoteData>
           ? _value.livestockCage
           : livestockCage // ignore: cast_nullable_to_non_nullable
               as String?,
-      dateRecorded: freezed == dateRecorded
-          ? _value.dateRecorded
-          : dateRecorded // ignore: cast_nullable_to_non_nullable
-              as String?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -121,6 +128,14 @@ class _$NoteDataCopyWithImpl<$Res, $Val extends NoteData>
       livestockFeed: freezed == livestockFeed
           ? _value.livestockFeed
           : livestockFeed // ignore: cast_nullable_to_non_nullable
+              as String?,
+      feedWeight: freezed == feedWeight
+          ? _value.feedWeight
+          : feedWeight // ignore: cast_nullable_to_non_nullable
+              as int?,
+      vitamin: freezed == vitamin
+          ? _value.vitamin
+          : vitamin // ignore: cast_nullable_to_non_nullable
               as String?,
       costs: freezed == costs
           ? _value.costs
@@ -134,6 +149,14 @@ class _$NoteDataCopyWithImpl<$Res, $Val extends NoteData>
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -152,12 +175,15 @@ abstract class _$$NoteDataImplCopyWith<$Res>
       @JsonKey(name: 'livestock_vid') String? livestockVID,
       @JsonKey(name: 'livestock_name') String? livestockName,
       @JsonKey(name: 'livestock_cage') String? livestockCage,
-      @JsonKey(name: 'date_recorded') String? dateRecorded,
       String? location,
       @JsonKey(name: 'livestock_feed') String? livestockFeed,
+      @JsonKey(name: 'feed_weight') int? feedWeight,
+      String? vitamin,
       int? costs,
       String? details,
-      @JsonKey(name: 'note_images') List<String>? images});
+      @JsonKey(name: 'note_images') List<String>? images,
+      @JsonKey(name: 'created_at') String? createdAt,
+      @JsonKey(name: 'updated_at') String? updatedAt});
 }
 
 /// @nodoc
@@ -176,12 +202,15 @@ class __$$NoteDataImplCopyWithImpl<$Res>
     Object? livestockVID = freezed,
     Object? livestockName = freezed,
     Object? livestockCage = freezed,
-    Object? dateRecorded = freezed,
     Object? location = freezed,
     Object? livestockFeed = freezed,
+    Object? feedWeight = freezed,
+    Object? vitamin = freezed,
     Object? costs = freezed,
     Object? details = freezed,
     Object? images = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_$NoteDataImpl(
       id: freezed == id
@@ -204,10 +233,6 @@ class __$$NoteDataImplCopyWithImpl<$Res>
           ? _value.livestockCage
           : livestockCage // ignore: cast_nullable_to_non_nullable
               as String?,
-      dateRecorded: freezed == dateRecorded
-          ? _value.dateRecorded
-          : dateRecorded // ignore: cast_nullable_to_non_nullable
-              as String?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -215,6 +240,14 @@ class __$$NoteDataImplCopyWithImpl<$Res>
       livestockFeed: freezed == livestockFeed
           ? _value.livestockFeed
           : livestockFeed // ignore: cast_nullable_to_non_nullable
+              as String?,
+      feedWeight: freezed == feedWeight
+          ? _value.feedWeight
+          : feedWeight // ignore: cast_nullable_to_non_nullable
+              as int?,
+      vitamin: freezed == vitamin
+          ? _value.vitamin
+          : vitamin // ignore: cast_nullable_to_non_nullable
               as String?,
       costs: freezed == costs
           ? _value.costs
@@ -228,6 +261,14 @@ class __$$NoteDataImplCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -241,12 +282,15 @@ class _$NoteDataImpl implements _NoteData {
       @JsonKey(name: 'livestock_vid') required this.livestockVID,
       @JsonKey(name: 'livestock_name') required this.livestockName,
       @JsonKey(name: 'livestock_cage') required this.livestockCage,
-      @JsonKey(name: 'date_recorded') required this.dateRecorded,
       required this.location,
       @JsonKey(name: 'livestock_feed') required this.livestockFeed,
+      @JsonKey(name: 'feed_weight') required this.feedWeight,
+      required this.vitamin,
       required this.costs,
       required this.details,
-      @JsonKey(name: 'note_images') final List<String>? images})
+      @JsonKey(name: 'note_images') final List<String>? images,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'updated_at') required this.updatedAt})
       : _images = images;
 
   factory _$NoteDataImpl.fromJson(Map<String, dynamic> json) =>
@@ -267,13 +311,15 @@ class _$NoteDataImpl implements _NoteData {
   @JsonKey(name: 'livestock_cage')
   final String? livestockCage;
   @override
-  @JsonKey(name: 'date_recorded')
-  final String? dateRecorded;
-  @override
   final String? location;
   @override
   @JsonKey(name: 'livestock_feed')
   final String? livestockFeed;
+  @override
+  @JsonKey(name: 'feed_weight')
+  final int? feedWeight;
+  @override
+  final String? vitamin;
   @override
   final int? costs;
   @override
@@ -290,8 +336,15 @@ class _$NoteDataImpl implements _NoteData {
   }
 
   @override
+  @JsonKey(name: 'created_at')
+  final String? createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  final String? updatedAt;
+
+  @override
   String toString() {
-    return 'NoteData(id: $id, livestockId: $livestockId, livestockVID: $livestockVID, livestockName: $livestockName, livestockCage: $livestockCage, dateRecorded: $dateRecorded, location: $location, livestockFeed: $livestockFeed, costs: $costs, details: $details, images: $images)';
+    return 'NoteData(id: $id, livestockId: $livestockId, livestockVID: $livestockVID, livestockName: $livestockName, livestockCage: $livestockCage, location: $location, livestockFeed: $livestockFeed, feedWeight: $feedWeight, vitamin: $vitamin, costs: $costs, details: $details, images: $images, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -308,15 +361,20 @@ class _$NoteDataImpl implements _NoteData {
                 other.livestockName == livestockName) &&
             (identical(other.livestockCage, livestockCage) ||
                 other.livestockCage == livestockCage) &&
-            (identical(other.dateRecorded, dateRecorded) ||
-                other.dateRecorded == dateRecorded) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.livestockFeed, livestockFeed) ||
                 other.livestockFeed == livestockFeed) &&
+            (identical(other.feedWeight, feedWeight) ||
+                other.feedWeight == feedWeight) &&
+            (identical(other.vitamin, vitamin) || other.vitamin == vitamin) &&
             (identical(other.costs, costs) || other.costs == costs) &&
             (identical(other.details, details) || other.details == details) &&
-            const DeepCollectionEquality().equals(other._images, _images));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(ignore: true)
@@ -328,12 +386,15 @@ class _$NoteDataImpl implements _NoteData {
       livestockVID,
       livestockName,
       livestockCage,
-      dateRecorded,
       location,
       livestockFeed,
+      feedWeight,
+      vitamin,
       costs,
       details,
-      const DeepCollectionEquality().hash(_images));
+      const DeepCollectionEquality().hash(_images),
+      createdAt,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -356,12 +417,15 @@ abstract class _NoteData implements NoteData {
           @JsonKey(name: 'livestock_vid') required final String? livestockVID,
           @JsonKey(name: 'livestock_name') required final String? livestockName,
           @JsonKey(name: 'livestock_cage') required final String? livestockCage,
-          @JsonKey(name: 'date_recorded') required final String? dateRecorded,
           required final String? location,
           @JsonKey(name: 'livestock_feed') required final String? livestockFeed,
+          @JsonKey(name: 'feed_weight') required final int? feedWeight,
+          required final String? vitamin,
           required final int? costs,
           required final String? details,
-          @JsonKey(name: 'note_images') final List<String>? images}) =
+          @JsonKey(name: 'note_images') final List<String>? images,
+          @JsonKey(name: 'created_at') required final String? createdAt,
+          @JsonKey(name: 'updated_at') required final String? updatedAt}) =
       _$NoteDataImpl;
 
   factory _NoteData.fromJson(Map<String, dynamic> json) =
@@ -382,13 +446,15 @@ abstract class _NoteData implements NoteData {
   @JsonKey(name: 'livestock_cage')
   String? get livestockCage;
   @override
-  @JsonKey(name: 'date_recorded')
-  String? get dateRecorded;
-  @override
   String? get location;
   @override
   @JsonKey(name: 'livestock_feed')
   String? get livestockFeed;
+  @override
+  @JsonKey(name: 'feed_weight')
+  int? get feedWeight;
+  @override
+  String? get vitamin;
   @override
   int? get costs;
   @override
@@ -396,6 +462,12 @@ abstract class _NoteData implements NoteData {
   @override
   @JsonKey(name: 'note_images')
   List<String>? get images;
+  @override
+  @JsonKey(name: 'created_at')
+  String? get createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  String? get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$NoteDataImplCopyWith<_$NoteDataImpl> get copyWith =>

@@ -63,7 +63,13 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
                       )
                     : null,
           ),
-          validator: widget.validator,
+          validator: widget.validator ??
+              (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Masukkan nilai dengan benar';
+                }
+                return null;
+              },
           keyboardType: widget.keyboardType,
         ),
       ],

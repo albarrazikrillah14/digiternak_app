@@ -146,13 +146,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   final request = RegisterRequest(
-                                      username: usernameController.text,
-                                      email: emailController.text,
-                                      password:
-                                          hashString(passwordController.text),
-                                      passwordReapet: hashString(
-                                          confirmPasswordController.text),
-                                      roleId: 1);
+                                    username: usernameController.text,
+                                    email: emailController.text,
+                                    password:
+                                        hashString(passwordController.text),
+                                  );
 
                                   final result =
                                       await provider.register(request);

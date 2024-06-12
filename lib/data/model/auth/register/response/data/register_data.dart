@@ -10,7 +10,6 @@ class RegisterData with _$RegisterData {
     required int id,
     required String username,
     required String email,
-    required RegisterRole role,
   }) = _RegisterData;
 
   factory RegisterData.fromJson(Map<String, dynamic> json) =>

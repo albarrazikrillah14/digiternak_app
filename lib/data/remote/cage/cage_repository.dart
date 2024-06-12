@@ -2,7 +2,6 @@ import 'package:digiternak_app/data/model/base_model.dart';
 import 'package:digiternak_app/data/model/cage/request/cage_request.dart';
 import 'package:digiternak_app/data/model/cage/response/cage_response.dart';
 import 'package:digiternak_app/data/model/cage/response/cages_response.dart';
-import 'package:digiternak_app/data/model/cage/response/result/cage_result.dart';
 import 'package:digiternak_app/data/service/api_service.dart';
 
 class CageRepository {
@@ -10,19 +9,19 @@ class CageRepository {
 
   CageRepository({required this.service});
 
-  Future<BaseModel> createKandang(CageRequest request) async {
-    final result = await service.createKandang(request);
+  Future<BaseModel> createCage(CageRequest request) async {
+    final result = await service.createCage(request);
     return result;
   }
 
-  Future<CagesResponse> getAllCage() async {
-    final result = await service.getKandang();
+  Future<CagesResponse> getCages() async {
+    final result = await service.getCages();
 
     return result;
   }
 
   Future<CageResponse> getCageById(int id) async {
-    final result = await service.getKandangById(id);
+    final result = await service.getCageById(id);
 
     return result;
   }

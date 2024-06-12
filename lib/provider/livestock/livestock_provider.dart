@@ -53,7 +53,7 @@ class LivestockProvider extends ChangeNotifier {
     } else {
       _createState = ResultState.hasData;
       _livestock = result;
-      await getAllLivestock();
+      await getLivestocks();
     }
 
     if (result.status == 401) {
@@ -62,11 +62,11 @@ class LivestockProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getKandang() async {
+  Future<void> getCages() async {
     _kandangState = ResultState.loading;
     notifyListeners();
 
-    final result = await repository.getKandang();
+    final result = await repository.getCages();
     if (result.data?.isEmpty ?? true) {
       _kandangState = ResultState.noData;
     } else {
@@ -85,11 +85,11 @@ class LivestockProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getAllLivestock() async {
+  Future<void> getLivestocks() async {
     _stateAllLivestock = ResultState.loading;
     notifyListeners();
 
-    final result = await repository.getAllLivestock();
+    final result = await repository.getLivestocks();
     if (result.error == true) {
       _message = result.message ?? "";
       _stateAllLivestock = ResultState.error;
@@ -110,11 +110,11 @@ class LivestockProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteLivestock(int id) async {
+  Future<void> deletLivestockById(int id) async {
     _deletState = ResultState.loading;
     notifyListeners();
 
-    final result = await repository.deletLivestock(id);
+    final result = await repository.deletLivestockById(id);
 
     if (result.error == true) {
       _message = "Gagal Menghapus Ternak";
@@ -122,7 +122,7 @@ class LivestockProvider extends ChangeNotifier {
     } else {
       _deletState = ResultState.hasData;
       _message = "Berhasil Menghapus Ternak";
-      await getAllLivestock();
+      await getLivestocks();
     }
     notifyListeners();
     if (result.status == 401) {
@@ -145,7 +145,7 @@ class LivestockProvider extends ChangeNotifier {
     } else {
       _message = result.message ?? "";
       _updateState = ResultState.hasData;
-      await getAllLivestock();
+      await getLivestocks();
     }
     if (result.status == 401) {
       _updateState = ResultState.unauthorized;

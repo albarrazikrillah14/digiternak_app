@@ -110,12 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (formKey.currentState!.validate()) {
                                   final request = LoginRequest(
                                     username: usernameController.text,
-                                    password: (usernameController.text ==
-                                                "sumbul36" ||
-                                            usernameController.text ==
-                                                "sumbul99")
-                                        ? passwordController.text
-                                        : hashString(passwordController.text),
+                                    password:
+                                        hashString(passwordController.text),
                                   );
 
                                   final result = await provider.login(request);
