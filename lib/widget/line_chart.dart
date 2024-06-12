@@ -21,45 +21,52 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        AspectRatio(
-          aspectRatio: 0.6,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 18,
-              left: 12,
-              top: 24,
-              bottom: 12,
-            ),
-            child: LineChart(
-              showAvg ? avgData() : mainData(),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 60,
-          height: 34,
-          child: TextButton(
-            onPressed: () {
-              setState(() {
-                showAvg = !showAvg;
-              });
-            },
-            child: Text(
-              'avg',
-              style: TextStyle(
-                fontSize: 12,
-                color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 1.5,
+        child: Stack(
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  right: 18,
+                  left: 12,
+                  top: 24,
+                  bottom: 12,
+                ),
+                child: LineChart(
+                  mainData(),
+                ),
               ),
             ),
-          ),
+            SizedBox(
+              width: 60,
+              height: 34,
+              child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    showAvg = !showAvg;
+                  });
+                },
+                child: Text(
+                  'avg',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color:
+                        showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 16,
@@ -113,51 +120,100 @@ class _LineChartSample2State extends State<LineChartSample2> {
     );
   }
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 15,
     );
     String text;
+
     switch (value.toInt()) {
-      case 10:
+      case 100:
         text = '100';
         break;
-      case 20:
+      case 200:
         text = '200';
         break;
-      case 30:
+      case 300:
         text = '300';
         break;
-      case 40:
+      case 400:
         text = '400';
         break;
-      case 50:
+      case 500:
         text = '500';
+        break;
+      case 600:
+        text = '600';
+        break;
+      case 700:
+        text = '700';
+        break;
+      case 800:
+        text = '800';
+        break;
+      case 900:
+        text = '900';
+        break;
+      case 1000:
+        text = '1000';
         break;
       default:
         return Container();
+    }
+
+    if (widget.type == "Berat Badan") {
+      text = "$text kg";
+    } else {
+      text = "$text cm";
     }
 
     return Text(text, style: style, textAlign: TextAlign.left);
   }
 
   LineChartData mainData() {
-    List<FlSpot> spots = widget.data.map((data) {
-      DateTime dataDate = DateTime.parse(data.createdAt);
-      double x = 0;
-      switch (widget.type) {
-        case "Berat Badan":
-          x = data.bodyWeight.toDouble();
-        case "Ukuran Dada":
-          x = data.chestSize.toDouble();
-        case "Ukuran Pinggul":
-          x = data.hips.toDouble();
-        default:
-          x = 0.0;
+    List<BcsData> sortedData = List.from(widget.data);
+    sortedData.sort((a, b) {
+      List<String> partsA = a.createdAt.split(" ");
+      List<String> partsB = b.createdAt.split(" ");
+      if (partsA.length == 2 && partsB.length == 2) {
+        // Ambil bagian bulan (indeks 0 adalah tahun, indeks 1 adalah bulan)
+        int monthA = int.tryParse(partsA[0].split("-")[1]) ?? 0;
+        int monthB = int.tryParse(partsB[0].split("-")[1]) ?? 0;
+        return monthA.compareTo(monthB);
       }
-      double y = dataDate.day.toDouble();
-      return FlSpot(x, y);
+      return 0;
+    });
+
+    List<FlSpot> spots = [];
+
+    spots = sortedData.map((data) {
+      List<String> dateTimeParts = data.createdAt.split(" ");
+      if (dateTimeParts.length == 2) {
+        String datePart = dateTimeParts[0];
+        List<String> dateParts = datePart.split("-");
+        if (dateParts.length == 3) {
+          // Ambil bagian bulan dari tanggal
+          double x = double.tryParse(dateParts[1]) ?? 0.0;
+          double y = 0;
+          switch (widget.type) {
+            case "Berat Badan":
+              y = data.bodyWeight.toDouble();
+              break;
+            case "Ukuran Dada":
+              y = data.chestSize.toDouble();
+              break;
+            case "Ukuran Pinggul":
+              y = data.hips.toDouble();
+              break;
+            default:
+              y = 0;
+              break;
+          } // Ambil berat badan
+          return FlSpot(x, y);
+        }
+      }
+      return FlSpot(0.0, 0.0); // Default value if parsing fails
     }).toList();
 
     return LineChartData(
@@ -165,10 +221,10 @@ class _LineChartSample2State extends State<LineChartSample2> {
         show: true,
         drawVerticalLine: true,
         horizontalInterval: 1,
-        verticalInterval: 10,
+        verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
           return const FlLine(
-            color: Colors.cyan,
+            color: Colors.white,
             strokeWidth: 1,
           );
         },
@@ -191,7 +247,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
-            interval: 10,
+            interval: 1,
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),
@@ -208,10 +264,10 @@ class _LineChartSample2State extends State<LineChartSample2> {
         show: true,
         border: Border.all(color: const Color(0xff37434d)),
       ),
-      minX: 0,
-      maxX: 60,
-      minY: 1,
-      maxY: 12,
+      minX: 1,
+      maxX: 12,
+      minY: 0,
+      maxY: 1000,
       lineBarsData: [
         LineChartBarData(
           spots: spots,
@@ -235,10 +291,5 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ],
     );
-  }
-
-  LineChartData avgData() {
-    // Implement avgData function if needed
-    return LineChartData();
   }
 }
